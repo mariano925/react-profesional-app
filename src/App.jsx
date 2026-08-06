@@ -5,14 +5,16 @@ import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import { getWeather } from "./services/weatherService"; // 👈 Import correcto
+import Loader from "./components/Loader";
 
 function App() {
   const [city, setCity] = useLocalStorage("city", "Gualeguay");
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const handleSearch = async (query) => {
     setCity(query);
+    setLoading(true);
     try {
       const data = await getWeather(query);
       setWeather(data);
@@ -21,6 +23,8 @@ function App() {
     } catch (err) {
       setError("City not found");
       setWeather(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,6 +48,7 @@ function App() {
           />
         )}
         {error && <ErrorMessage message={error} />}
+        {loading && <Loader />}
 
         <footer style={{ marginTop: "2rem", fontSize: "0.9rem", color: "#555" }}>
           ✍️ Creado por Mariano como proyecto de práctica profesional

@@ -1,7 +1,8 @@
 // # Indicador de carga
 function Loader() {
   return (
-    <div>
+    <div className="loader">
+    <div className="spinner"></div>
       <p>Cargando...</p>
     </div>
   )

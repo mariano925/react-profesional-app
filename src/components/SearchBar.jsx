@@ -1,19 +1,27 @@
 // src/components/SearchBar.jsx
-import React from "react";
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import { WeatherContext } from "../context/WeatherContext";
 
 function SearchBar({ onSearch }) {
-  const {setCity} = React.useContext(WeatherContext);
+  const {setCity} = useContext(WeatherContext);
+  const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCity(e.target.elements.city.value);
+    if(query.trim() !== "") {
+      setCity(query);
+      onSearch(query);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="city" placeholder="Buscar ciudad..." />
+      <input
+        name="city"
+        placeholder="Buscar ciudad..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
        
       <button type="submit">Buscar</button>
     </form>

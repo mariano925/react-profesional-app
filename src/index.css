@@ -1,0 +1,15 @@
+/* Reset y estilos base */
+body {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif; /* Fuente futurista */
+  background-color: #0a0a0a; /* Fondo oscuro */
+  color: #00ffcc; /* Texto en cian neón */
+}
+
+h1, h2 {
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffcc;
+}
+
+p {
+  color: #ccc;
+}
