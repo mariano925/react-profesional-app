@@ -1,7 +1,7 @@
-// src/App.jsx
+import {WeatherProvider} from "./context/WeatherContext";
 import {useLocalStorage} from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
-import  { useState } from "react";
+import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import { getWeather } from "./services/weatherService"; // 👈 Import correcto
@@ -25,18 +25,31 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>🌦️ Weather App</h1>
-      <SearchBar onSearch={handleSearch} />
-      {weather && (
-        <WeatherCard
-          city={city}
-          temperature={weather.temperature}
-          description={weather.description}
-        />
-      )}
-      {error && <ErrorMessage message={error} />}
-    </div>
+    <WeatherProvider>
+      <div className="App">
+        <h1>🌦️ Weather App</h1>
+        <h2>Tu pronóstico rápido y sencillo</h2>
+        <p>
+          Consulta el clima de tu ciudad en tiempo real.  
+          Ingresa el nombre de la ciudad en la barra de búsqueda y obtén la temperatura y descripción actual.
+        </p>
+
+        <SearchBar onSearch={handleSearch} />
+
+        {weather && (
+          <WeatherCard
+            city={city}
+            temperature={weather.temperature}
+            description={weather.description}
+          />
+        )}
+        {error && <ErrorMessage message={error} />}
+
+        <footer style={{ marginTop: "2rem", fontSize: "0.9rem", color: "#555" }}>
+          ✍️ Creado por Mariano como proyecto de práctica profesional
+        </footer>
+      </div>
+    </WeatherProvider>
   );
 }
 
