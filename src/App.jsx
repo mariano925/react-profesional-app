@@ -4,7 +4,7 @@ import ErrorMessage from "./components/ErrorMessage";
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
-import { getWeather } from "./services/WeatherService";
+import { getWeather } from "./services/weatherService";
 import Loader from "./components/Loader";
 
 function App() {
