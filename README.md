@@ -1,7 +1,7 @@
 # 🌦️ React Profesional App
 
 Aplicación de práctica en **React** para mostrar información del clima de distintas ciudades.  
-Incluye componentes reutilizables y un servicio de datos, con arquitectura organizada en carpetas.
+Incluye componentes reutilizables, hooks personalizados y un servicio de datos, con arquitectura organizada en carpetas.
 
 ---
 
@@ -9,8 +9,9 @@ Incluye componentes reutilizables y un servicio de datos, con arquitectura organ
 
 ### `App.jsx`
 - Punto de entrada principal de la aplicación.
-- Maneja el estado global (`city`, `weather`, `error`, `loading`).
+- Maneja el estado global (`city`, `weather`, `error`).
 - Conecta los componentes `SearchBar`, `WeatherCard`, `ErrorMessage` y `Loader`.
+- Integra `WeatherProvider` y `useLocalStorage`.
 
 ### `SearchBar.jsx`
 - Barra de búsqueda para ingresar el nombre de la ciudad.
@@ -39,12 +40,37 @@ Incluye componentes reutilizables y un servicio de datos, con arquitectura organ
 
 ---
 
+## 🪝 Hooks
+
+### `useWeather.js`
+- Encapsula la lógica de obtención de datos del clima.
+- Maneja `loading`, `error` y `weather`.
+
+### `useLocalStorage.js`
+- Permite guardar y recuperar valores en `localStorage`.
+- Ejemplo: recordar la última ciudad buscada.
+
+### `useForm.js`
+- Manejo de formularios controlados.
+- Incluye funciones para cambios y reseteo.
+
+---
+
+## 🌐 Context
+
+### `WeatherContext.jsx`
+- Define un contexto global para compartir estado (`city`, `weather`) entre componentes.
+- Se utiliza mediante `WeatherProvider`.
+
+---
+
 ## 🚀 Objetivo
 Practicar:
 - Arquitectura modular en React.
 - Manejo de estado y props.
 - Integración futura con APIs externas.
 - Buenas prácticas de commits y documentación.
+- Uso de **hooks** y **context** para escalabilidad.
 
 ---
 
