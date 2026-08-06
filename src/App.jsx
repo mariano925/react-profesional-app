@@ -1,18 +1,27 @@
 // src/App.jsx
+import {useLocalStorage} from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
-import React, { useState } from "react";
+import  { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import { getWeather } from "./services/weatherService"; // 👈 Import correcto
 
 function App() {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useLocalStorage("city", "Gualeguay");
   const [weather, setWeather] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSearch = async (query) => {
     setCity(query);
-    const data = await getWeather(query);
-    setWeather(data);
+    try {
+      const data = await getWeather(query);
+      setWeather(data);
+      setError(null);
+    // eslint-disable-next-line no-unused-vars
+    } catch (err) {
+      setError("City not found");
+      setWeather(null);
+    }
   };
 
   return (
@@ -26,6 +35,7 @@ function App() {
           description={weather.description}
         />
       )}
+      {error && <ErrorMessage message={error} />}
     </div>
   );
 }
