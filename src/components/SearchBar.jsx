@@ -1,29 +1,43 @@
-// src/components/SearchBar.jsx
-import React, { useState, useContext } from "react";
-import { WeatherContext } from "../context/WeatherContext";
+import React, { useState } from "react";
 
 function SearchBar({ onSearch }) {
-  const {setCity} = useContext(WeatherContext);
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(query.trim() !== "") {
-      setCity(query);
-      onSearch(query);
+    if (query.trim() !== "") {
+      onSearch(query);   // 👈 dispara la función que recibís por props (App.jsx)
+      setQuery("");      // limpia el input después de buscar
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
       <input
-        name="city"
-        placeholder="Buscar ciudad..."
+        type="text"
+        placeholder="Ingresa una ciudad..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        style={{
+          padding: "0.5rem",
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          marginRight: "0.5rem",
+        }}
       />
-       
-      <button type="submit">Buscar</button>
+      <button
+        type="submit"
+        style={{
+          padding: "0.5rem 1rem",
+          borderRadius: "4px",
+          border: "none",
+          backgroundColor: "#0077cc",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
+        Buscar
+      </button>
     </form>
   );
 }

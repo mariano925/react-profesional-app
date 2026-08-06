@@ -1,10 +1,10 @@
-import {WeatherProvider} from "./context/WeatherContext";
-import {useLocalStorage} from "./hooks/useLocalStorage";
+import { WeatherProvider } from "./context/WeatherContext";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
-import { getWeather } from "./services/weatherService"; // 👈 Import correcto
+import { getWeather } from "./services/WeatherService";
 import Loader from "./components/Loader";
 
 function App() {
@@ -12,6 +12,10 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Estado persistente para dark mode (queda, pero sin botón)
+  const [darkMode] = useLocalStorage("darkMode", false);
+
   const handleSearch = async (query) => {
     setCity(query);
     setLoading(true);
@@ -19,9 +23,8 @@ function App() {
       const data = await getWeather(query);
       setWeather(data);
       setError(null);
-    // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      setError("City not found");
+      setError(err.message || "City not found");
       setWeather(null);
     } finally {
       setLoading(false);
@@ -30,7 +33,13 @@ function App() {
 
   return (
     <WeatherProvider>
-      <div className="App">
+      <div className={`App ${darkMode ? "dark" : ""}`}>
+        {/* Banner superior */}
+        <div className="banner">
+          ⚙️ Esta aplicación utiliza la API pública de <strong>Open‑Meteo</strong> para consultar el pronóstico.  
+          Algunas ciudades pequeñas o con nombres similares pueden no estar disponibles en la base de datos.
+        </div>
+
         <h1>🌦️ Weather App</h1>
         <h2>Tu pronóstico rápido y sencillo</h2>
         <p>
@@ -40,15 +49,19 @@ function App() {
 
         <SearchBar onSearch={handleSearch} />
 
+        {loading && <Loader />}
+        {error && <ErrorMessage message={error} />}
         {weather && (
           <WeatherCard
-            city={city}
+            city={weather.city}
             temperature={weather.temperature}
             description={weather.description}
+            wind={weather.wind}
+            humidity={weather.humidity}
+            max={weather.max}
+            min={weather.min}
           />
         )}
-        {error && <ErrorMessage message={error} />}
-        {loading && <Loader />}
 
         <footer style={{ marginTop: "2rem", fontSize: "0.9rem", color: "#555" }}>
           ✍️ Creado por Mariano como proyecto de práctica profesional
