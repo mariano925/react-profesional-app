@@ -21,16 +21,21 @@ export async function getWeather(city) {
 
   const data = await response.json();
 
-  return {
-    city: `${name}, ${country}`,
-    temperature: data.current_weather.temperature,
-    description: mapWeatherCode(data.current_weather.weathercode),
-    wind: data.current_weather.windspeed,
-    humidity: data.hourly.relative_humidity_2m?.[0], // 👈 ahora sí humedad
-    max: data.daily.temperature_2m_max[0],
-    min: data.daily.temperature_2m_min[0],
-  };
-}
+ return {
+  city: `${name}, ${country}`,
+  temperature: data.current_weather.temperature,
+  description: mapWeatherCode(data.current_weather.weathercode),
+  wind: data.current_weather.windspeed,
+  humidity: data.hourly.relative_humidity_2m?.[0],
+  max: data.daily.temperature_2m_max[0],
+  min: data.daily.temperature_2m_min[0],
+  forecast: data.daily.time.map((day, i) => ({
+    date: day,
+    max: data.daily.temperature_2m_max[i],
+    min: data.daily.temperature_2m_min[i],
+  })),
+};
+
 
 function mapWeatherCode(code) {
   const codes = {
@@ -65,4 +70,4 @@ function mapWeatherCode(code) {
   };
   return codes[code] || `Código desconocido (${code})`;
 }
-
+};

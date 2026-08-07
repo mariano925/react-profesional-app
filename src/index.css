@@ -55,3 +55,51 @@ p {
     font-size: 1.2rem;
   }
 }
+/* 🌞 Modo claro (por defecto) */
+.App {
+  background: linear-gradient(to bottom, #4facfe, #00f2fe);
+  color: #222;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* 🌙 Modo oscuro */
+.App.dark {
+  background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+  color: #eee;
+}
+
+.App.dark h1 {
+  color: #00d4ff;
+}
+
+.App.dark h2 {
+  color: #ddd;
+}
+
+.App.dark p {
+  color: #ccc;
+}
+
+/* Tarjetas del pronóstico */
+.forecast-day {
+  background: #eee;
+  color: #000;
+}
+
+.App.dark .forecast-day {
+  background: #333;
+  color: #fff;
+}
+
+/* WeatherCard */
+.weather-card {
+  background: #f9f9f9;
+  color: #000;
+}
+
+.App.dark .weather-card {
+  background: #222;
+  color: #eee;
+  border: 1px solid #555;
+}

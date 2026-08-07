@@ -13,8 +13,8 @@ function App() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Estado persistente para dark mode (queda, pero sin botón)
-  const [darkMode] = useLocalStorage("darkMode", false);
+  // Estado persistente para dark mode con botón
+  const [darkMode, setDarkMode] = useLocalStorage("darkMode", false);
 
   const handleSearch = async (query) => {
     setCity(query);
@@ -34,6 +34,22 @@ function App() {
   return (
     <WeatherProvider>
       <div className={`App ${darkMode ? "dark" : ""}`}>
+        {/* Botón para alternar Dark Mode */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          style={{
+            margin: "1rem",
+            padding: "0.5rem 1rem",
+            borderRadius: "6px",
+            border: "none",
+            cursor: "pointer",
+            backgroundColor: darkMode ? "#444" : "#ddd",
+            color: darkMode ? "#fff" : "#000"
+          }}
+        >
+          {darkMode ? "🌙 Modo Oscuro" : "🌞 Modo Claro"}
+        </button>
+
         {/* Banner superior */}
         <div className="banner">
           ⚙️ Esta aplicación utiliza la API pública de <strong>Open‑Meteo</strong> para consultar el pronóstico.  
@@ -60,6 +76,7 @@ function App() {
             humidity={weather.humidity}
             max={weather.max}
             min={weather.min}
+            forecast={weather.forecast}
           />
         )}
 

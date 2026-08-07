@@ -1,6 +1,7 @@
 import React from "react";
+import "./WeatherCard.css"; // 👈 asegurate de crear este archivo
 
-function WeatherCard({ city, temperature, description, wind, humidity, max, min }) {
+function WeatherCard({ city, temperature, description, wind, humidity, max, min, forecast }) {
   return (
     <div
       className="weather-card"
@@ -16,15 +17,34 @@ function WeatherCard({ city, temperature, description, wind, humidity, max, min 
     >
       <h2 style={{ marginBottom: "0.5rem" }}>🌍 {city}</h2>
       <p>🌡️ Temperatura: {temperature}°C</p>
-      {/* 👇 mantenemos la palabra Condición y mostramos el texto con emoji */}
       <p>☁️ Condición: {description}</p>
       <p>💨 Viento: {wind} km/h</p>
       <p>💧 Humedad: {humidity}%</p>
       <p>🔼 Máxima: {max}°C</p>
       <p>🔽 Mínima: {min}°C</p>
+
+      {/* 👇 Pronóstico extendido en formato grid */}
+      {forecast && forecast.length > 0 && (
+        <>
+          <h3>📅 Próximos días</h3>
+          <div className="forecast">
+            {forecast.slice(1, 4).map((day, i) => (
+              <div key={i} className="forecast-day">
+                <strong>
+                  {new Date(day.date).toLocaleDateString("es-AR", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                  })}
+                </strong>
+                <p>{day.min}°C / {day.max}°C</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
 
 export default WeatherCard;
-

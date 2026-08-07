@@ -1,0 +1,45 @@
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.forecast-day {
+  background: #eee;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.forecast-day {
+  background: #eee;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* 👇 Dark mode automático */
+.dark .forecast-day {
+  background: #333;
+  color: #fff;
+}
+
+.dark .weather-card {
+  background-color: #222;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+.dark .forecast-day {
+  background: #333;
+  color: #fff;
+}
