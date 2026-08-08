@@ -56,6 +56,7 @@ form button:hover {
 .weather-card p {
   margin: 0.4rem 0;
   font-size: 1.05rem;
+  color: #000;
 }
 
 /* Footer */
@@ -84,6 +85,7 @@ footer {
     font-size: 0.9rem;
   }
 }
+
 /* Banner superior informativo */
 .banner {
   width: 100%;
@@ -118,7 +120,7 @@ footer {
 /* 🌙 Dark mode automático */
 @media (prefers-color-scheme: dark) {
   body {
-    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); /* degradado oscuro */
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
     color: #eee;
   }
 
@@ -138,8 +140,11 @@ footer {
     color: #00d4ff;
   }
 
-  p {
-    color: #ddd;
+  /* 👇 Ajuste definitivo para párrafos */
+  .weather-card p,
+  .forecast-day p {
+    color: #fff !important;   /* blanco fuerte */
+    font-weight: 700;
   }
 
   footer {

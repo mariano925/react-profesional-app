@@ -6,6 +6,7 @@
   padding: 1rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   color: #333;
+  text-align: center;
 }
 
 /* 📅 Pronóstico extendido */
@@ -17,12 +18,13 @@
 }
 
 .forecast-day {
-  background: #eee;
+  background: #fff;                /* fondo claro */
   padding: 0.5rem;
   border-radius: 6px;
-  color: #000;          /* 👈 negro puro para máximo contraste */
-  font-weight: 600;     /* 👈 más grueso */
-  font-size: 1rem; 
+  color: #000;                     /* texto negro */
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
 /* 🗺️ Mapa / Link */
@@ -35,7 +37,7 @@
   display: none;
 }
 
-/* Mobile: ocultar iframe y mostrar link */
+/* 📱 Mobile: ocultar iframe y mostrar link */
 @media (max-width: 768px) {
   .map-desktop {
     display: none;
@@ -46,7 +48,7 @@
     text-align: center;
   }
   .map-mobile a {
-    color: #007bff;
+    color: #0077cc;
     text-decoration: none;
     font-weight: bold;
   }
@@ -55,44 +57,26 @@
   }
 }
 
+/* 🌙 Dark mode automático */
 @media (prefers-color-scheme: dark) {
   .weather-card {
     background: #1e1e1e;
     color: #f1f1f1;
     border: 1px solid #444;
   }
+
+  .weather-card p,
+  .forecast-day p {
+    color: #fff !important;        /* texto blanco forzado */
+    font-weight: 700;
+  }
+
   .forecast-day {
-    background: #2a2a2a;
-    color: #fff;        /* 👈 blanco puro para contraste */
-    font-weight: 600;   /* 👈 más grueso */
+    background: #2a2a2a;           /* fondo oscuro */
+    box-shadow: 0 1px 4px rgba(255,255,255,0.2);
   }
-}
 
-
-/* Desktop: mostrar iframe, ocultar link */
-.map-desktop {
-  display: block;
-}
-.map-mobile {
-  display: none;
-}
-
-/* Mobile: ocultar iframe, mostrar link */
-@media (max-width: 768px) {
-  .map-desktop {
-    display: none;
-  }
-  .map-mobile {
-    display: block;
-    margin-top: 1rem;
-    text-align: center;
-  }
   .map-mobile a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .map-mobile a:hover {
-    text-decoration: underline;
+    color: #00d4ff;                /* link celeste en oscuro */
   }
 }

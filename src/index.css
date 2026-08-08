@@ -39,6 +39,7 @@ h2 {
 p {
   font-size: 1rem;
   line-height: 1.5;
+  color: #222;
 }
 
 /* Responsividad */
@@ -55,6 +56,19 @@ p {
     font-size: 1.2rem;
   }
 }
+
+/* Pronóstico en modo claro */
+.forecast-day p {
+  color: #000 !important;   /* negro fuerte */
+  font-weight: 700;
+}
+
+/* Pronóstico en modo oscuro */
+.App.dark .forecast-day p {
+  color: #fff !important;   /* blanco fuerte */
+  font-weight: 700;
+}
+
 /* 🌞 Modo claro (por defecto) */
 .App {
   background: linear-gradient(to bottom, #4facfe, #00f2fe);
@@ -78,28 +92,35 @@ p {
 }
 
 .App.dark p {
-  color: #ccc;
+  color: #fff; /* 👈 blanco fuerte para contraste */
 }
 
 /* Tarjetas del pronóstico */
 .forecast-day {
   background: #eee;
   color: #000;
+  font-weight: 600;
 }
 
 .App.dark .forecast-day {
   background: #333;
-  color: #fff;
+  color: #fff !important; /* 👈 fuerza blanco en oscuro */
+  font-weight: 700;
 }
 
 /* WeatherCard */
 .weather-card {
-  background: blue;
+  background: #fdfdfd;
   color: #000;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .App.dark .weather-card {
   background: #222;
-  color: #eee;
+  color: #fff !important; /* 👈 fuerza blanco en oscuro */
   border: 1px solid #555;
 }

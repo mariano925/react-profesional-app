@@ -3,19 +3,8 @@ import "./WeatherCard.css";
 
 function WeatherCard({ city, temperature, description, wind, humidity, max, min, forecast, latitude, longitude }) {
   return (
-    <div
-      className="weather-card"
-      style={{
-        border: "1px solid #ccc",
-        padding: "1rem",
-        borderRadius: "8px",
-        maxWidth: "300px",
-        margin: "1rem auto",
-        backgroundColor: "#f9f9f9",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
-      }}
-    >
-      <h2 style={{ marginBottom: "0.5rem" }}>🌍 {city}</h2>
+    <div className="weather-card">
+      <h2>🌍 {city}</h2>
       <p>🌡️ Temperatura: {temperature}°C</p>
       <p>☁️ Condición: {description}</p>
       <p>💨 Viento: {wind} km/h</p>
@@ -23,7 +12,7 @@ function WeatherCard({ city, temperature, description, wind, humidity, max, min,
       <p>🔼 Máxima: {max}°C</p>
       <p>🔽 Mínima: {min}°C</p>
 
-      {/* 👇 Pronóstico extendido en formato grid */}
+      {/* 📅 Pronóstico extendido */}
       {forecast && forecast.length > 0 && (
         <>
           <h3>📅 Próximos días</h3>
@@ -44,34 +33,32 @@ function WeatherCard({ city, temperature, description, wind, humidity, max, min,
         </>
       )}
 
-     {/* 🗺️ Mapa de Google */}
-{latitude && longitude && (
-  <>
-    {/* Desktop: iframe */}
-    <div className="map-desktop">
-      <iframe
-        width="100%"
-        height="300"
-        style={{ border: 0, marginTop: "1rem", borderRadius: "8px" }}
-        src={`https://www.google.com/maps?q=${latitude},${longitude}&z=10&output=embed`}
-        allowFullScreen
-      />
-    </div>
+      {/* 🗺️ Mapa de Google */}
+      {latitude && longitude && (
+        <>
+          {/* Desktop: iframe */}
+          <div className="map-desktop">
+            <iframe
+              width="100%"
+              height="300"
+              src={`https://www.google.com/maps?q=${latitude},${longitude}&z=10&output=embed`}
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
 
-    {/* Mobile: link */}
-    <div className="map-mobile">
-      <a
-        href={`https://www.google.com/maps?q=${latitude},${longitude}&z=10`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: "block", marginTop: "1rem", textAlign: "center", color: "#007bff" }}
-      >
-        📍 Ver en Google Maps
-      </a>
-    </div>
-  </>
-)}
-
+          {/* Mobile: link */}
+          <div className="map-mobile">
+            <a
+              href={`https://www.google.com/maps?q=${latitude},${longitude}&z=10`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              📍 Ver en Google Maps
+            </a>
+          </div>
+        </>
+      )}
     </div>
   );
 }
