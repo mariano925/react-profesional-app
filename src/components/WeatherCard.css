@@ -21,8 +21,8 @@
   padding: 0.5rem;
   border-radius: 6px;
   text-align: center;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  font-size: 0.9rem;
+  color: #222;                   /* 👈 texto más oscuro */
+  font-weight: 500;
 }
 
 /* 🗺️ Mapa / Link */
