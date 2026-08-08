@@ -83,7 +83,7 @@ function App() {
         )}
 
         <footer style={{ marginTop: "2rem", fontSize: "0.9rem", color: "#555" }}>
-          ✍️ Creado por Mariano como proyecto de práctica profesional
+          ✍️ Creado por Mariano como proyecto de práctica profesional. 7/8/2026
         </footer>
       </div>
     </WeatherProvider>
