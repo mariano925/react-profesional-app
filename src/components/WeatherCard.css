@@ -21,7 +21,7 @@
   padding: 0.5rem;
   border-radius: 6px;
   text-align: center;
-  color: #222;                   /* 👈 texto más oscuro */
+  color: black;                   /* 👈 texto más oscuro */
   font-weight: 500;
 }
 
