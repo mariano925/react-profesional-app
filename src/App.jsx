@@ -54,7 +54,7 @@ function App() {
       <div className="banner">
           ⚙️ Esta aplicación utiliza la API pública de <strong>Open‑Meteo</strong> para consultar el pronóstico.  
           🌍 También integra <strong>Google Maps Embed</strong> para mostrar la ubicación geográfica.  
-          🔄 Este sitio está en constante evolución y sujeto a cambios.
+          🔄 Este APP está en constante evolución y sujeto a cambios.
       </div>
 
         <h1>🌦️ Weather App</h1>
