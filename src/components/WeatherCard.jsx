@@ -1,7 +1,7 @@
 import React from "react";
-import "./WeatherCard.css"; // 👈 asegurate de crear este archivo
+import "./WeatherCard.css";
 
-function WeatherCard({ city, temperature, description, wind, humidity, max, min, forecast }) {
+function WeatherCard({ city, temperature, description, wind, humidity, max, min, forecast, latitude, longitude }) {
   return (
     <div
       className="weather-card"
@@ -43,8 +43,20 @@ function WeatherCard({ city, temperature, description, wind, humidity, max, min,
           </div>
         </>
       )}
+
+      {/* 🗺️ Mapa de Google */}
+      {latitude && longitude && (
+        <iframe
+          width="100%"
+          height="300"
+          style={{ border: 0, marginTop: "1rem", borderRadius: "8px" }}
+          src={`https://www.google.com/maps?q=${latitude},${longitude}&z=10&output=embed`}
+          allowFullScreen
+        />
+      )}
     </div>
   );
 }
 
 export default WeatherCard;
+

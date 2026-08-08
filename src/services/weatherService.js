@@ -22,6 +22,8 @@ export async function getWeather(city) {
   const data = await response.json();
 
  return {
+  latitude,   // 👈 ahora sí se devuelve
+  longitude,  // 👈 ahora sí se devuelve
   city: `${name}, ${country}`,
   temperature: data.current_weather.temperature,
   description: mapWeatherCode(data.current_weather.weathercode),

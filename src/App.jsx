@@ -77,6 +77,8 @@ function App() {
             max={weather.max}
             min={weather.min}
             forecast={weather.forecast}
+            latitude={weather.latitude}   // 👈 nuevo
+            longitude={weather.longitude} // 👈 nuevo
           />
         )}
 
