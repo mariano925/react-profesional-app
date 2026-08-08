@@ -44,16 +44,34 @@ function WeatherCard({ city, temperature, description, wind, humidity, max, min,
         </>
       )}
 
-      {/* 🗺️ Mapa de Google */}
-      {latitude && longitude && (
-        <iframe
-          width="100%"
-          height="300"
-          style={{ border: 0, marginTop: "1rem", borderRadius: "8px" }}
-          src={`https://www.google.com/maps?q=${latitude},${longitude}&z=10&output=embed`}
-          allowFullScreen
-        />
-      )}
+     {/* 🗺️ Mapa de Google */}
+{latitude && longitude && (
+  <>
+    {/* Desktop: iframe */}
+    <div className="map-desktop">
+      <iframe
+        width="100%"
+        height="300"
+        style={{ border: 0, marginTop: "1rem", borderRadius: "8px" }}
+        src={`https://www.google.com/maps?q=${latitude},${longitude}&z=10&output=embed`}
+        allowFullScreen
+      />
+    </div>
+
+    {/* Mobile: link */}
+    <div className="map-mobile">
+      <a
+        href={`https://www.google.com/maps?q=${latitude},${longitude}&z=10`}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: "block", marginTop: "1rem", textAlign: "center", color: "#007bff" }}
+      >
+        📍 Ver en Google Maps
+      </a>
+    </div>
+  </>
+)}
+
     </div>
   );
 }

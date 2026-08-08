@@ -1,3 +1,14 @@
+/* 🎨 Estilo general de la tarjeta */
+.weather-card {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  color: #333;
+}
+
+/* 📅 Pronóstico extendido */
 .forecast {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -11,35 +22,76 @@
   border-radius: 6px;
   text-align: center;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-.forecast {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
-.forecast-day {
-  background: #eee;
-  padding: 0.5rem;
-  border-radius: 6px;
-  text-align: center;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+/* 🗺️ Mapa / Link */
+.map-desktop {
+  display: block;
+  margin-top: 1rem;
 }
 
-/* 👇 Dark mode automático */
-.dark .forecast-day {
-  background: #333;
-  color: #fff;
+.map-mobile {
+  display: none;
 }
 
-.dark .weather-card {
-  background-color: #222;
-  color: #eee;
-  border: 1px solid #555;
+/* Mobile: ocultar iframe y mostrar link */
+@media (max-width: 768px) {
+  .map-desktop {
+    display: none;
+  }
+  .map-mobile {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .map-mobile a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .map-mobile a:hover {
+    text-decoration: underline;
+  }
 }
 
-.dark .forecast-day {
-  background: #333;
-  color: #fff;
+/* 🌙 Dark mode automático */
+@media (prefers-color-scheme: dark) {
+  .weather-card {
+    background: #1e1e1e;
+    color: #f1f1f1;
+    border: 1px solid #444;
+  }
+  .forecast-day {
+    background: #2a2a2a;
+    color: #ddd;
+  }
+}
+
+/* Desktop: mostrar iframe, ocultar link */
+.map-desktop {
+  display: block;
+}
+.map-mobile {
+  display: none;
+}
+
+/* Mobile: ocultar iframe, mostrar link */
+@media (max-width: 768px) {
+  .map-desktop {
+    display: none;
+  }
+  .map-mobile {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .map-mobile a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .map-mobile a:hover {
+    text-decoration: underline;
+  }
 }
