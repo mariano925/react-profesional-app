@@ -55,7 +55,6 @@
   }
 }
 
-/* 🌙 Dark mode automático */
 @media (prefers-color-scheme: dark) {
   .weather-card {
     background: #1e1e1e;
@@ -64,9 +63,11 @@
   }
   .forecast-day {
     background: #2a2a2a;
-    color: #ddd;
+    color: #fff;        /* 👈 blanco puro para contraste */
+    font-weight: 600;   /* 👈 más grueso */
   }
 }
+
 
 /* Desktop: mostrar iframe, ocultar link */
 .map-desktop {
