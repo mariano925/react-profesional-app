@@ -20,9 +20,9 @@
   background: #eee;
   padding: 0.5rem;
   border-radius: 6px;
-  text-align: center;
-  color: black;                   /* 👈 texto más oscuro */
-  font-weight: 500;
+  color: #000;          /* 👈 negro puro para máximo contraste */
+  font-weight: 600;     /* 👈 más grueso */
+  font-size: 1rem; 
 }
 
 /* 🗺️ Mapa / Link */
