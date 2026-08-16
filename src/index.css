@@ -1,126 +1,128 @@
 /* Importamos una tipografía moderna */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Reset básico */
+/* =========================================
+   1. VARIABLES GLOBALES (ATARDECER INTENSO - MODO CLARO)
+   ========================================= */
+:root {
+  /* Degradado: Cielo oscuro arriba, bajando a rojo, naranja y amarillo */
+  --bg-gradient: linear-gradient(to bottom, #1a1919, #990000, #ff6600, #ffcc00);
+  
+  /* Cajas cristalinas un poco más opacas para contrastar el fondo */
+  --bg-app: rgba(255, 255, 255, 0.75);
+  --bg-card: rgba(255, 255, 255, 0.85);
+  
+  /* Textos en un marrón/negro muy oscuro para armonizar */
+  --text-main: #2b1810;
+  --text-muted: #5c3a21;
+  --title-color: #ffffff;
+  
+  /* Detalles */
+  --accent: #d32f2f; /* Rojo fuerte */
+  --banner-bg: linear-gradient(90deg, #ff6600, #d32f2f);
+  --border-color: rgba(211, 47, 47, 0.2);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   2. VARIABLES GLOBALES (MODO OSCURO ACTIVO)
+   ========================================= */
+.dark {
+  --bg-gradient: linear-gradient(to bottom, #191423, #2a1b38, #3e204f);
+  --bg-app: rgba(30, 25, 40, 0.85);
+  --bg-card: rgba(45, 35, 60, 0.9);
+  --text-main: #f8f5fa;
+  --text-muted: #bba8c9;
+  --title-color: #ff9a9e; /* Rosa pastel/neón */
+  --accent: #ff9a9e;
+  --banner-bg: linear-gradient(90deg, #8a2387, #e94057, #f27121);
+  --border-color: rgba(255, 154, 158, 0.15);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Mismas variables del .dark para quien tenga la PC en oscuro por defecto */
+    --bg-gradient: linear-gradient(to bottom, #191423, #2a1b38, #3e204f);
+    --bg-app: rgba(30, 25, 40, 0.85);
+    --bg-card: rgba(45, 35, 60, 0.9);
+    --text-main: #f8f5fa;
+    --text-muted: #bba8c9;
+    --title-color: #ff9a9e;
+    --accent: #ff9a9e;
+    --banner-bg: linear-gradient(90deg, #8a2387, #e94057, #f27121);
+    --border-color: rgba(255, 154, 158, 0.15);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* =========================================
+   3. ESTILOS BASE Y MEJORAS PREMIUM
+   ========================================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Estilos globales */
+/* 🎨 DETALLE PREMIUM: Color de selección de texto a medida */
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to bottom, #4facfe, #00f2fe); /* degradado cielo */
-  color: #222;
+  
+  /* 🖥️ DETALLE PREMIUM: Suavizado de fuentes. Hace que la tipografía se vea mucho más nítida y profesional. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  background: var(--bg-gradient);
+  color: var(--text-main);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 2rem;
+  
+  /* 🪄 DETALLE PREMIUM: Transición suave al cambiar textos de claro a oscuro */
+  transition: color 0.4s ease;
+}
+
+/* Actualización clave: Ahora el body toma el nuevo fondo oscuro (morado/noche) cuando apretás el botón */
+body:has(.App.dark) {
+  background: linear-gradient(to bottom, #191423, #2a1b38, #3e204f);
 }
 
 /* Títulos principales */
 h1 {
   font-size: 2.2rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--title-color);
   text-align: center;
   margin-bottom: 0.5rem;
+  transition: color 0.4s ease; /* Anima el cambio de color */
 }
 
 h2 {
   font-size: 1.5rem;
   font-weight: 500;
-  color: #333;
+  color: var(--text-main);
+  transition: color 0.4s ease;
 }
 
 /* Párrafos */
 p {
   font-size: 1rem;
   line-height: 1.5;
-  color: #222;
+  color: var(--text-main);
+  transition: color 0.4s ease;
 }
 
 /* Responsividad */
 @media (max-width: 768px) {
-  body {
-    padding: 1rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  h2 {
-    font-size: 1.2rem;
-  }
-}
-
-/* Pronóstico en modo claro */
-.forecast-day p {
-  color: #000 !important;   /* negro fuerte */
-  font-weight: 700;
-}
-
-/* Pronóstico en modo oscuro */
-.App.dark .forecast-day p {
-  color: #fff !important;   /* blanco fuerte */
-  font-weight: 700;
-}
-
-/* 🌞 Modo claro (por defecto) */
-.App {
-  background: linear-gradient(to bottom, #4facfe, #00f2fe);
-  color: #222;
-  min-height: 100vh;
-  padding: 2rem;
-}
-
-/* 🌙 Modo oscuro */
-.App.dark {
-  background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
-  color: #eee;
-}
-
-.App.dark h1 {
-  color: #00d4ff;
-}
-
-.App.dark h2 {
-  color: #ddd;
-}
-
-.App.dark p {
-  color: #fff; /* 👈 blanco fuerte para contraste */
-}
-
-/* Tarjetas del pronóstico */
-.forecast-day {
-  background: #eee;
-  color: #000;
-  font-weight: 600;
-}
-
-.App.dark .forecast-day {
-  background: #333;
-  color: #fff !important; /* 👈 fuerza blanco en oscuro */
-  font-weight: 700;
-}
-
-/* WeatherCard */
-.weather-card {
-  background: #fdfdfd;
-  color: #000;
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin: 1rem auto;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.App.dark .weather-card {
-  background: #222;
-  color: #fff !important; /* 👈 fuerza blanco en oscuro */
-  border: 1px solid #555;
+  body { padding: 1rem; }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.2rem; }
 }

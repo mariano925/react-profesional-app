@@ -1,11 +1,83 @@
+/* =========================================
+   1. PALETA "ATARDECER INTENSO" (MODO CLARO)
+   ========================================= */
+:root {
+  /* Degradado: Negro arriba, bajando a rojo, naranja y amarillo al fondo */
+  --bg-gradient: linear-gradient(to bottom, #1a1919, #990000, #ff6600, #ffcc00); 
+  
+  /* Cajas un poco más opacas para contrastar con el fondo fuerte */
+  --bg-app: rgba(255, 255, 255, 0.75);
+  --bg-card: rgba(255, 255, 255, 0.85);
+  
+  /* Textos en un marrón/negro muy oscuro y cálido */
+  --text-main: #2b1810;
+  --text-muted: #5c3a21;
+  
+  /* Título blanco para que resalte sobre la parte negra/roja del cielo */
+  --title-color: #ffffff;
+  
+  --accent: #d32f2f; /* Rojo fuerte para los botones */
+  --banner-bg: linear-gradient(90deg, #ff6600, #d32f2f);
+  --border-color: rgba(211, 47, 47, 0.2);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   2. PALETA "ATARDECER" (MODO OSCURO - Intacto)
+   ========================================= */
+.dark {
+  --bg-gradient: linear-gradient(to bottom, #191423, #2a1b38, #3e204f); 
+  --bg-app: rgba(30, 25, 40, 0.85);
+  --bg-card: rgba(45, 35, 60, 0.9);
+  --text-main: #f8f5fa;
+  --text-muted: #bba8c9;
+  --title-color: #ff9a9e; /* Rosa pastel/neón */
+  --accent: #ff9a9e;
+  --banner-bg: linear-gradient(90deg, #8a2387, #e94057, #f27121);
+  --border-color: rgba(255, 154, 158, 0.15);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+
+/* =========================================
+   ESTILOS BASE (Usan las variables)
+   ========================================= */
+
 .App {
   width: 100%;
   max-width: 900px;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-app);
+  color: var(--text-main);
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow);
   margin: auto;
+  
+  /* Efecto Cristal (Glassmorphism) */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+}
+
+/* Banner superior informativo */
+.banner {
+  width: 100%;
+  background: var(--banner-bg);
+  color: #fff; /* El texto en el banner siempre es blanco */
+  padding: 0.8rem 1.2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 0 0 8px 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Barra de búsqueda */
@@ -18,16 +90,19 @@ form {
 form input {
   flex: 1;
   padding: 0.7rem;
-  border: 1px solid #ccc;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
   border-radius: 8px 0 0 8px;
   font-size: 1rem;
+  outline: none;
 }
 
 form button {
   padding: 0.7rem 1.2rem;
   border: none;
   border-radius: 0 8px 8px 0;
-  background: #0077cc;
+  background: var(--accent);
   color: #fff;
   font-weight: 500;
   cursor: pointer;
@@ -35,28 +110,36 @@ form button {
 }
 
 form button:hover {
-  background: #005fa3;
+  background: var(--accent-hover, var(--accent));
 }
 
 /* Tarjeta del clima */
 .weather-card {
-  background: #fdfdfd;
+  background: var(--bg-card);
   border-radius: 10px;
   padding: 1.5rem;
   margin: 1rem auto;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  
+  /* Un toque extra de desenfoque para la tarjeta interior */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
+.weather-card h1, 
 .weather-card h2 {
   margin-bottom: 1rem;
-  color: #0077cc;
+  color: var(--accent);
 }
 
-.weather-card p {
+/* Ahora los párrafos toman el color automáticamente sin necesidad de !important */
+.weather-card p,
+.forecast-day p {
   margin: 0.4rem 0;
   font-size: 1.05rem;
-  color: #000;
+  font-weight: 500;
 }
 
 /* Footer */
@@ -64,90 +147,12 @@ footer {
   text-align: center;
   margin-top: 2rem;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 /* Responsividad */
 @media (max-width: 600px) {
-  .App {
-    padding: 1rem;
-  }
-
-  .weather-card {
-    padding: 1rem;
-  }
-
-  form input {
-    font-size: 0.9rem;
-  }
-
-  form button {
-    font-size: 0.9rem;
-  }
-}
-
-/* Banner superior informativo */
-.banner {
-  width: 100%;
-  background: linear-gradient(90deg, #0077cc, #00b4d8);
-  color: #fff;
-  padding: 0.8rem 1.2rem;
-  text-align: center;
-  font-size: 0.95rem;
-  font-weight: 500;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  margin-bottom: 1.5rem;
-  animation: fadeIn 1s ease-in-out;
-}
-
-/* Animación suave al aparecer */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 🌞 Light mode (por defecto) */
-.App {
-  background: rgba(255, 255, 255, 0.9);
-  color: #222;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  margin: auto;
-}
-
-/* 🌙 Dark mode automático */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
-    color: #eee;
-  }
-
-  .App {
-    background: rgba(30, 30, 30, 0.95);
-    color: #eee;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-  }
-
-  .banner {
-    background: linear-gradient(90deg, #1e3c72, #2a5298);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  }
-
-  h1, h2 {
-    color: #00d4ff;
-  }
-
-  /* 👇 Ajuste definitivo para párrafos */
-  .weather-card p,
-  .forecast-day p {
-    color: #fff !important;   /* blanco fuerte */
-    font-weight: 700;
-  }
-
-  footer {
-    color: #aaa;
-  }
+  .App { padding: 1rem; }
+  .weather-card { padding: 1rem; }
+  form input, form button { font-size: 0.9rem; }
 }

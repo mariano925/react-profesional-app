@@ -7,6 +7,9 @@ import WeatherCard from "./components/WeatherCard";
 import { getWeather } from "./services/weatherService";
 import Loader from "./components/Loader";
 
+import "./App.css";
+import "./index.css";
+
 function App() {
   const [city, setCity] = useLocalStorage("city", "Gualeguay");
   const [weather, setWeather] = useState(null);
@@ -50,11 +53,17 @@ function App() {
           {darkMode ? "🌙 Modo Oscuro" : "🌞 Modo Claro"}
         </button>
 
-        {/* Banner superior */}
+      {/* Banner superior */}
       <div className="banner">
-          ⚙️ Esta aplicación utiliza la API pública de <strong>Open‑Meteo</strong> para consultar el pronóstico.  
-          🌍 También integra <strong>Google Maps Embed</strong> para mostrar la ubicación geográfica.  
-          🔄 Este APP está en constante evolución y sujeto a cambios.
+        👨‍🏫 <strong>Mini-clase de Desarrollo Web:</strong> ¿Qué magia técnica tiene este diseño?<br /><br />
+        
+        🏠 Imaginen que darle color a esta App es como iluminar una casa. Antes, para pasar a <strong>Modo Oscuro</strong>, había que ir habitación por habitación cambiando las luces a mano (escribiendo reglas repetidas para cada tarjeta).<br /><br />
+        
+        ⚡ <strong>La solución:</strong> Armamos un "Tablero Eléctrico Central" usando <strong>Variables CSS</strong>. Ahora, cuando tocan el botón del sol/luna, un solo interruptor le avisa a toda la casa que cambie la iluminación al mismo tiempo.<br /><br />
+        
+      🪟 Y para el toque final, instalamos "ventanas de vidrio empañado" (el efecto <em>Glassmorphism</em>) que deja asomar el degradado del fondo. ¡Todo hecho a medida, sin plantillas y haciendo equipo con IA para los detalles!<br /><br />
+        
+        🚀 <em>Construido con React y la API de Open-Meteo. Proyecto en constante evolución.</em>
       </div>
 
         <h1>🌦️ Weather App</h1>
@@ -83,7 +92,7 @@ function App() {
           />
         )}
 
-        <footer style={{ marginTop: "2rem", fontSize: "0.9rem", color: "#555" }}>
+        <footer>
           ✍️ Creado por Mariano como proyecto de práctica profesional. 7/8/2026
         </footer>
       </div>
