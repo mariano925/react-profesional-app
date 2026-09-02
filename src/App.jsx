@@ -81,7 +81,7 @@ function App() {
         
         🏠 Dicho en otras palabras, remodelar el diseño de esta aplicación fue como redecorar una casa. En lugar de tener que cambiar de lugar o pintar cada mueble uno por uno a mano, simplemente actualizamos el "sistema eléctrico y de pintura central" (las variables). Así, toda la casa cambió su energía visual de forma armónica al mismo tiempo, sin tirar abajo ninguna pared y manteniendo intacta la estructura interna.<br /><br />
         
-        🚀 <em>Construido con React, Vite y la API de Open-Meteo. Proyecto en constante evolución profesional.</em>
+        🚀 <em>Construido con React, y la API de Open-Meteo. Proyecto en constante evolución profesional.</em>
       </div>
 
         <h1>🌦️ Weather App</h1>
