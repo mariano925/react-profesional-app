@@ -1,102 +1,58 @@
-/* 🎨 Estilo general de la tarjeta */
 .weather-card {
-  /* Eliminé font-family para que herede 'Poppins' automáticamente desde index.css */
-  
   background: var(--bg-card);
-  color: var(--text-main);
-  border-radius: 12px;
-  padding: 1.5rem;
-  
-  /* Sombra principal: usamos la variable que ya armamos en index.css */
-  box-shadow: var(--shadow);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem auto;
   text-align: center;
   border: 1px solid var(--border-color);
-  
-  /* Efecto cristal suave */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  
-  /* DETALLE: Transición suave para que la tarjeta cambie sus sombras y bordes fluidamente al tocar el botón Dark Mode */
-  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
 }
 
-/* 📅 Pronóstico extendido */
+.weather-card h1 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+}
+
+.weather-card h2 {
+  color: var(--text-main);
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
 .forecast {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
-  margin-top: 1.5rem;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .forecast-day {
-  /* Usamos gris neutro para que se adapte perfecto tanto al rojo/naranja como al modo oscuro */
-  background: rgba(128, 128, 128, 0.08); 
-  padding: 0.8rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  border: 1px solid transparent;
-  
-  /* Preparamos la sombra para la animación */
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  background: var(--bg-app); 
+  padding: 1.2rem;
+  border-radius: 16px;
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
 }
 
-/* Pequeña animación al pasar el mouse (solo en PC) */
+/* Sombra adaptativa usando las variables de color */
 @media (hover: hover) {
   .forecast-day:hover {
-    transform: translateY(-3px); /* Se levanta un milímetro más */
-    background: rgba(128, 128, 128, 0.15);
-    
-    /* DETALLE: Le sumamos una sombra sutil para que realmente parezca que la cajita "flota" al pasar el mouse */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--accent);
   }
 }
 
-/* 🗺️ Mapa / Link */
 .map-desktop {
   display: block;
-  margin-top: 1.5rem;
-  border-radius: 8px;
+  margin-top: 2rem;
+  border-radius: 16px;
   overflow: hidden;
-  
-  /* DETALLE: Borde sutil para que el mapa quede bien enmarcado en el efecto cristal */
   border: 1px solid var(--border-color);
-}
-
-.map-mobile {
-  display: none;
-}
-
-/* 📱 Mobile: ocultar iframe y mostrar link */
-@media (max-width: 768px) {
-  .map-desktop {
-    display: none;
-  }
-  
-  .map-mobile {
-    display: block;
-    margin-top: 1.2rem;
-    text-align: center;
-  }
-  
-  /* Botón corregido para que respete tu paleta "Atardecer" y quede más pro */
-  .map-mobile a {
-    display: inline-block;
-    color: var(--accent);
-    /* En lugar de un fondo azul fijo, usamos el color de acento para dibujar el contorno */
-    background: transparent;
-    border: 2px solid var(--accent);
-    text-decoration: none;
-    font-weight: 600;
-    padding: 0.5rem 1.2rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
-  
-  .map-mobile a:hover {
-    /* DETALLE: Al pasar el dedo o mouse, se rellena de color y aparece una pequeña sombra */
-    background: var(--accent);
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
+  box-shadow: var(--shadow);
 }

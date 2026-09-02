@@ -1,63 +1,54 @@
-/* Importamos una tipografía moderna */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 /* =========================================
-   1. VARIABLES GLOBALES (ATARDECER INTENSO - MODO CLARO)
+   1. VARIABLES GLOBALES (MODO CLARO)
    ========================================= */
 :root {
-  /* Degradado: Cielo oscuro arriba, bajando a rojo, naranja y amarillo */
-  --bg-gradient: linear-gradient(to bottom, #1a1919, #990000, #ff6600, #ffcc00);
+  /* Fondo con degradado usando el crema suave y un toque de luz */
+  --bg-gradient: linear-gradient(135deg, #FEF3B3 0%, #e2e8f0 100%);
+  --bg-app: rgba(255, 255, 255, 0.8);
+  --bg-card: rgba(255, 255, 255, 0.95);
   
-  /* Cajas cristalinas un poco más opacas para contrastar el fondo */
-  --bg-app: rgba(255, 255, 255, 0.75);
-  --bg-card: rgba(255, 255, 255, 0.85);
+  --text-main: #0f172a;
+  --text-muted: #475569;
   
-  /* Textos en un marrón/negro muy oscuro para armonizar */
-  --text-main: #2b1810;
-  --text-muted: #5c3a21;
-  --title-color: #ffffff;
+  /* Títulos y acentos con el azul fuerte */
+  --title-color: #1E5ABC;
+  --accent: #1E5ABC; 
+  --accent-hover: #154594;
   
-  /* Detalles */
-  --accent: #d32f2f; /* Rojo fuerte */
-  --banner-bg: linear-gradient(90deg, #ff6600, #d32f2f);
-  --border-color: rgba(211, 47, 47, 0.2);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --banner-bg: linear-gradient(90deg, #1E5ABC, #75BAFF);
+  
+  --border-color: rgba(30, 90, 188, 0.15);
+  --shadow: 0 10px 30px rgba(30, 90, 188, 0.1);
 }
 
 /* =========================================
-   2. VARIABLES GLOBALES (MODO OSCURO ACTIVO)
+   2. VARIABLES GLOBALES (MODO OSCURO)
    ========================================= */
-.dark {
-  --bg-gradient: linear-gradient(to bottom, #191423, #2a1b38, #3e204f);
-  --bg-app: rgba(30, 25, 40, 0.85);
-  --bg-card: rgba(45, 35, 60, 0.9);
-  --text-main: #f8f5fa;
-  --text-muted: #bba8c9;
-  --title-color: #ff9a9e; /* Rosa pastel/neón */
-  --accent: #ff9a9e;
-  --banner-bg: linear-gradient(90deg, #8a2387, #e94057, #f27121);
-  --border-color: rgba(255, 154, 158, 0.15);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Mismas variables del .dark para quien tenga la PC en oscuro por defecto */
-    --bg-gradient: linear-gradient(to bottom, #191423, #2a1b38, #3e204f);
-    --bg-app: rgba(30, 25, 40, 0.85);
-    --bg-card: rgba(45, 35, 60, 0.9);
-    --text-main: #f8f5fa;
-    --text-muted: #bba8c9;
-    --title-color: #ff9a9e;
-    --accent: #ff9a9e;
-    --banner-bg: linear-gradient(90deg, #8a2387, #e94057, #f27121);
-    --border-color: rgba(255, 154, 158, 0.15);
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  }
+body.dark {
+  /* Fondo con un azul profundo y sofisticado */
+  --bg-gradient: linear-gradient(135deg, #0d1b33 0%, #080e1a 100%);
+  
+  --bg-app: rgba(13, 27, 51, 0.7);
+  --bg-card: rgba(13, 27, 51, 0.9);
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  
+  /* Títulos y acentos iluminados con el amarillo/dorado */
+  --title-color: #FEBD19; 
+  --accent: #FEBD19; 
+  --accent-hover: #e0a514;
+  
+  --banner-bg: linear-gradient(90deg, #1E5ABC, #FEBD19);
+  
+  --border-color: rgba(254, 189, 25, 0.2);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* =========================================
-   3. ESTILOS BASE Y MEJORAS PREMIUM
+   3. ESTILOS BASE
    ========================================= */
 * {
   margin: 0;
@@ -65,19 +56,14 @@
   box-sizing: border-box;
 }
 
-/* 🎨 DETALLE PREMIUM: Color de selección de texto a medida */
 ::selection {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 body {
   font-family: 'Poppins', sans-serif;
-  
-  /* 🖥️ DETALLE PREMIUM: Suavizado de fuentes. Hace que la tipografía se vea mucho más nítida y profesional. */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  
   background: var(--bg-gradient);
   color: var(--text-main);
   min-height: 100vh;
@@ -85,44 +71,31 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding: 2rem;
-  
-  /* 🪄 DETALLE PREMIUM: Transición suave al cambiar textos de claro a oscuro */
-  transition: color 0.4s ease;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* Actualización clave: Ahora el body toma el nuevo fondo oscuro (morado/noche) cuando apretás el botón */
-body:has(.App.dark) {
-  background: linear-gradient(to bottom, #191423, #2a1b38, #3e204f);
-}
-
-/* Títulos principales */
 h1 {
   font-size: 2.2rem;
   font-weight: 600;
   color: var(--title-color);
   text-align: center;
   margin-bottom: 0.5rem;
-  transition: color 0.4s ease; /* Anima el cambio de color */
+  letter-spacing: -0.5px;
+  transition: color 0.4s ease;
 }
 
 h2 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--text-main);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 1.5rem;
   transition: color 0.4s ease;
 }
 
-/* Párrafos */
 p {
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--text-main);
   transition: color 0.4s ease;
-}
-
-/* Responsividad */
-@media (max-width: 768px) {
-  body { padding: 1rem; }
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.2rem; }
 }

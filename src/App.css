@@ -1,158 +1,83 @@
-/* =========================================
-   1. PALETA "ATARDECER INTENSO" (MODO CLARO)
-   ========================================= */
-:root {
-  /* Degradado: Negro arriba, bajando a rojo, naranja y amarillo al fondo */
-  --bg-gradient: linear-gradient(to bottom, #1a1919, #990000, #ff6600, #ffcc00); 
-  
-  /* Cajas un poco más opacas para contrastar con el fondo fuerte */
-  --bg-app: rgba(255, 255, 255, 0.75);
-  --bg-card: rgba(255, 255, 255, 0.85);
-  
-  /* Textos en un marrón/negro muy oscuro y cálido */
-  --text-main: #2b1810;
-  --text-muted: #5c3a21;
-  
-  /* Título blanco para que resalte sobre la parte negra/roja del cielo */
-  --title-color: #ffffff;
-  
-  --accent: #d32f2f; /* Rojo fuerte para los botones */
-  --banner-bg: linear-gradient(90deg, #ff6600, #d32f2f);
-  --border-color: rgba(211, 47, 47, 0.2);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-/* =========================================
-   2. PALETA "ATARDECER" (MODO OSCURO - Intacto)
-   ========================================= */
-.dark {
-  --bg-gradient: linear-gradient(to bottom, #191423, #2a1b38, #3e204f); 
-  --bg-app: rgba(30, 25, 40, 0.85);
-  --bg-card: rgba(45, 35, 60, 0.9);
-  --text-main: #f8f5fa;
-  --text-muted: #bba8c9;
-  --title-color: #ff9a9e; /* Rosa pastel/neón */
-  --accent: #ff9a9e;
-  --banner-bg: linear-gradient(90deg, #8a2387, #e94057, #f27121);
-  --border-color: rgba(255, 154, 158, 0.15);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-}
-
-
-/* =========================================
-   ESTILOS BASE (Usan las variables)
-   ========================================= */
-
 .App {
   width: 100%;
   max-width: 900px;
   background: var(--bg-app);
   color: var(--text-main);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: var(--shadow);
+  border-radius: 24px;
+  padding: 2.5rem;
   margin: auto;
   
-  /* Efecto Cristal (Glassmorphism) */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  /* Efecto Vidrio Esmerilado Moderno */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  
+  transition: all 0.4s ease;
 }
 
-/* Banner superior informativo */
 .banner {
   width: 100%;
   background: var(--banner-bg);
-  color: #fff; /* El texto en el banner siempre es blanco */
-  padding: 0.8rem 1.2rem;
+  color: #ffffff;
+  padding: 1rem 1.5rem;
   text-align: center;
   font-size: 0.95rem;
   font-weight: 500;
-  border-radius: 0 0 8px 8px;
-  box-shadow: var(--shadow);
-  margin-bottom: 1.5rem;
-  animation: fadeIn 1s ease-in-out;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  line-height: 1.6;
 }
 
-/* Animación */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Barra de búsqueda */
+/* Buscador Moderno */
 form {
   display: flex;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  gap: 0.5rem;
 }
 
 form input {
   flex: 1;
-  padding: 0.7rem;
+  padding: 0.8rem 1.2rem;
   background: var(--bg-card);
   color: var(--text-main);
-  border: 1px solid var(--border-color);
-  border-radius: 8px 0 0 8px;
   font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   outline: none;
+  transition: all 0.3s ease;
+}
+
+/* Usamos la variable --accent para que el foco respete tu paleta activa */
+form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--border-color);
 }
 
 form button {
-  padding: 0.7rem 1.2rem;
-  border: none;
-  border-radius: 0 8px 8px 0;
+  padding: 0.8rem 1.5rem;
   background: var(--accent);
-  color: #fff;
+  color: #ffffff;
   font-weight: 500;
+  font-family: inherit;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 form button:hover {
-  background: var(--accent-hover, var(--accent));
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Tarjeta del clima */
-.weather-card {
-  background: var(--bg-card);
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin: 1rem auto;
-  text-align: center;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
-  
-  /* Un toque extra de desenfoque para la tarjeta interior */
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.weather-card h1, 
-.weather-card h2 {
-  margin-bottom: 1rem;
-  color: var(--accent);
-}
-
-/* Ahora los párrafos toman el color automáticamente sin necesidad de !important */
-.weather-card p,
-.forecast-day p {
-  margin: 0.4rem 0;
-  font-size: 1.05rem;
-  font-weight: 500;
-}
-
-/* Footer */
 footer {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
   font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-/* Responsividad */
-@media (max-width: 600px) {
-  .App { padding: 1rem; }
-  .weather-card { padding: 1rem; }
-  form input, form button { font-size: 0.9rem; }
+  color: var(--text-muted);
 }

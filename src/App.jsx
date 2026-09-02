@@ -1,7 +1,7 @@
 import { WeatherProvider } from "./context/WeatherContext";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
-import { useState } from "react";
+import { useState, useEffect } from "react"; 
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import { getWeather } from "./services/weatherService";
@@ -18,6 +18,15 @@ function App() {
 
   // Estado persistente para dark mode con botón
   const [darkMode, setDarkMode] = useLocalStorage("darkMode", false);
+
+  // Aplica la clase al <body> para cambiar el fondo de toda la pantalla
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   const handleSearch = async (query) => {
     setCity(query);
@@ -36,34 +45,43 @@ function App() {
 
   return (
     <WeatherProvider>
+      {/* Mantenemos la clase acá también por seguridad */}
       <div className={`App ${darkMode ? "dark" : ""}`}>
-        {/* Botón para alternar Dark Mode */}
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          style={{
-            margin: "1rem",
-            padding: "0.5rem 1rem",
-            borderRadius: "6px",
-            border: "none",
-            cursor: "pointer",
-            backgroundColor: darkMode ? "#444" : "#ddd",
-            color: darkMode ? "#fff" : "#000"
-          }}
-        >
-          {darkMode ? "🌙 Modo Oscuro" : "🌞 Modo Claro"}
-        </button>
+        
+        {/* Botón para alternar Dark Mode con estilo Clean Glass */}
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            style={{
+              padding: "0.6rem 1.2rem",
+              borderRadius: "20px", // Bordes redondeados modernos
+              border: "1px solid var(--border-color)",
+              cursor: "pointer",
+              backgroundColor: "var(--bg-card)",
+              color: "var(--text-main)",
+              fontWeight: "500",
+              fontFamily: "inherit",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.05)", // Sombra súper suave
+              transition: "all 0.3s ease"
+            }}
+          >
+            {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
+          </button>
+        </div>
 
-      {/* Banner superior */}
+     {/* Banner superior con enfoque técnico y analogía al final */}
       <div className="banner">
-        👨‍🏫 <strong>Mini-clase de Desarrollo Web:</strong> ¿Qué magia técnica tiene este diseño?<br /><br />
+        💻 <strong>Nota de Front-End:</strong> ¿Cómo estructuramos esta evolución visual?<br /><br />
         
-        🏠 Imaginen que darle color a esta App es como iluminar una casa. Antes, para pasar a <strong>Modo Oscuro</strong>, había que ir habitación por habitación cambiando las luces a mano (escribiendo reglas repetidas para cada tarjeta).<br /><br />
+        🎨 <strong>Arquitectura de Estilos y Design Tokens:</strong> Desacoplamos por completo la lógica de los componentes de su apariencia visual utilizando <strong>Variables CSS (Custom Properties)</strong>. Esto actúa como un sistema de diseño centralizado: cambiar la identidad visual o la paleta de colores de toda la aplicación ahora toma segundos, sin alterar una sola línea de código estructural.<br /><br />
         
-        ⚡ <strong>La solución:</strong> Armamos un "Tablero Eléctrico Central" usando <strong>Variables CSS</strong>. Ahora, cuando tocan el botón del sol/luna, un solo interruptor le avisa a toda la casa que cambie la iluminación al mismo tiempo.<br /><br />
+        ⚡ <strong>Gestión de Estado y Reactividad:</strong> El sistema de temas (Modo Claro/Oscuro) está integrado con un hook personalizado de persistencia (`localStorage`). Mediante un efecto (`useEffect`), sincronizamos dinámicamente la clase global en el DOM (`document.body`), garantizando que la transición de estilos sea fluida y reactiva en toda la pantalla.<br /><br />
         
-      🪟 Y para el toque final, instalamos "ventanas de vidrio empañado" (el efecto <em>Glassmorphism</em>) que deja asomar el degradado del fondo. ¡Todo hecho a medida, sin plantillas y haciendo equipo con IA para los detalles!<br /><br />
+        ✨ <strong>Evolución de UI/UX (Clean Glass):</strong> Pasamos de estructuras rígidas a una interfaz moderna con efectos de capas, desenfoques por hardware (`backdrop-filter`) y transiciones optimizadas, logrando una experiencia de usuario propia de una aplicación nativa.<br /><br />
         
-        🚀 <em>Construido con React y la API de Open-Meteo. Proyecto en constante evolución.</em>
+        🏠 Dicho en otras palabras, remodelar el diseño de esta aplicación fue como redecorar una casa. En lugar de tener que cambiar de lugar o pintar cada mueble uno por uno a mano, simplemente actualizamos el "sistema eléctrico y de pintura central" (las variables). Así, toda la casa cambió su energía visual de forma armónica al mismo tiempo, sin tirar abajo ninguna pared y manteniendo intacta la estructura interna.<br /><br />
+        
+        🚀 <em>Construido con React, Vite y la API de Open-Meteo. Proyecto en constante evolución profesional.</em>
       </div>
 
         <h1>🌦️ Weather App</h1>
@@ -87,13 +105,13 @@ function App() {
             max={weather.max}
             min={weather.min}
             forecast={weather.forecast}
-            latitude={weather.latitude}   // 👈 nuevo
-            longitude={weather.longitude} // 👈 nuevo
+            latitude={weather.latitude}   
+            longitude={weather.longitude} 
           />
         )}
 
         <footer>
-          ✍️ Creado por Mariano como proyecto de práctica profesional. 7/8/2026
+          ✍️ Creado por Mariano como proyecto de práctica profesional.
         </footer>
       </div>
     </WeatherProvider>

@@ -6,38 +6,20 @@ function SearchBar({ onSearch }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim() !== "") {
-      onSearch(query);   // 👈 dispara la función que recibís por props (App.jsx)
-      setQuery("");      // limpia el input después de buscar
+      onSearch(query);
+      setQuery("");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Ingresa una ciudad..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        style={{
-          padding: "0.5rem",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-          marginRight: "0.5rem",
-        }}
       />
-      <button
-        type="submit"
-        style={{
-          padding: "0.5rem 1rem",
-          borderRadius: "4px",
-          border: "none",
-          backgroundColor: "#0077cc",
-          color: "white",
-          cursor: "pointer",
-        }}
-      >
-        Buscar
-      </button>
+      <button type="submit">Buscar</button>
     </form>
   );
 }
