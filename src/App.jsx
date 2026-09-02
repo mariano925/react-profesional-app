@@ -111,7 +111,7 @@ function App() {
         )}
 
         <footer>
-          ✍️ Creado por Mariano como proyecto de práctica profesional.
+          ✍️ Creado por Mariano como proyecto de práctica profesional 07/08/2026.
         </footer>
       </div>
     </WeatherProvider>

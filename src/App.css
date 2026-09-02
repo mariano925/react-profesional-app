@@ -6,6 +6,7 @@
   border-radius: 24px;
   padding: 2.5rem;
   margin: auto;
+  box-sizing: border-box;
   
   /* Efecto Vidrio Esmerilado Moderno */
   backdrop-filter: blur(20px);
@@ -80,4 +81,30 @@ footer {
   margin-top: 3rem;
   font-size: 0.9rem;
   color: var(--text-muted);
+}
+
+/* =========================================
+   AJUSTES RESPONSIVOS PARA CELULARES
+   ========================================= */
+@media (max-width: 768px) {
+  .App {
+    padding: 1.25rem; /* Reduce los márgenes internos para ganar espacio */
+    border-radius: 16px;
+  }
+
+  .banner {
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  form {
+    flex-direction: column; /* Apila el buscador y el botón en pantallas muy angostas */
+  }
+
+  form input, form button {
+    width: 100%;
+    border-radius: 12px;
+  }
 }
