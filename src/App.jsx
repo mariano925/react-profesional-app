@@ -69,21 +69,20 @@ function App() {
           </button>
         </div>
 
-     {/* Banner superior con enfoque técnico y analogía al final */}
+    {/* Banner superior con enfoque técnico y analogía al final */}
       <div className="banner">
-        💻 <strong>Nota de Front-End:</strong> ¿Cómo estructuramos esta evolución visual?<br /><br />
+        💻 <strong>Nota de desarrollo:</strong> ¿Cómo armé esta evolución visual?<br /><br />
         
-        🎨 <strong>Arquitectura de Estilos y Design Tokens:</strong> Desacoplamos por completo la lógica de los componentes de su apariencia visual utilizando <strong>Variables CSS (Custom Properties)</strong>. Esto actúa como un sistema de diseño centralizado: cambiar la identidad visual o la paleta de colores de toda la aplicación ahora toma segundos, sin alterar una sola línea de código estructural.<br /><br />
+        🎨 <strong>Arquitectura y Design Tokens:</strong> Separé por completo la lógica de los componentes de su estética usando <strong>Variables CSS (Custom Properties)</strong>. Armé un sistema centralizado que me permite cambiar toda la paleta de colores de la app en segundos y sin tocar la estructura del código.<br /><br />
         
-        ⚡ <strong>Gestión de Estado y Reactividad:</strong> El sistema de temas (Modo Claro/Oscuro) está integrado con un hook personalizado de persistencia (`localStorage`). Mediante un efecto (`useEffect`), sincronizamos dinámicamente la clase global en el DOM (`document.body`), garantizando que la transición de estilos sea fluida y reactiva en toda la pantalla.<br /><br />
+        ⚡ <strong>Estado y Reactividad:</strong> El sistema de Modo Claro/Oscuro lo resolví con un hook personalizado de persistencia (`localStorage`) y un `useEffect` que sincroniza dinámicamente el `document.body`, logrando una transición fluida en toda la pantalla.<br /><br />
         
-        ✨ <strong>Evolución de UI/UX (Clean Glass):</strong> Pasamos de estructuras rígidas a una interfaz moderna con efectos de capas, desenfoques por hardware (`backdrop-filter`) y transiciones optimizadas, logrando una experiencia de usuario propia de una aplicación nativa.<br /><br />
+        ✨ <strong>UI/UX Clean Glass:</strong> Reemplacé las estructuras rígidas por una interfaz moderna con efectos de capas, desenfoques (`backdrop-filter`) y transiciones bien cuidadas para darle una sensación más fluida y profesional.<br /><br />
         
-        🏠 Dicho en otras palabras, remodelar el diseño de esta aplicación fue como redecorar una casa. En lugar de tener que cambiar de lugar o pintar cada mueble uno por uno a mano, simplemente actualizamos el "sistema eléctrico y de pintura central" (las variables). Así, toda la casa cambió su energía visual de forma armónica al mismo tiempo, sin tirar abajo ninguna pared y manteniendo intacta la estructura interna.<br /><br />
+        🏠 Para explicarlo de forma simple: cambiarle el diseño a esta app fue como redecorar una casa. En lugar de tener que pintar o mover cada mueble a mano uno por uno, simplemente actualicé el sistema central de pintura e iluminación (las variables). Así, toda la casa renovó su onda al mismo tiempo sin romper ninguna pared y manteniendo la estructura intacta.<br /><br />
         
-        🚀 <em>Construido con React, y la API de Open-Meteo. Proyecto en constante evolución profesional.</em>
+        🚀 <em>Desarrollado con React y la API de Open-Meteo. Proyecto en constante evolución.</em>
       </div>
-
         <h1>🌦️ Weather App</h1>
         <h2>Tu pronóstico rápido y sencillo</h2>
         <p>
