@@ -6,6 +6,7 @@ import WeatherCard from "./components/WeatherCard";
 import Loader from "./components/Loader";
 import { useWeather } from "./hooks/useWeather";
 import { Analytics } from "@vercel/analytics/react";
+import heroImage from "./assets/hero-clima.jpg";
 import "./App.css";
 
 function App() {
@@ -38,7 +39,20 @@ function App() {
         </button>
       </div>
 
-      <SearchBar onSearch={handleSearch} />
+      <section
+        className="hero"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="hero-content">
+          <h1>Cielovivo</h1>
+
+          <p>
+            El clima de un vistazo. Información meteorológica actualizada de cualquier ciudad.
+          </p>
+
+          <SearchBar onSearch={handleSearch} />
+        </div>
+      </section>
 
       {loading && <Loader />}
 
