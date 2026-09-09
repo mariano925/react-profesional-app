@@ -16,18 +16,24 @@
   --color-temp-cold: #0284c7;
 
   --surface-bg: #eaf4fb;
-  --surface-card: rgba(255, 255, 255, 0.72);
-  --surface-card-hover: rgba(255, 255, 255, 0.9);
 
-  --surface-border: rgba(15, 23, 42, 0.1);
-  --surface-border-highlight: rgba(15, 23, 42, 0.2);
+  /* Vidrio más limpio y sutil */
+  --surface-card: rgba(255, 255, 255, 0.62);
+  --surface-card-hover: rgba(255, 255, 255, 0.78);
+
+  /* Bordes más delicados */
+  --surface-border: rgba(15, 23, 42, 0.08);
+  --surface-border-highlight: rgba(15, 23, 42, 0.16);
 
   --text-main: #0f172a;
   --text-muted: #475569;
   --text-subtle: #64748b;
 
-  --surface-shadow: rgba(15, 23, 42, 0.12);
-  --surface-highlight: rgba(255, 255, 255, 0.8);
+  /* Sombra ambiental más suave */
+  --surface-shadow: rgba(15, 23, 42, 0.10);
+
+  /* Reflejo superior más discreto */
+  --surface-highlight: rgba(255, 255, 255, 0.65);
 
   --font-main: 'Inter', sans-serif;
 }
@@ -36,18 +42,24 @@
 
 body.dark {
   --surface-bg: #0b1326;
-  --surface-card: rgba(19, 27, 46, 0.65);
-  --surface-card-hover: rgba(30, 41, 67, 0.85);
 
-  --surface-border: rgba(255, 255, 255, 0.1);
-  --surface-border-highlight: rgba(255, 255, 255, 0.2);
+  /* Vidrio oscuro más transparente */
+  --surface-card: rgba(19, 27, 46, 0.58);
+  --surface-card-hover: rgba(30, 41, 67, 0.76);
+
+  /* Bordes sutiles */
+  --surface-border: rgba(255, 255, 255, 0.10);
+  --surface-border-highlight: rgba(255, 255, 255, 0.18);
 
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-subtle: #64748b;
 
-  --surface-shadow: rgba(0, 0, 0, 0.25);
-  --surface-highlight: rgba(255, 255, 255, 0.08);
+  /* Sombra más profunda pero contenida */
+  --surface-shadow: rgba(0, 0, 0, 0.22);
+
+  /* Reflejo de luz */
+  --surface-highlight: rgba(255, 255, 255, 0.07);
 }
 
 /* =========================================
@@ -142,3 +154,4 @@ p {
     padding: 0;
   }
 }
+

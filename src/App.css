@@ -1,36 +1,57 @@
 .App {
+
   width: 100%;
+
   max-width: 900px;
+
   background: var(--surface-card);
+
   color: var(--text-main);
+
   border-radius: 24px;
+
   padding: 2.5rem;
+
   margin: auto;
+
   box-sizing: border-box;
 
   /* Efecto Glassmorphism */
+
   backdrop-filter: blur(20px) saturate(140%);
+
   -webkit-backdrop-filter: blur(20px) saturate(140%);
 
   border: 1px solid var(--surface-border);
 
   box-shadow:
+
     0 8px 32px var(--surface-shadow),
+
     inset 0 1px 0 var(--surface-highlight);
 
   transition:
+
     background-color 0.3s ease,
+
     border-color 0.3s ease,
+
     box-shadow 0.3s ease;
+
 }
 
 /* Footer */
 
 footer {
+
   text-align: center;
+
   margin-top: 3rem;
+
   font-size: 0.9rem;
+
   color: var(--text-muted);
+
 }
 
 /* =========================================
@@ -38,10 +59,15 @@ footer {
    ========================================= */
 
 @media (max-width: 768px) {
+
   .App {
+
     padding: 1.25rem;
+
     border-radius: 16px;
+
   }
+
 }
 
 /* =========================================
@@ -49,37 +75,70 @@ footer {
    ========================================= */
 
 .theme-toggle {
+
   display: flex;
+
   justify-content: flex-end;
+
   margin-bottom: 1rem;
+
 }
 
 .theme-toggle button {
+
   padding: 0.6rem 1.2rem;
+
   border-radius: 20px;
 
   border: 1px solid var(--surface-border);
 
   cursor: pointer;
 
-  background: var(--surface-card);
+  background: var(--surface-card-hover);
+
   color: var(--text-main);
 
   font-weight: 500;
+
   font-family: inherit;
 
   box-shadow:
+
     0 4px 12px var(--surface-shadow);
 
   transition:
+
     background-color 0.3s ease,
+
     border-color 0.3s ease,
+
     transform 0.2s ease,
+
     box-shadow 0.3s ease;
+
 }
 
 .theme-toggle button:hover {
+
   background: var(--surface-card-hover);
+
   border-color: var(--surface-border-highlight);
+
   transform: translateY(-2px);
+
+  box-shadow:
+
+    0 6px 16px var(--surface-shadow);
+
 }
+
+/* Accesibilidad */
+
+.theme-toggle button:focus-visible {
+
+  outline: 2px solid var(--color-primary);
+
+  outline-offset: 3px;
+
+}
+
