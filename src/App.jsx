@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
@@ -17,6 +18,11 @@ function App() {
     error,
     fetchWeather,
   } = useWeather();
+
+  // Aplica el tema al body
+  useEffect(() => {
+    document.body.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
   const handleSearch = async (query) => {
     setCity(query);
@@ -45,6 +51,7 @@ function App() {
       <footer>
         ✍️ Creado por Mariano como proyecto de práctica profesional 07/08/2026.
       </footer>
+
       <Analytics />
 
     </div>
