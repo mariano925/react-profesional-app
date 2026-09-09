@@ -4,7 +4,7 @@ import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import Loader from "./components/Loader";
 import { useWeather } from "./hooks/useWeather";
-
+import { Analytics } from "@vercel/analytics/react";
 import "./App.css";
 
 function App() {
@@ -45,6 +45,7 @@ function App() {
       <footer>
         ✍️ Creado por Mariano como proyecto de práctica profesional 07/08/2026.
       </footer>
+      <Analytics />
 
     </div>
   );
