@@ -126,7 +126,7 @@
 
 @media (max-width: 600px) {
   .forecast-day {
-    grid-template-columns: 80px 65px 1fr 40px;
+    grid-template-columns: 75px 60px 1fr 40px;
 
     gap: 0.5rem;
     padding: 0.8rem;
