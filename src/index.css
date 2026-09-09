@@ -1,109 +1,118 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* =========================================
-   1. VARIABLES GLOBALES (MODO CLARO)
+   1. DESIGN TOKENS — METEOGLASS
    ========================================= */
+
 :root {
-  /* Fondo con degradado usando el crema suave y un toque de luz */
-  --bg-gradient: linear-gradient(135deg, #FEF3B3 0%, #e2e8f0 100%);
-  --bg-app: rgba(255, 255, 255, 0.8);
-  --bg-card: rgba(255, 255, 255, 0.95);
-  
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  
-  /* Títulos y acentos con el azul fuerte */
-  --title-color: #1E5ABC;
-  --accent: #1E5ABC; 
-  --accent-hover: #154594;
-  
-  --banner-bg: linear-gradient(90deg, #1E5ABC, #75BAFF);
-  
-  --border-color: rgba(30, 90, 188, 0.15);
-  --shadow: 0 10px 30px rgba(30, 90, 188, 0.1);
-}
+  --color-primary: #0ea5e9;
+  --color-primary-glow: rgba(14, 165, 233, 0.25);
+  --color-secondary: #38bdf8;
+  --color-sun: #f59e0b;
+  --color-rain: #38bdf8;
+  --color-temp-warm: #f97316;
+  --color-temp-cold: #38bdf8;
 
-/* =========================================
-   2. VARIABLES GLOBALES (MODO OSCURO)
-   ========================================= */
-body.dark {
-  /* Fondo con un azul profundo y sofisticado */
-  --bg-gradient: linear-gradient(135deg, #0d1b33 0%, #080e1a 100%);
-  
-  --bg-app: rgba(13, 27, 51, 0.7);
-  --bg-card: rgba(13, 27, 51, 0.9);
-  
+  --surface-bg: #0b1326;
+  --surface-card: rgba(19, 27, 46, 0.65);
+  --surface-card-hover: rgba(30, 41, 67, 0.85);
+
+  --surface-border: rgba(255, 255, 255, 0.1);
+  --surface-border-highlight: rgba(255, 255, 255, 0.2);
+
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
-  
-  /* Títulos y acentos iluminados con el amarillo/dorado */
-  --title-color: #FEBD19; 
-  --accent: #FEBD19; 
-  --accent-hover: #e0a514;
-  
-  --banner-bg: linear-gradient(90deg, #1E5ABC, #FEBD19);
-  
-  --border-color: rgba(254, 189, 25, 0.2);
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  --text-subtle: #64748b;
+
+  --surface-shadow: rgba(0, 0, 0, 0.25);
+  --surface-highlight: rgba(255, 255, 255, 0.08);
+
+  --font-main: 'Inter', sans-serif;
 }
 
 /* =========================================
-   3. ESTILOS BASE
+   2. RESET
    ========================================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-::selection {
-  background: var(--accent);
-  color: var(--text-main);
-}
+/* =========================================
+   3. BASE
+   ========================================= */
 
 body {
-  font-family: 'Poppins', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  background: var(--bg-gradient);
+  font-family: var(--font-main);
+  background: var(--surface-bg);
   color: var(--text-main);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 1rem; /* 👈 Ajustado para dispositivos móviles */
-  overflow-x: hidden; /* 👈 Evita scroll horizontal indeseado */
-  transition: background 0.5s ease, color 0.5s ease;
+
+  -webkit-font-smoothing: antialiased;
+
+  overflow-x: hidden;
+}
+
+/* =========================================
+   4. FONDO METEOGLASS
+   ========================================= */
+
+body {
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(14, 165, 233, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(56, 189, 248, 0.1),
+      transparent 35%
+    ),
+    var(--surface-bg);
+}
+
+/* =========================================
+   5. SELECCIÓN DE TEXTO
+   ========================================= */
+
+::selection {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* =========================================
+   6. TIPOGRAFÍA
+   ========================================= */
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
 }
 
 h1 {
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: var(--title-color);
-  text-align: center;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.5px;
-  transition: color 0.4s ease;
+  font-weight: 700;
 }
 
-h2 {
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: var(--text-muted);
-  text-align: center;
-  margin-bottom: 1.5rem;
-  transition: color 0.4s ease;
+h2,
+h3 {
+  font-weight: 600;
 }
 
 p {
-  font-size: 1rem;
   line-height: 1.6;
-  color: var(--text-main);
-  transition: color 0.4s ease;
 }
 
-/* Ajustes responsivos para celulares */
+/* =========================================
+   7. RESPONSIVE
+   ========================================= */
+
 @media (max-width: 768px) {
   body {
-    padding: 0.5rem; /* Margen más estrecho en pantallas chicas */
+    padding: 0;
   }
 }

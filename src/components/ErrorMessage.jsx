@@ -1,9 +1,9 @@
-// src/components/ErrorMessage.jsx
 import React from "react";
+import "./ErrorMessage.css";
 
 function ErrorMessage({ message }) {
   return (
-    <div style={{ color: "red", marginTop: "10px" }}>
+    <div className="error-message">
       <p>⚠️ {message}</p>
     </div>
   );

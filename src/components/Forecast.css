@@ -1,0 +1,149 @@
+.forecast-section {
+  margin-top: 1rem;
+}
+
+.forecast-section h3 {
+  margin-bottom: 1rem;
+
+  color: var(--text-main);
+
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Contenedor */
+
+.forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Día */
+
+.forecast-day {
+  display: grid;
+  grid-template-columns: 90px 70px 1fr 45px;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.9rem 1rem;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+
+  color: var(--text-main);
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.forecast-day strong {
+  color: var(--text-main);
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  text-transform: capitalize;
+}
+
+/* Temperaturas */
+
+.forecast-temperatures {
+  display: flex;
+  gap: 0.4rem;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.forecast-temperatures span:first-child {
+  color: var(--color-temp-cold);
+}
+
+.forecast-temperatures span:last-child {
+  color: var(--color-temp-warm);
+}
+
+/* Barra térmica */
+
+.forecast-range {
+  position: relative;
+
+  height: 6px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border-radius: 999px;
+
+  overflow: hidden;
+}
+
+.forecast-range-bar {
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    var(--color-temp-cold),
+    var(--color-primary),
+    var(--color-temp-warm)
+  );
+
+  border-radius: 999px;
+
+  min-width: 8px;
+}
+
+/* UV */
+
+.forecast-day small {
+  color: var(--text-muted);
+
+  font-size: 0.75rem;
+  text-align: right;
+
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hover */
+
+@media (hover: hover) {
+  .forecast-day:hover {
+    background: var(--surface-card-hover);
+    border-color: var(--surface-border-highlight);
+
+    transform: translateY(-2px);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .forecast-day {
+    grid-template-columns: 80px 65px 1fr 40px;
+
+    gap: 0.5rem;
+    padding: 0.8rem;
+  }
+
+  .forecast-day strong {
+    font-size: 0.8rem;
+  }
+
+  .forecast-temperatures {
+    flex-direction: column;
+    gap: 0.1rem;
+
+    font-size: 0.8rem;
+  }
+
+  .forecast-day small {
+    font-size: 0.7rem;
+  }
+}
