@@ -54,16 +54,19 @@ function App() {
         </div>
       </section>
 
-      {loading && <Loader />}
+      <main className="main-content">
+        {loading && <Loader />}
 
-      {error && <ErrorMessage message={error} />}
+        {error && <ErrorMessage message={error} />}
 
-      {weather && (
-        <WeatherCard weather={weather} />
-      )}
+        {weather && (
+          <WeatherCard weather={weather} />
+        )}
+      </main>
 
-      <footer>
-        ✍️ Creado por Mariano como proyecto de práctica profesional 07/08/2026.
+      <footer className="app-footer">
+        <p>Cielovivo • Datos meteorológicos provistos por Open-Meteo</p>
+        <span>Diseñado y desarrollado por Mariano Moreyra</span>
       </footer>
 
       <Analytics />
