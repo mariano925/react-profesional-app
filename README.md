@@ -1,77 +1,251 @@
 # 🌦️ React Profesional App
 
-Aplicación de práctica en **React** para mostrar información del clima de distintas ciudades.  
-Incluye componentes reutilizables, hooks personalizados y un servicio de datos, con arquitectura organizada en carpetas.
+Aplicación desarrollada con **React + Vite** como proyecto de práctica profesional.
+
+Permite consultar el clima de distintas ciudades mediante la API de **Open-Meteo**, mostrando información meteorológica actual, pronóstico por hora, pronóstico de 7 días y ubicación mediante un mapa interactivo.
+
+El proyecto está organizado mediante componentes reutilizables, hooks personalizados y separación de responsabilidades.
 
 ---
 
-## 📂 Componentes
+## 🚀 Características
+
+* 🔎 Búsqueda del clima por ciudad.
+* 🌡️ Temperatura actual y sensación térmica.
+* 💨 Velocidad y dirección del viento.
+* 💧 Humedad.
+* ☀️ Índice UV.
+* ◉ Presión atmosférica.
+* 📈 Temperaturas máximas y mínimas.
+* 🕐 Pronóstico por hora.
+* 📅 Pronóstico extendido de 7 días.
+* 🗺️ Mapa interactivo con Leaflet.
+* 🌙 Modo claro y modo oscuro.
+* 💾 Persistencia de preferencias mediante `localStorage`.
+* ⏳ Indicador de carga.
+* ⚠️ Manejo de errores.
+* 📊 Vercel Analytics.
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+* **React**
+* **Vite**
+* **JavaScript**
+* **CSS**
+* **Open-Meteo API**
+* **Leaflet**
+* **React Leaflet**
+* **Vercel**
+* **Vercel Analytics**
+
+---
+
+## 📂 Estructura principal
 
 ### `App.jsx`
-- Punto de entrada principal de la aplicación.
-- Maneja el estado global (`city`, `weather`, `error`).
-- Conecta los componentes `SearchBar`, `WeatherCard`, `ErrorMessage` y `Loader`.
-- Integra `WeatherProvider` y `useLocalStorage`.
 
-### `SearchBar.jsx`
-- Barra de búsqueda para ingresar el nombre de la ciudad.
-- Dispara la función `onSearch` al enviar el formulario.
+Punto principal de la aplicación.
+
+Se encarga de:
+
+* Gestionar la ciudad seleccionada.
+* Gestionar el modo claro/oscuro.
+* Ejecutar la búsqueda del clima.
+* Mostrar estados de carga y error.
+* Renderizar `WeatherCard`.
 
 ### `WeatherCard.jsx`
-- Muestra los datos del clima: ciudad, temperatura y descripción.
-- Se renderiza solo cuando hay información disponible.
 
-### `ErrorMessage.jsx`
-- Componente simple para mostrar mensajes de error.
-- Ejemplo: “⚠️ No se pudo obtener el clima de esa ciudad.”
+Actúa como componente principal de presentación de los datos meteorológicos.
+
+Conecta:
+
+* `CurrentWeather`
+* `HourlyForecast`
+* `Forecast`
+* `WeatherMap`
+
+### `CurrentWeather.jsx`
+
+Muestra la información meteorológica actual:
+
+* Ciudad.
+* Temperatura.
+* Sensación térmica.
+* Descripción.
+* Máxima y mínima.
+* Viento y dirección.
+* Humedad.
+* Índice UV.
+* Presión atmosférica.
+
+### `HourlyForecast.jsx`
+
+Muestra el pronóstico meteorológico de las próximas horas mediante un carrusel horizontal.
+
+### `Forecast.jsx`
+
+Muestra el pronóstico extendido de 7 días, incluyendo temperaturas máximas, mínimas y rango térmico.
+
+### `WeatherMap.jsx`
+
+Muestra la ubicación de la ciudad mediante un mapa interactivo utilizando **Leaflet**.
+
+### `SearchBar.jsx`
+
+Permite introducir una ciudad y ejecutar una nueva búsqueda.
 
 ### `Loader.jsx`
-- Indica que la aplicación está cargando datos.
-- Mejora la experiencia de usuario durante las consultas.
+
+Indica visualmente que la aplicación está obteniendo información.
+
+### `ErrorMessage.jsx`
+
+Muestra mensajes cuando no es posible obtener los datos meteorológicos.
 
 ---
 
 ## 🔑 Servicios
 
 ### `weatherService.js`
-- Contiene la función `getWeather(city)`.
-- Actualmente devuelve datos **mockeados** (simulados).
-- Preparado para integrarse con una API pública (ej. OpenWeatherMap) usando `fetch`.
+
+Centraliza la comunicación con la API de **Open-Meteo**.
+
+Se encarga de obtener y transformar los datos meteorológicos antes de entregarlos a la aplicación.
+
+Flujo principal:
+
+```text
+Open-Meteo
+     ↓
+weatherService.js
+     ↓
+useWeather.js
+     ↓
+App.jsx
+     ↓
+WeatherCard.jsx
+     ↓
+Componentes meteorológicos
+```
 
 ---
 
 ## 🪝 Hooks
 
 ### `useWeather.js`
-- Encapsula la lógica de obtención de datos del clima.
-- Maneja `loading`, `error` y `weather`.
+
+Encapsula la lógica relacionada con la obtención del clima.
+
+Gestiona:
+
+* `weather`
+* `loading`
+* `error`
 
 ### `useLocalStorage.js`
-- Permite guardar y recuperar valores en `localStorage`.
-- Ejemplo: recordar la última ciudad buscada.
+
+Permite guardar información en `localStorage` y recuperarla cuando se vuelve a cargar la aplicación.
+
+Actualmente se utiliza para conservar:
+
+* Última ciudad seleccionada.
+* Preferencia de modo claro/oscuro.
 
 ### `useForm.js`
-- Manejo de formularios controlados.
-- Incluye funciones para cambios y reseteo.
+
+Hook utilizado para trabajar con formularios controlados y gestionar sus cambios y reseteo.
 
 ---
 
-## 🌐 Context
+## 🎨 Diseño
 
-### `WeatherContext.jsx`
-- Define un contexto global para compartir estado (`city`, `weather`) entre componentes.
-- Se utiliza mediante `WeatherProvider`.
+La interfaz utiliza un estilo **Glassmorphism**, con:
 
----
+* Superficies translúcidas.
+* Desenfoque de fondo.
+* Bordes sutiles.
+* Sombras ambientales.
+* Diseño responsive.
+* Adaptación para modo claro y oscuro.
 
-## 🚀 Objetivo
-Practicar:
-- Arquitectura modular en React.
-- Manejo de estado y props.
-- Integración futura con APIs externas.
-- Buenas prácticas de commits y documentación.
-- Uso de **hooks** y **context** para escalabilidad.
+El objetivo es mantener una interfaz moderna sin depender de una biblioteca de componentes visuales.
 
 ---
 
-✍️ Creado por Mariano como proyecto de aprendizaje y práctica profesional.
+## 📱 Responsive
+
+La aplicación está adaptada para diferentes tamaños de pantalla.
+
+En dispositivos móviles se realizan ajustes específicos para:
+
+* Espaciado.
+* Tarjetas.
+* Pronóstico por hora.
+* Pronóstico semanal.
+* Visualización del mapa.
+
+---
+
+## 📊 Arquitectura
+
+El proyecto busca practicar una arquitectura modular basada en la separación de responsabilidades:
+
+```text
+Componentes
+     ↓
+Hooks
+     ↓
+Servicio de datos
+     ↓
+API externa
+```
+
+Esta estructura facilita el mantenimiento y permite continuar ampliando la aplicación.
+
+---
+
+## 🎯 Objetivos de aprendizaje
+
+Este proyecto fue desarrollado para practicar:
+
+* Arquitectura modular en React.
+* Componentes reutilizables.
+* Props y estado.
+* Hooks personalizados.
+* `useEffect`.
+* Persistencia con `localStorage`.
+* Consumo de APIs externas.
+* Manejo de estados de carga y error.
+* Integración de mapas.
+* Diseño responsive.
+* Organización de estilos CSS.
+* Control de versiones con Git y GitHub.
+* Deploy mediante Vercel.
+
+---
+
+## 🌐 API
+
+Los datos meteorológicos son proporcionados por **Open-Meteo**.
+
+La aplicación utiliza sus servicios para obtener información de:
+
+* Clima actual.
+* Pronóstico horario.
+* Pronóstico diario.
+* Variables meteorológicas adicionales.
+
+---
+
+## ✍️ Autor
+
+Creado por **Mariano Moreyra** como proyecto de aprendizaje y práctica profesional.
+
+---
+
+## 📌 Estado del proyecto
+
+Proyecto de aprendizaje en evolución, utilizado para incorporar progresivamente nuevas funcionalidades y mejorar la arquitectura, diseño y experiencia de usuario.
