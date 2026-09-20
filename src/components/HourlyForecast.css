@@ -63,7 +63,7 @@
   font-weight: 600;
 }
 
-/* Carrusel de cada franja */
+/* Carrusel */
 
 .hourly-track {
   display: flex;
@@ -121,16 +121,14 @@
   position: relative;
   z-index: 1;
 
-  transform: scale(1);
-
   transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease,
     box-shadow 0.25s ease;
 }
 
-/* Tarjeta centrada */
+/* Tarjeta que está en el centro */
 
 .hourly-card.is-centered {
   transform: scale(1.04);
@@ -224,6 +222,7 @@
 
   .hourly-track {
     overflow-x: visible;
+
     padding-left: 0;
     padding-right: 0;
 
@@ -246,10 +245,15 @@
     width: 100%;
   }
 
+  /* En escritorio no hay efecto de tarjeta centrada */
+
   .hourly-card.is-centered {
-    transform: scale(1);
+    transform: none;
+
     background: rgba(255, 255, 255, 0.04);
+
     border-color: var(--surface-border);
+
     box-shadow: none;
   }
 }
@@ -269,13 +273,14 @@
     gap: 0.7rem;
 
     /*
-     * Dejamos espacio para que la primera y la última
-     * tarjeta también puedan llegar al centro.
+     * Permite que la primera y la última
+     * tarjeta puedan llegar al centro.
      */
     padding-left: calc(50% - 50px);
     padding-right: calc(50% - 50px);
 
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
+
     scroll-padding-inline: 50%;
   }
 
@@ -285,6 +290,7 @@
     min-width: 100px;
 
     scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
 
   .hourly-card {
@@ -347,5 +353,8 @@
   .hourly-card {
     transition: none;
   }
-}
 
+  .hourly-track {
+    scroll-behavior: auto;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./HourlyForecast.css";
 
 // Convierte el código meteorológico y el momento del día
@@ -13,6 +13,7 @@ function getWeatherIcon(code, isDay) {
   if (code >= 80 && code <= 82) return "🌧️";
   if (code >= 85 && code <= 86) return "🌨️";
   if (code >= 95 && code <= 99) return "⛈️";
+
   return isDay ? "🌤️" : "🌙";
 }
 
@@ -85,44 +86,57 @@ function getTimePeriod(hour) {
 
 function HourlyForecast({ hourly, timezone }) {
   const [centeredHour, setCenteredHour] = useState(null);
+  const sectionRef = useRef(null);
 
-  if (!hourly || hourly.length === 0) return null;
+  const cityCurrentHour = hourly
+    ? getCityCurrentHour(timezone)
+    : null;
 
-  const cityCurrentHour = getCityCurrentHour(timezone);
-
-  const currentHourIndex = hourly.findIndex(
-    (hour) => hour.time >= cityCurrentHour
-  );
+  const currentHourIndex = hourly
+    ? hourly.findIndex((hour) => hour.time >= cityCurrentHour)
+    : -1;
 
   const startIndex = currentHourIndex >= 0 ? currentHourIndex : 0;
 
   // Conservamos solamente las próximas 24 horas.
-  const visibleHours = hourly.slice(startIndex, startIndex + 24);
+  const visibleHours = hourly
+    ? hourly.slice(startIndex, startIndex + 24)
+    : [];
 
-  // Detecta qué tarjeta está más cerca del centro del carrusel.
+  // Detecta la tarjeta más cercana al centro del carrusel.
   useEffect(() => {
+    if (!visibleHours.length) return;
+
+    const section = sectionRef.current;
+
+    if (!section) return;
+
     const updateCenteredCard = () => {
       if (window.innerWidth >= 768) {
         setCenteredHour(null);
         return;
       }
 
-      const tracks = document.querySelectorAll(".hourly-track");
+      const tracks = section.querySelectorAll(".hourly-track");
 
       let closestHour = null;
       let closestDistance = Infinity;
 
       tracks.forEach((track) => {
         const trackRect = track.getBoundingClientRect();
-        const trackCenter = trackRect.left + trackRect.width / 2;
+        const trackCenter =
+          trackRect.left + trackRect.width / 2;
 
         const cards = track.querySelectorAll(".hourly-card");
 
         cards.forEach((card) => {
           const cardRect = card.getBoundingClientRect();
-          const cardCenter = cardRect.left + cardRect.width / 2;
+          const cardCenter =
+            cardRect.left + cardRect.width / 2;
 
-          const distance = Math.abs(trackCenter - cardCenter);
+          const distance = Math.abs(
+            trackCenter - cardCenter
+          );
 
           if (distance < closestDistance) {
             closestDistance = distance;
@@ -141,10 +155,12 @@ function HourlyForecast({ hourly, timezone }) {
         cancelAnimationFrame(animationFrame);
       }
 
-      animationFrame = requestAnimationFrame(updateCenteredCard);
+      animationFrame = requestAnimationFrame(
+        updateCenteredCard
+      );
     };
 
-    const tracks = document.querySelectorAll(".hourly-track");
+    const tracks = section.querySelectorAll(".hourly-track");
 
     tracks.forEach((track) => {
       track.addEventListener("scroll", handleScroll, {
@@ -169,6 +185,8 @@ function HourlyForecast({ hourly, timezone }) {
     };
   }, [visibleHours.length]);
 
+  if (!hourly || hourly.length === 0) return null;
+
   // Agrupamos las horas según el momento del día.
   const periods = {
     madrugada: [],
@@ -185,7 +203,10 @@ function HourlyForecast({ hourly, timezone }) {
   });
 
   return (
-    <section className="hourly-section">
+    <section
+      ref={sectionRef}
+      className="hourly-section"
+    >
       <div className="hourly-header">
         <h3>Pronóstico por hora</h3>
 
@@ -196,6 +217,7 @@ function HourlyForecast({ hourly, timezone }) {
 
       {visibleHours.map((hour, index) => {
         const currentDate = hour.time.slice(0, 10);
+
         const previousDate =
           index > 0
             ? visibleHours[index - 1].time.slice(0, 10)
@@ -210,75 +232,89 @@ function HourlyForecast({ hourly, timezone }) {
           <div key={currentDate} className="hourly-day">
             <h4>{formatDayLabel(currentDate)}</h4>
 
-            {Object.entries(periods).map(([periodId, periodHours]) => {
-              const hoursForDay = periodHours.filter(
-                (periodHour) =>
-                  periodHour.time.slice(0, 10) === currentDate
-              );
+            {Object.entries(periods).map(
+              ([periodId, periodHours]) => {
+                const hoursForDay = periodHours.filter(
+                  (periodHour) =>
+                    periodHour.time.slice(0, 10) ===
+                    currentDate
+                );
 
-              if (hoursForDay.length === 0) return null;
+                if (hoursForDay.length === 0) return null;
 
-              const period = getTimePeriod(
-                Number(hoursForDay[0].time.slice(11, 13))
-              );
+                const period = getTimePeriod(
+                  Number(
+                    hoursForDay[0].time.slice(11, 13)
+                  )
+                );
 
-              return (
-                <div
-                  key={`${currentDate}-${periodId}`}
-                  className="hourly-period"
-                >
-                  <div className="hourly-period-header">
-                    <h5>
-                      {period.icon} {period.label}
-                    </h5>
-                  </div>
+                return (
+                  <div
+                    key={`${currentDate}-${periodId}`}
+                    className="hourly-period"
+                  >
+                    <div className="hourly-period-header">
+                      <h5>
+                        {period.icon} {period.label}
+                      </h5>
+                    </div>
 
-                  <div className="hourly-track">
-                    {hoursForDay.map((hour) => {
-                      const isCentered =
-                        centeredHour === hour.time;
+                    <div className="hourly-track">
+                      {hoursForDay.map((hour) => {
+                        const isCentered =
+                          centeredHour === hour.time;
 
-                      return (
-                        <div
-                          key={hour.time}
-                          className="hourly-item"
-                        >
+                        return (
                           <div
-                            className={`hourly-card ${
-                              isCentered ? "is-centered" : ""
-                            }`}
-                            data-hour={hour.time}
+                            key={hour.time}
+                            className="hourly-item"
                           >
-                            <strong>
-                              {hour.time.slice(11, 16)}
-                            </strong>
+                            <div
+                              className={`hourly-card ${
+                                isCentered
+                                  ? "is-centered"
+                                  : ""
+                              }`}
+                              data-hour={hour.time}
+                            >
+                              <strong>
+                                {hour.time.slice(11, 16)}
+                              </strong>
 
-                            <span className="hourly-temperature">
-                              {Math.round(hour.temperature)}°
-                            </span>
+                              <span className="hourly-temperature">
+                                {Math.round(
+                                  hour.temperature
+                                )}
+                                °
+                              </span>
 
-                            <span className="hourly-icon">
-                              {getWeatherIcon(
-                                hour.weatherCode,
-                                hour.isDay
-                              )}
-                            </span>
+                              <span className="hourly-icon">
+                                {getWeatherIcon(
+                                  hour.weatherCode,
+                                  hour.isDay
+                                )}
+                              </span>
 
-                            <span className="hourly-description">
-                              {hour.description}
-                            </span>
+                              <span className="hourly-description">
+                                {hour.description}
+                              </span>
 
-                            <span className="hourly-rain">
-                              💧{hour.precipitationProbability}%
-                            </span>
+                              <span className="hourly-rain">
+                                💧
+                                {
+                                  hour.precipitationProbability
+                                }
+                                %
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
         );
       })}
@@ -287,4 +323,3 @@ function HourlyForecast({ hourly, timezone }) {
 }
 
 export default HourlyForecast;
-
