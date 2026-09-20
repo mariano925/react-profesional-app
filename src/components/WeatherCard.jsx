@@ -5,6 +5,7 @@ import HourlyForecast from "./HourlyForecast";
 import CurrentWeather from "./CurrentWeather";
 import WeatherMap from "./WeatherMap";
 import TemperatureChart from "./TemperatureChart";
+import RainChart from "./RainChart";
 
 function WeatherCard({ weather }) {
   const {
@@ -55,6 +56,10 @@ function WeatherCard({ weather }) {
       <TemperatureChart
         hourly={hourly}
         timezone={timezone}
+      />
+
+      <RainChart
+        hourly={hourly}
       />
 
       <Forecast forecast={forecast} />
