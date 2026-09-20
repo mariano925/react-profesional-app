@@ -20,6 +20,7 @@
   /* Vidrio más limpio y sutil */
   --surface-card: rgba(255, 255, 255, 0.62);
   --surface-card-hover: rgba(255, 255, 255, 0.78);
+  --surface-app-mobile: rgba(255, 255, 255, 0.45);
 
   /* Bordes más delicados */
   --surface-border: rgba(15, 23, 42, 0.08);
@@ -46,6 +47,7 @@ body.dark {
   /* Vidrio oscuro más transparente */
   --surface-card: rgba(19, 27, 46, 0.58);
   --surface-card-hover: rgba(30, 41, 67, 0.76);
+  --surface-app-mobile: rgba(19, 27, 46, 0.42);
 
   /* Bordes sutiles */
   --surface-border: rgba(255, 255, 255, 0.10);
