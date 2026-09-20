@@ -1,30 +1,39 @@
-# 🌦️ React Profesional App
+# 🌦️ Cielovivo — React Profesional App
 
 Aplicación desarrollada con **React + Vite** como proyecto de práctica profesional.
 
-Permite consultar el clima de distintas ciudades mediante la API de **Open-Meteo**, mostrando información meteorológica actual, pronóstico por hora, pronóstico de 7 días y ubicación mediante un mapa interactivo.
+Permite consultar el clima de distintas ciudades mediante la API de **Open-Meteo**, mostrando información meteorológica actual, pronóstico por hora, pronóstico extendido, visualización de datos y ubicación mediante un mapa interactivo.
 
 El proyecto está organizado mediante componentes reutilizables, hooks personalizados y separación de responsabilidades.
 
 ---
 
-## 🚀 Características
+## 🚀 Características actuales
 
 * 🔎 Búsqueda del clima por ciudad.
 * 🌡️ Temperatura actual y sensación térmica.
 * 💨 Velocidad y dirección del viento.
-* 💧 Humedad.
-* ☀️ Índice UV.
+* 💧 Humedad con interpretación.
+* ☀️ Índice UV con interpretación.
 * ◉ Presión atmosférica.
 * 📈 Temperaturas máximas y mínimas.
-* 🕐 Pronóstico por hora.
-* 📅 Pronóstico extendido de 7 días.
+* 🌅 Hora de salida y puesta del sol.
+* ☀️🌙 Indicador de día y noche según la ubicación consultada.
+* 🕐 Pronóstico de las próximas 24 horas.
+* 🌙 Pronóstico horario organizado por madrugada, mañana, tarde y noche.
+* 📅 Pronóstico de los próximos días.
+* 📈 Gráfica de evolución de temperatura durante las próximas 24 horas.
+* 🌧️ Gráfica de probabilidad de lluvia durante las próximas 24 horas.
 * 🗺️ Mapa interactivo con Leaflet.
 * 🌙 Modo claro y modo oscuro.
 * 💾 Persistencia de preferencias mediante `localStorage`.
 * ⏳ Indicador de carga.
 * ⚠️ Manejo de errores.
 * 📊 Vercel Analytics.
+* 📱 Diseño responsive.
+* ↔️ Desplazamiento horizontal del pronóstico horario en dispositivos móviles.
+* 🎠 Carrusel responsive para el pronóstico de los próximos días.
+* ♿ Consideraciones progresivas de accesibilidad y experiencia de usuario.
 
 ---
 
@@ -37,6 +46,7 @@ El proyecto está organizado mediante componentes reutilizables, hooks personali
 * **Open-Meteo API**
 * **Leaflet**
 * **React Leaflet**
+* **Embla Carousel React**
 * **Vercel**
 * **Vercel Analytics**
 
@@ -64,6 +74,8 @@ Conecta:
 
 * `CurrentWeather`
 * `HourlyForecast`
+* `TemperatureChart`
+* `RainChart`
 * `Forecast`
 * `WeatherMap`
 
@@ -77,17 +89,62 @@ Muestra la información meteorológica actual:
 * Descripción.
 * Máxima y mínima.
 * Viento y dirección.
-* Humedad.
-* Índice UV.
+* Humedad e interpretación.
+* Índice UV e interpretación.
 * Presión atmosférica.
+* Hora de salida del sol.
+* Hora de puesta del sol.
+* Indicador de día o noche.
 
 ### `HourlyForecast.jsx`
 
-Muestra el pronóstico meteorológico de las próximas horas mediante un carrusel horizontal.
+Muestra el pronóstico meteorológico de las próximas 24 horas.
+
+La información está organizada visualmente por:
+
+* 🌙 Madrugada.
+* ☀️ Mañana.
+* 🌤️ Tarde.
+* 🌙 Noche.
+
+Cada período dispone de desplazamiento horizontal para consultar las diferentes horas.
+
+### `TemperatureChart.jsx`
+
+Muestra la evolución de la temperatura durante las próximas 24 horas mediante una gráfica de líneas.
+
+Incluye:
+
+* Temperatura prevista por hora.
+* Valores destacados.
+* Horarios correspondientes.
+* Temperatura mínima y máxima del período.
+
+### `RainChart.jsx`
+
+Muestra la probabilidad de lluvia durante las próximas 24 horas mediante una gráfica de barras.
+
+Incluye:
+
+* Probabilidad de precipitación por hora.
+* Horarios correspondientes.
+* Porcentaje máximo previsto.
+* Visualización responsive.
 
 ### `Forecast.jsx`
 
-Muestra el pronóstico extendido de 7 días, incluyendo temperaturas máximas, mínimas y rango térmico.
+Muestra el pronóstico extendido de los próximos días.
+
+Incluye:
+
+* Fecha.
+* Ícono meteorológico.
+* Temperatura mínima.
+* Temperatura máxima.
+* Rango térmico visual.
+* Índice UV.
+
+La información se presenta mediante un carrusel responsive.
 
 ### `WeatherMap.jsx`
 
@@ -184,8 +241,38 @@ En dispositivos móviles se realizan ajustes específicos para:
 * Espaciado.
 * Tarjetas.
 * Pronóstico por hora.
-* Pronóstico semanal.
+* Desplazamiento horizontal de las franjas horarias.
+* Pronóstico de los próximos días.
+* Carrusel del pronóstico.
+* Gráficas meteorológicas.
 * Visualización del mapa.
+
+---
+
+## ♿ UX y accesibilidad
+
+El proyecto incorpora progresivamente principios de **User Experience (UX)** y accesibilidad.
+
+Se busca que la información meteorológica sea:
+
+* Fácil de encontrar.
+* Fácil de comprender.
+* Clara en diferentes tamaños de pantalla.
+* Utilizable mediante diferentes formas de interacción.
+* Visualmente consistente.
+* Accesible para diferentes tipos de usuarios.
+
+También se tienen en cuenta aspectos como:
+
+* Contraste de colores.
+* Estados de foco visibles.
+* Diseño responsive.
+* Reducción de movimiento cuando el usuario lo solicita mediante `prefers-reduced-motion`.
+* Reducción de carga cognitiva.
+* Jerarquía visual de la información.
+* Presentación progresiva de información secundaria.
+
+La prioridad de la interfaz es presentar primero la información meteorológica más relevante y dejar la información secundaria en niveles posteriores.
 
 ---
 
@@ -220,10 +307,69 @@ Este proyecto fue desarrollado para practicar:
 * Consumo de APIs externas.
 * Manejo de estados de carga y error.
 * Integración de mapas.
+* Visualización de datos mediante SVG.
 * Diseño responsive.
 * Organización de estilos CSS.
+* Integración de carruseles.
 * Control de versiones con Git y GitHub.
 * Deploy mediante Vercel.
+* Principios de UX y accesibilidad.
+
+---
+
+## 📌 Funcionalidades pendientes
+
+Las siguientes funcionalidades forman parte de las próximas etapas de desarrollo:
+
+1. 📝 **Resumen automático del clima**
+
+   * Generar una descripción sencilla de las condiciones actuales y próximas.
+   * Utilizar los datos meteorológicos existentes para facilitar su interpretación.
+
+2. 🔄 **Actualizar clima manualmente**
+
+   * Permitir volver a consultar los datos sin cambiar de ciudad.
+
+3. 📍 **Usar mi ubicación**
+
+   * Permitir consultar automáticamente el clima de la ubicación del usuario mediante geolocalización del navegador.
+
+4. ⭐ **Ciudades favoritas**
+
+   * Guardar ciudades frecuentes para acceder rápidamente a ellas.
+
+5. 📤 **Compartir el pronóstico**
+
+   * Permitir compartir información meteorológica mediante las opciones disponibles en el dispositivo o navegador.
+
+6. 🌧️ **Resumen de lluvia**
+
+   * Identificar durante qué período del día existe mayor probabilidad de lluvia.
+   * Complementar la información de la gráfica de precipitación.
+
+7. 💨 **Resumen del viento**
+
+   * Mostrar una interpretación sencilla de la velocidad y dirección del viento.
+
+8. 🌅 **Información solar ampliada**
+
+   * Presentar de forma más visual la información de amanecer, atardecer y duración del día.
+
+9. ⚠️ **Indicadores meteorológicos destacados**
+
+   * Destacar visualmente determinadas condiciones meteorológicas relevantes a partir de los datos disponibles.
+
+10. 🕘 **Última actualización**
+
+    * Mostrar cuándo se consultaron los datos meteorológicos.
+
+11. 🔎 **Historial de búsquedas**
+
+    * Conservar las últimas ciudades consultadas para acceder rápidamente a ellas.
+
+12. 📊 **Comparación de ciudades**
+
+    * Comparar información meteorológica de dos o más ciudades.
 
 ---
 
@@ -236,7 +382,15 @@ La aplicación utiliza sus servicios para obtener información de:
 * Clima actual.
 * Pronóstico horario.
 * Pronóstico diario.
-* Variables meteorológicas adicionales.
+* Temperatura.
+* Sensación térmica.
+* Humedad.
+* Viento.
+* Presión atmosférica.
+* Índice UV.
+* Salida y puesta del sol.
+* Probabilidad de precipitación.
+* Códigos meteorológicos.
 
 ---
 
@@ -248,4 +402,6 @@ Creado por **Mariano Moreyra** como proyecto de aprendizaje y práctica profesio
 
 ## 📌 Estado del proyecto
 
-Proyecto de aprendizaje en evolución, utilizado para incorporar progresivamente nuevas funcionalidades y mejorar la arquitectura, diseño y experiencia de usuario.
+Proyecto de aprendizaje en evolución.
+
+Actualmente se encuentra en una etapa de mejora progresiva de la **experiencia de usuario, accesibilidad, visualización de datos y funcionalidades meteorológicas**, incorporando nuevas características sin backend y manteniendo una arquitectura frontend modular.
