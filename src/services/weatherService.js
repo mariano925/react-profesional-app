@@ -5,7 +5,7 @@ export async function getWeather(city) {
   const geoRes = await fetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
       city
-    )}&count=1`
+    )}&count=1&language=es&format=json`
   );
 
   if (!geoRes.ok) {
@@ -19,6 +19,43 @@ export async function getWeather(city) {
   }
 
   const { latitude, longitude, name, country } = geoData.results[0];
+
+  // 2. Obtener el clima usando las coordenadas encontradas
+  return getWeatherByCoordinates(latitude, longitude, `${name}, ${country}`);
+}
+
+// Obtiene el clima directamente mediante latitud y longitud
+export async function getWeatherByCoordinates(
+  latitude,
+  longitude,
+  locationName = "Tu ubicación"
+) {
+  // 1. Obtener el nombre de la ubicación mediante coordenadas
+  let city = locationName;
+
+  try {
+    const reverseGeoRes = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${latitude}&longitude=${longitude}&count=1&language=es&format=json`
+    );
+
+    if (reverseGeoRes.ok) {
+      const reverseGeoData = await reverseGeoRes.json();
+
+      if (
+        reverseGeoData.results &&
+        reverseGeoData.results.length > 0
+      ) {
+        const result = reverseGeoData.results[0];
+
+        city = result.country
+          ? `${result.name}, ${result.country}`
+          : result.name;
+      }
+    }
+  } catch {
+    // Si falla la geocodificación inversa,
+    // continuamos usando "Tu ubicación".
+  }
 
   // 2. Obtener datos meteorológicos
   const response = await fetch(
@@ -35,9 +72,9 @@ export async function getWeather(city) {
   return {
     latitude,
     longitude,
-    city: `${name}, ${country}`,
+    city,
 
-    // Zona horaria de la ciudad consultada
+    // Zona horaria de la ubicación
     timezone: data.timezone,
     utcOffsetSeconds: data.utc_offset_seconds,
 

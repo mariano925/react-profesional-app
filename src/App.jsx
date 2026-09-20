@@ -14,7 +14,13 @@ function App() {
   const [city, setCity] = useLocalStorage("city", "Gualeguay");
   const [darkMode, setDarkMode] = useLocalStorage("darkMode", false);
 
-  const { weather, loading, error, fetchWeather } = useWeather();
+  const {
+    weather,
+    loading,
+    error,
+    fetchWeather,
+    fetchWeatherByCoordinates,
+  } = useWeather();
 
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
@@ -27,6 +33,17 @@ function App() {
   const handleSearch = async (query) => {
     setCity(query);
     await fetchWeather(query);
+  };
+
+  const handleLocation = async ({ latitude, longitude }) => {
+    const data = await fetchWeatherByCoordinates(
+      latitude,
+      longitude
+    );
+
+    if (data) {
+      setCity(data.city);
+    }
   };
 
   return (
@@ -49,7 +66,10 @@ function App() {
             cualquier ciudad.
           </p>
 
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar
+            onSearch={handleSearch}
+            onLocation={handleLocation}
+          />
         </div>
       </section>
 
@@ -81,4 +101,3 @@ function App() {
 }
 
 export default App;
-
