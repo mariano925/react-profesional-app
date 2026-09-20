@@ -1,0 +1,113 @@
+.temperature-chart {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  color: var(--text-main);
+}
+
+.temperature-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.temperature-chart-header h3 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.temperature-chart-header p {
+  margin: 0.3rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.temperature-chart-range {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.temperature-chart-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.temperature-chart-svg {
+  display: block;
+  width: 100%;
+  min-width: 600px;
+  height: auto;
+  overflow: visible;
+}
+
+.temperature-chart-axis {
+  stroke: var(--surface-border);
+  stroke-width: 1;
+}
+
+.temperature-chart-line {
+  stroke: var(--color-primary);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 3px 6px var(--surface-shadow));
+}
+
+.temperature-chart-point {
+  fill: var(--surface-card);
+  stroke: var(--color-primary);
+  stroke-width: 3;
+}
+
+.temperature-chart-value {
+  fill: var(--text-main);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.temperature-chart-time {
+  fill: var(--text-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 600px) {
+  .temperature-chart {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .temperature-chart-header {
+    align-items: flex-start;
+  }
+
+  .temperature-chart-header h3 {
+    font-size: 0.95rem;
+  }
+
+  .temperature-chart-range {
+    font-size: 0.75rem;
+  }
+
+  .temperature-chart-svg {
+    min-width: 560px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .temperature-chart-line {
+    filter: none;
+  }
+}
