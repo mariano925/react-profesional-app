@@ -2,18 +2,18 @@
   margin-top: 2rem;
 }
 
-/* Encabezado */
+/* Encabezado principal */
 
 .hourly-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .hourly-header h3 {
-  margin-bottom: 0;
+  margin: 0;
   color: var(--text-main);
   font-size: 1.1rem;
   font-weight: 600;
@@ -26,63 +26,98 @@
   white-space: nowrap;
 }
 
-/* Contenedor único de las 24 horas */
+/* Día */
+
+.hourly-day {
+  margin-bottom: 2rem;
+}
+
+.hourly-day > h4 {
+  margin: 0 0 1rem;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* Franja del día */
+
+.hourly-period {
+  margin-bottom: 1.25rem;
+}
+
+.hourly-period:last-child {
+  margin-bottom: 0;
+}
+
+/* Encabezado de la franja */
+
+.hourly-period-header {
+  margin-bottom: 0.65rem;
+}
+
+.hourly-period-header h5 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Carrusel de cada franja */
 
 .hourly-track {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 0.85rem;
+
   overflow-x: auto;
-  padding: 0 0.25rem 0.75rem;
+
+  padding: 0.1rem 0.25rem 0.75rem;
+
   scrollbar-width: none;
+
   -webkit-overflow-scrolling: touch;
+
+  touch-action: pan-x;
 }
 
 .hourly-track::-webkit-scrollbar {
   display: none;
 }
 
-/* Separador de día */
-
-.hourly-day-separator {
-  flex: 0 0 auto;
-  width: 105px;
-  min-height: 180px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0.35rem 0.25rem 0;
-  color: var(--text-main);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-align: center;
-  text-transform: capitalize;
-  line-height: 1.3;
-}
-
-/* Elemento horario */
+/* Cada hora */
 
 .hourly-item {
   flex: 0 0 105px;
   width: 105px;
+  min-width: 105px;
+
   display: flex;
+  box-sizing: border-box;
 }
 
 /* Tarjeta */
 
 .hourly-card {
-  width: 105px;
+  width: 100%;
   min-height: 180px;
+
   box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+
   gap: 0.45rem;
+
   padding: 1rem 0.75rem;
+
   background: rgba(255, 255, 255, 0.04);
+
   border: 1px solid var(--surface-border);
   border-radius: 16px;
+
   color: var(--text-main);
 }
 
@@ -90,7 +125,10 @@
 
 .hourly-card strong {
   color: var(--text-muted);
+
   font-size: 0.8rem;
+  font-weight: 600;
+
   font-variant-numeric: tabular-nums;
 }
 
@@ -98,12 +136,14 @@
 
 .hourly-temperature {
   color: var(--text-main);
+
   font-size: 1.4rem;
   font-weight: 600;
+
   font-variant-numeric: tabular-nums;
 }
 
-/* Icono */
+/* Ícono */
 
 .hourly-icon {
   font-size: 1.4rem;
@@ -114,10 +154,16 @@
 
 .hourly-description {
   color: var(--text-muted);
+
   font-size: 0.7rem;
+
   text-align: center;
-  min-height: 2.1em;
-  max-height: 2.1em;
+
+  line-height: 1.3;
+
+  min-height: 2.6em;
+  max-height: 2.6em;
+
   overflow: hidden;
 }
 
@@ -125,14 +171,23 @@
 
 .hourly-rain {
   color: var(--color-rain);
+
   font-size: 0.75rem;
   font-weight: 500;
+
   font-variant-numeric: tabular-nums;
 }
 
 /* Hover */
 
 @media (hover: hover) {
+  .hourly-card {
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      transform 0.2s ease;
+  }
+
   .hourly-card:hover {
     background: var(--surface-card-hover);
     border-color: var(--surface-border-highlight);
@@ -140,34 +195,26 @@
   }
 }
 
-/* Escritorio */
+/* Tablet y escritorio */
 
 @media (min-width: 768px) {
-  .hourly-header {
+  .hourly-scroll-hint {
     display: block;
   }
 
-  .hourly-scroll-hint {
-    display: none;
-  }
-
   .hourly-track {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 0.85rem;
     overflow-x: visible;
-    padding: 0 0 0.75rem;
-  }
+    padding-left: 0;
+    padding-right: 0;
 
-  .hourly-day-separator {
-    grid-column: 1 / -1;
-    width: auto;
-    min-height: auto;
-    justify-content: flex-start;
-    padding: 0.25rem 0 0;
-    margin-top: 0.25rem;
-    margin-bottom: -0.1rem;
-    text-align: left;
+    display: grid;
+
+    grid-template-columns: repeat(
+      6,
+      minmax(0, 1fr)
+    );
+
+    gap: 0.85rem;
   }
 
   .hourly-item {
@@ -177,5 +224,75 @@
 
   .hourly-card {
     width: 100%;
+  }
+}
+
+/* Pantallas grandes */
+
+@media (min-width: 1200px) {
+  .hourly-track {
+    gap: 1rem;
+  }
+}
+
+/* Móviles */
+
+@media (max-width: 767px) {
+  .hourly-track {
+    gap: 0.7rem;
+  }
+
+  .hourly-item {
+    flex-basis: 100px;
+    width: 100px;
+    min-width: 100px;
+  }
+
+  .hourly-card {
+    min-height: 175px;
+    padding: 0.9rem 0.65rem;
+  }
+
+  .hourly-day {
+    margin-bottom: 1.75rem;
+  }
+
+  .hourly-period {
+    margin-bottom: 1.1rem;
+  }
+}
+
+/* Móviles pequeños */
+
+@media (max-width: 480px) {
+  .hourly-header {
+    align-items: flex-start;
+  }
+
+  .hourly-header h3 {
+    font-size: 1rem;
+  }
+
+  .hourly-period-header h5 {
+    font-size: 0.75rem;
+  }
+
+  .hourly-item {
+    flex-basis: 95px;
+    width: 95px;
+    min-width: 95px;
+  }
+
+  .hourly-card {
+    min-height: 170px;
+    padding: 0.85rem 0.6rem;
+  }
+
+  .hourly-temperature {
+    font-size: 1.3rem;
+  }
+
+  .hourly-description {
+    font-size: 0.68rem;
   }
 }

@@ -4,42 +4,18 @@ import "./HourlyForecast.css";
 // Convierte el código meteorológico y el momento del día
 // en un ícono.
 function getWeatherIcon(code, isDay) {
-  // Cielo despejado
-  if (code === 0) {
-    return isDay ? "☀️" : "🌙";
-  }
-
-  // Mayormente / parcialmente despejado
-  if (code === 1 || code === 2) {
-    return isDay ? "🌤️" : "🌙";
-  }
-
-  // Nublado
+  if (code === 0) return isDay ? "☀️" : "🌙";
+  if (code === 1 || code === 2) return isDay ? "🌤️" : "🌙";
   if (code === 3) return "☁️";
-
-  // Niebla
   if (code === 45 || code === 48) return "🌫️";
-
-  // Lluvia
   if (code >= 51 && code <= 67) return "🌧️";
-
-  // Nieve
   if (code >= 71 && code <= 77) return "🌨️";
-
-  // Chubascos de lluvia
   if (code >= 80 && code <= 82) return "🌧️";
-
-  // Chubascos de nieve
   if (code >= 85 && code <= 86) return "🌨️";
-
-  // Tormenta
   if (code >= 95 && code <= 99) return "⛈️";
-
-  // Valor desconocido
   return isDay ? "🌤️" : "🌙";
 }
 
-// Obtiene la hora actual de la ciudad consultada
 function getCityCurrentHour(timezone) {
   const formatter = new Intl.DateTimeFormat("en-CA", {
     timeZone: timezone,
@@ -51,7 +27,6 @@ function getCityCurrentHour(timezone) {
   });
 
   const parts = formatter.formatToParts(new Date());
-
   const values = {};
 
   parts.forEach((part) => {
@@ -63,11 +38,8 @@ function getCityCurrentHour(timezone) {
   return `${values.year}-${values.month}-${values.day}T${values.hour}:00`;
 }
 
-// Formatea una fecha local de Open-Meteo sin convertirla
-// a la zona horaria de la computadora del usuario.
 function formatDayLabel(dateString) {
   const [year, month, day] = dateString.split("-").map(Number);
-
   const date = new Date(Date.UTC(year, month - 1, day));
 
   return date.toLocaleDateString("es-AR", {
@@ -78,13 +50,42 @@ function formatDayLabel(dateString) {
   });
 }
 
-function HourlyForecast({ hourly, timezone }) {
-  if (!hourly || hourly.length === 0) {
-    return null;
+// Determina a qué momento del día pertenece cada hora.
+function getTimePeriod(hour) {
+  if (hour >= 1 && hour <= 5) {
+    return {
+      id: "madrugada",
+      label: "Madrugada",
+      icon: "🌙",
+    };
   }
 
-  // Obtenemos la hora actual de la ciudad buscada,
-  // no la hora local de la computadora del usuario.
+  if (hour >= 6 && hour <= 11) {
+    return {
+      id: "manana",
+      label: "Mañana",
+      icon: "☀️",
+    };
+  }
+
+  if (hour >= 12 && hour <= 17) {
+    return {
+      id: "tarde",
+      label: "Tarde",
+      icon: "🌤️",
+    };
+  }
+
+  return {
+    id: "noche",
+    label: "Noche",
+    icon: "🌙",
+  };
+}
+
+function HourlyForecast({ hourly, timezone }) {
+  if (!hourly || hourly.length === 0) return null;
+
   const cityCurrentHour = getCityCurrentHour(timezone);
 
   const currentHourIndex = hourly.findIndex(
@@ -93,8 +94,23 @@ function HourlyForecast({ hourly, timezone }) {
 
   const startIndex = currentHourIndex >= 0 ? currentHourIndex : 0;
 
-  // Mostramos las próximas 24 horas como una única secuencia.
+  // Conservamos solamente las próximas 24 horas.
   const visibleHours = hourly.slice(startIndex, startIndex + 24);
+
+  // Agrupamos las horas según el momento del día.
+  const periods = {
+    madrugada: [],
+    manana: [],
+    tarde: [],
+    noche: [],
+  };
+
+  visibleHours.forEach((hour) => {
+    const hourNumber = Number(hour.time.slice(11, 13));
+    const period = getTimePeriod(hourNumber);
+
+    periods[period.id].push(hour);
+  });
 
   return (
     <section className="hourly-section">
@@ -106,52 +122,84 @@ function HourlyForecast({ hourly, timezone }) {
         </span>
       </div>
 
-      <div className="hourly-track">
-        {visibleHours.map((hour, index) => {
-          const currentDate = hour.time.slice(0, 10);
+      {visibleHours.map((hour, index) => {
+        const currentDate = hour.time.slice(0, 10);
+        const previousDate =
+          index > 0
+            ? visibleHours[index - 1].time.slice(0, 10)
+            : null;
 
-          const previousDate =
-            index > 0
-              ? visibleHours[index - 1].time.slice(0, 10)
-              : null;
+        const dayChanged =
+          index === 0 || currentDate !== previousDate;
 
-          // Detectamos cuándo empieza un nuevo día.
-          const dayChanged =
-            index === 0 || currentDate !== previousDate;
+        if (!dayChanged) return null;
 
-          return (
-            <React.Fragment key={hour.time}>
-              {dayChanged && (
-                <div className="hourly-day-separator">
-                  {formatDayLabel(currentDate)}
+        return (
+          <div key={currentDate} className="hourly-day">
+            <h4>{formatDayLabel(currentDate)}</h4>
+
+            {Object.entries(periods).map(([periodId, periodHours]) => {
+              const hoursForDay = periodHours.filter(
+                (periodHour) =>
+                  periodHour.time.slice(0, 10) === currentDate
+              );
+
+              if (hoursForDay.length === 0) return null;
+
+              const period = getTimePeriod(
+                Number(hoursForDay[0].time.slice(11, 13))
+              );
+
+              return (
+                <div
+                  key={`${currentDate}-${periodId}`}
+                  className="hourly-period"
+                >
+                  <div className="hourly-period-header">
+                    <h5>
+                      {period.icon} {period.label}
+                    </h5>
+                  </div>
+
+                  <div className="hourly-track">
+                    {hoursForDay.map((hour) => (
+                      <div
+                        key={hour.time}
+                        className="hourly-item"
+                      >
+                        <div className="hourly-card">
+                          <strong>
+                            {hour.time.slice(11, 16)}
+                          </strong>
+
+                          <span className="hourly-temperature">
+                            {Math.round(hour.temperature)}°
+                          </span>
+
+                          <span className="hourly-icon">
+                            {getWeatherIcon(
+                              hour.weatherCode,
+                              hour.isDay
+                            )}
+                          </span>
+
+                          <span className="hourly-description">
+                            {hour.description}
+                          </span>
+
+                          <span className="hourly-rain">
+                            💧{hour.precipitationProbability}%
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              )}
-
-              <div className="hourly-item">
-                <div className="hourly-card">
-                  <strong>{hour.time.slice(11, 16)}</strong>
-
-                  <span className="hourly-temperature">
-                    {Math.round(hour.temperature)}°
-                  </span>
-
-                  <span className="hourly-icon">
-                    {getWeatherIcon(hour.weatherCode, hour.isDay)}
-                  </span>
-
-                  <span className="hourly-description">
-                    {hour.description}
-                  </span>
-
-                  <span className="hourly-rain">
-                    💧{hour.precipitationProbability}%
-                  </span>
-                </div>
-              </div>
-            </React.Fragment>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </section>
   );
 }

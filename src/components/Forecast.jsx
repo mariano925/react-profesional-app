@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import "./Forecast.css";
 
 // Convierte el código meteorológico en un ícono
@@ -27,6 +29,23 @@ function getWeatherIcon(code) {
 }
 
 function Forecast({ forecast }) {
+  // Embla debe ejecutarse siempre en el mismo orden.
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    containScroll: "trimSnaps",
+  });
+
+  // Avanza un día.
+  const scrollNext = useCallback(() => {
+    emblaApi?.scrollNext();
+  }, [emblaApi]);
+
+  // Retrocede un día.
+  const scrollPrev = useCallback(() => {
+    emblaApi?.scrollPrev();
+  }, [emblaApi]);
+
+  // Si todavía no hay pronóstico, no mostramos nada.
   if (!forecast || forecast.length === 0) {
     return null;
   }
@@ -47,46 +66,70 @@ function Forecast({ forecast }) {
 
   return (
     <section className="forecast-section">
-      <h3>📅 Próximos días</h3>
+      <div className="forecast-header">
+        <h3>📅 Próximos días</h3>
 
-      <div className="forecast">
-        {visibleForecast.map((day) => {
-          const start = ((day.min - weekMin) / range) * 100;
-          const width = ((day.max - day.min) / range) * 100;
+        <div className="forecast-controls">
+          <button
+            type="button"
+            className="forecast-control"
+            onClick={scrollPrev}
+            aria-label="Ver días anteriores"
+          >
+            ←
+          </button>
 
-          return (
-            <div key={day.date} className="forecast-day">
-              <strong>
-                {new Date(day.date).toLocaleDateString("es-AR", {
-                  weekday: "short",
-                  day: "numeric",
-                  month: "short",
-                })}
-              </strong>
+          <button
+            type="button"
+            className="forecast-control"
+            onClick={scrollNext}
+            aria-label="Ver días siguientes"
+          >
+            →
+          </button>
+        </div>
+      </div>
 
-              <span className="forecast-icon">
-                {getWeatherIcon(day.weatherCode)}
-              </span>
+      <div className="forecast-viewport" ref={emblaRef}>
+        <div className="forecast">
+          {visibleForecast.map((day) => {
+            const start = ((day.min - weekMin) / range) * 100;
+            const width = ((day.max - day.min) / range) * 100;
 
-              <div className="forecast-temperatures">
-                <span>{Math.round(day.min)}°</span>
-                <span>{Math.round(day.max)}°</span>
+            return (
+              <div key={day.date} className="forecast-day">
+                <strong>
+                  {new Date(day.date).toLocaleDateString("es-AR", {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                  })}
+                </strong>
+
+                <span className="forecast-icon">
+                  {getWeatherIcon(day.weatherCode)}
+                </span>
+
+                <div className="forecast-temperatures">
+                  <span>{Math.round(day.min)}°</span>
+                  <span>{Math.round(day.max)}°</span>
+                </div>
+
+                <div className="forecast-range">
+                  <div
+                    className="forecast-range-bar"
+                    style={{
+                      marginLeft: `${start}%`,
+                      width: `${width}%`,
+                    }}
+                  />
+                </div>
+
+                <small>UV {day.uvIndex}</small>
               </div>
-
-              <div className="forecast-range">
-                <div
-                  className="forecast-range-bar"
-                  style={{
-                    marginLeft: `${start}%`,
-                    width: `${width}%`,
-                  }}
-                />
-              </div>
-
-              <small>UV {day.uvIndex}</small>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
