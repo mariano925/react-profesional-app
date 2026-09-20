@@ -1,7 +1,11 @@
+.search-container {
+  width: 100%;
+}
+
 form {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;
   gap: 0.5rem;
 }
 
@@ -71,6 +75,61 @@ form button:focus-visible {
   outline-offset: 3px;
 }
 
+/* Botón de ubicación */
+
+.search-container > button {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 1.2rem;
+  margin: 0 auto;
+  background: var(--surface-card);
+  color: var(--color-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid var(--color-primary);
+  border-radius: 12px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px var(--color-primary-glow);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.search-container > button:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--color-primary-glow);
+}
+
+.search-container > button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.search-container > button:disabled,
+form button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mensaje de error de ubicación */
+
+.location-error {
+  margin: 0.75rem 0 0;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Mobile */
+
 @media (max-width: 480px) {
   form {
     flex-direction: column;
@@ -81,5 +140,8 @@ form button:focus-visible {
     width: 100%;
     border-radius: 12px;
   }
-}
 
+  .search-container > button {
+    width: 100%;
+  }
+}
