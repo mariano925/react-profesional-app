@@ -1,0 +1,215 @@
+.wind-chart {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  color: var(--text-main);
+}
+
+.wind-chart-header {
+  margin-bottom: 1.25rem;
+}
+
+.wind-chart-header h3 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.wind-chart-header p {
+  margin: 0.3rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* Contenedor de las brújulas */
+
+.wind-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(75px, 1fr));
+  gap: 0.75rem;
+  align-items: start;
+}
+
+/* Cada momento */
+
+.wind-compass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.wind-compass-time {
+  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Brújula */
+
+.wind-compass-dial {
+  position: relative;
+  width: 74px;
+  height: 74px;
+  border: 1px solid var(--surface-border);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+/* Referencia visual superior de la brújula */
+
+.wind-compass-dial::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 4px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--text-muted);
+  transform: translateX(-50%);
+}
+
+/* Flecha */
+
+.wind-compass-arrow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  transform-origin: center;
+}
+
+.wind-compass-arrow-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  transform: translate(-50%, -50%);
+}
+
+.wind-compass-arrow-head {
+  position: absolute;
+  top: 50%;
+  right: 1px;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 9px solid var(--color-primary);
+  transform: translateY(-50%);
+}
+
+/* Centro */
+
+.wind-compass-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--surface-card);
+  border: 2px solid var(--color-primary);
+  transform: translate(-50%, -50%);
+}
+
+/* Información */
+
+.wind-compass-direction {
+  margin-top: 0.55rem;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.wind-compass-degrees {
+  margin-top: 0.15rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tablet */
+
+@media (max-width: 760px) {
+  .wind-chart-grid {
+    grid-template-columns: repeat(4, minmax(75px, 1fr));
+    row-gap: 1.25rem;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .wind-chart {
+    margin-top: 1.5rem;
+    padding: 0.85rem;
+    border-radius: 16px;
+  }
+
+  .wind-chart-header {
+    margin-bottom: 1rem;
+  }
+
+  .wind-chart-header h3 {
+    font-size: 0.95rem;
+  }
+
+  .wind-chart-header p {
+    font-size: 0.7rem;
+  }
+
+  .wind-chart-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.9rem 0.25rem;
+  }
+
+  .wind-compass-time {
+    margin-bottom: 0.4rem;
+    font-size: 0.65rem;
+  }
+
+  .wind-compass-dial {
+    width: 58px;
+    height: 58px;
+  }
+
+  .wind-compass-direction {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .wind-compass-degrees {
+    font-size: 0.65rem;
+  }
+
+  .wind-compass-arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+  .wind-compass-arrow-line {
+    width: 24px;
+    height: 2px;
+  }
+
+  .wind-compass-arrow-head {
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 7px;
+  }
+
+  .wind-compass-center {
+    width: 6px;
+    height: 6px;
+  }
+}

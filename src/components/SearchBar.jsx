@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import "./SearchBar.css";
 
-function SearchBar({ onSearch, onLocation }) {
+function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
-  const [locating, setLocating] = useState(false);
-  const [locationError, setLocationError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,66 +12,7 @@ function SearchBar({ onSearch, onLocation }) {
     if (trimmedQuery !== "") {
       onSearch(trimmedQuery);
       setQuery("");
-      setLocationError("");
     }
-  };
-
-  const handleLocation = () => {
-    if (!navigator.geolocation) {
-      setLocationError(
-        "Tu navegador no permite obtener la ubicación."
-      );
-      return;
-    }
-
-    setLocating(true);
-    setLocationError("");
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-
-        setLocating(false);
-
-        onLocation({
-          latitude,
-          longitude,
-        });
-      },
-      (error) => {
-        setLocating(false);
-
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            setLocationError(
-              "No se permitió acceder a tu ubicación."
-            );
-            break;
-
-          case error.POSITION_UNAVAILABLE:
-            setLocationError(
-              "No se pudo determinar tu ubicación."
-            );
-            break;
-
-          case error.TIMEOUT:
-            setLocationError(
-              "La solicitud de ubicación tardó demasiado."
-            );
-            break;
-
-          default:
-            setLocationError(
-              "No se pudo obtener tu ubicación."
-            );
-        }
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 300000,
-      }
-    );
   };
 
   return (
@@ -87,33 +26,12 @@ function SearchBar({ onSearch, onLocation }) {
           placeholder="Ingresa una ciudad..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          disabled={locating}
         />
 
-        <button
-          type="submit"
-          disabled={locating}
-        >
+        <button type="submit">
           Buscar
         </button>
       </form>
-
-      <button
-        type="button"
-        onClick={handleLocation}
-        disabled={locating}
-        aria-label="Usar mi ubicación actual"
-      >
-        {locating
-          ? "📍 Obteniendo ubicación..."
-          : "📍 Usar mi ubicación"}
-      </button>
-
-      {locationError && (
-        <p role="alert" className="location-error">
-          {locationError}
-        </p>
-      )}
     </div>
   );
 }

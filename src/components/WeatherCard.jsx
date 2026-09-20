@@ -6,6 +6,7 @@ import CurrentWeather from "./CurrentWeather";
 import WeatherMap from "./WeatherMap";
 import TemperatureChart from "./TemperatureChart";
 import RainChart from "./RainChart";
+import WindChart from "./WindChart";
 
 function WeatherCard({ weather }) {
   const {
@@ -62,6 +63,10 @@ function WeatherCard({ weather }) {
         hourly={hourly}
       />
 
+      <WindChart
+        hourly={hourly}
+      />
+
       <Forecast forecast={forecast} />
 
       <WeatherMap
@@ -74,3 +79,4 @@ function WeatherCard({ weather }) {
 }
 
 export default WeatherCard;
+

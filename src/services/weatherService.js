@@ -21,7 +21,11 @@ export async function getWeather(city) {
   const { latitude, longitude, name, country } = geoData.results[0];
 
   // 2. Obtener el clima usando las coordenadas encontradas
-  return getWeatherByCoordinates(latitude, longitude, `${name}, ${country}`);
+  return getWeatherByCoordinates(
+    latitude,
+    longitude,
+    `${name}, ${country}`
+  );
 }
 
 // Obtiene el clima directamente mediante latitud y longitud
@@ -30,36 +34,12 @@ export async function getWeatherByCoordinates(
   longitude,
   locationName = "Tu ubicación"
 ) {
-  // 1. Obtener el nombre de la ubicación mediante coordenadas
-  let city = locationName;
+  // Nombre de la ubicación
+  const city = locationName;
 
-  try {
-    const reverseGeoRes = await fetch(
-      `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${latitude}&longitude=${longitude}&count=1&language=es&format=json`
-    );
-
-    if (reverseGeoRes.ok) {
-      const reverseGeoData = await reverseGeoRes.json();
-
-      if (
-        reverseGeoData.results &&
-        reverseGeoData.results.length > 0
-      ) {
-        const result = reverseGeoData.results[0];
-
-        city = result.country
-          ? `${result.name}, ${result.country}`
-          : result.name;
-      }
-    }
-  } catch {
-    // Si falla la geocodificación inversa,
-    // continuamos usando "Tu ubicación".
-  }
-
-  // 2. Obtener datos meteorológicos
+  // Obtener datos meteorológicos
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,surface_pressure&hourly=temperature_2m,precipitation_probability,relative_humidity_2m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset,weather_code&timezone=auto&forecast_days=7`
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,surface_pressure&hourly=temperature_2m,precipitation_probability,relative_humidity_2m,wind_direction_10m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset,weather_code&timezone=auto&forecast_days=7`
   );
 
   if (!response.ok) {
@@ -68,7 +48,7 @@ export async function getWeatherByCoordinates(
 
   const data = await response.json();
 
-  // 3. Transformar los datos para nuestra aplicación
+  // Transformar los datos para nuestra aplicación
   return {
     latitude,
     longitude,
@@ -118,6 +98,7 @@ export async function getWeatherByCoordinates(
       precipitationProbability:
         data.hourly.precipitation_probability[i],
       humidity: data.hourly.relative_humidity_2m[i],
+      windDirection: data.hourly.wind_direction_10m[i],
       weatherCode: data.hourly.weather_code[i],
       isDay: data.hourly.is_day[i],
       description: mapWeatherCode(data.hourly.weather_code[i]),

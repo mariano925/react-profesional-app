@@ -19,7 +19,6 @@ function App() {
     loading,
     error,
     fetchWeather,
-    fetchWeatherByCoordinates,
   } = useWeather();
 
   useEffect(() => {
@@ -33,17 +32,6 @@ function App() {
   const handleSearch = async (query) => {
     setCity(query);
     await fetchWeather(query);
-  };
-
-  const handleLocation = async ({ latitude, longitude }) => {
-    const data = await fetchWeatherByCoordinates(
-      latitude,
-      longitude
-    );
-
-    if (data) {
-      setCity(data.city);
-    }
   };
 
   return (
@@ -66,10 +54,7 @@ function App() {
             cualquier ciudad.
           </p>
 
-          <SearchBar
-            onSearch={handleSearch}
-            onLocation={handleLocation}
-          />
+          <SearchBar onSearch={handleSearch} />
         </div>
       </section>
 
