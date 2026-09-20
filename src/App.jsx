@@ -43,23 +43,35 @@ function App() {
       >
         <div className="hero-content">
           <h1>Cielovivo</h1>
+
           <p>
             El clima de un vistazo. Información meteorológica actualizada de
             cualquier ciudad.
           </p>
+
           <SearchBar onSearch={handleSearch} />
         </div>
       </section>
 
       <main className="main-content">
         {loading && <Loader />}
+
         {error && <ErrorMessage message={error} />}
+
         {weather && <WeatherCard weather={weather} />}
+
         <Horoscope />
       </main>
 
       <footer className="app-footer">
-        <p>Cielovivo • Datos meteorológicos provistos por Open-Meteo</p>
+        <p>
+          Cielovivo • Datos meteorológicos provistos por Open-Meteo
+        </p>
+
+        <p>
+          Horóscopo provisto por Sigastra
+        </p>
+
         <span>Diseñado y desarrollado por Mariano Moreyra</span>
       </footer>
 
@@ -69,3 +81,4 @@ function App() {
 }
 
 export default App;
+
