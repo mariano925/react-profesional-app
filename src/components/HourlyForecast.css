@@ -117,6 +117,31 @@
   border-radius: 16px;
 
   color: var(--text-main);
+
+  position: relative;
+  z-index: 1;
+
+  transform: scale(1);
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Tarjeta centrada */
+
+.hourly-card.is-centered {
+  transform: scale(1.04);
+
+  background: var(--surface-card-hover);
+
+  border-color: var(--surface-border-highlight);
+
+  box-shadow: 0 8px 20px var(--surface-shadow);
+
+  z-index: 2;
 }
 
 /* Hora */
@@ -179,17 +204,14 @@
 /* Hover */
 
 @media (hover: hover) {
-  .hourly-card {
-    transition:
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      transform 0.2s ease;
-  }
-
   .hourly-card:hover {
     background: var(--surface-card-hover);
     border-color: var(--surface-border-highlight);
     transform: translateY(-2px);
+  }
+
+  .hourly-card.is-centered:hover {
+    transform: scale(1.04) translateY(-2px);
   }
 }
 
@@ -223,6 +245,13 @@
   .hourly-card {
     width: 100%;
   }
+
+  .hourly-card.is-centered {
+    transform: scale(1);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--surface-border);
+    box-shadow: none;
+  }
 }
 
 /* Pantallas grandes */
@@ -238,12 +267,24 @@
 @media (max-width: 767px) {
   .hourly-track {
     gap: 0.7rem;
+
+    /*
+     * Dejamos espacio para que la primera y la última
+     * tarjeta también puedan llegar al centro.
+     */
+    padding-left: calc(50% - 50px);
+    padding-right: calc(50% - 50px);
+
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: 50%;
   }
 
   .hourly-item {
     flex-basis: 100px;
     width: 100px;
     min-width: 100px;
+
+    scroll-snap-align: center;
   }
 
   .hourly-card {
@@ -275,6 +316,11 @@
     font-size: 0.75rem;
   }
 
+  .hourly-track {
+    padding-left: calc(50% - 47.5px);
+    padding-right: calc(50% - 47.5px);
+  }
+
   .hourly-item {
     flex-basis: 95px;
     width: 95px;
@@ -294,3 +340,12 @@
     font-size: 0.68rem;
   }
 }
+
+/* Accesibilidad */
+
+@media (prefers-reduced-motion: reduce) {
+  .hourly-card {
+    transition: none;
+  }
+}
+
