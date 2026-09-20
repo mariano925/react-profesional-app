@@ -15,7 +15,8 @@
   --color-temp-warm: #f97316;
   --color-temp-cold: #0284c7;
 
-  --surface-bg: #eaf4fb;
+  /* Fondo cielo muy suave */
+  --surface-bg: #eaf6fd;
 
   /* Vidrio más limpio y sutil */
   --surface-card: rgba(255, 255, 255, 0.62);
@@ -102,14 +103,14 @@ body {
 body {
   background:
     radial-gradient(
-      circle at 20% 20%,
-      rgba(14, 165, 233, 0.15),
-      transparent 35%
+      circle at 20% 15%,
+      rgba(14, 165, 233, 0.20),
+      transparent 38%
     ),
     radial-gradient(
-      circle at 80% 80%,
-      rgba(56, 189, 248, 0.1),
-      transparent 35%
+      circle at 85% 80%,
+      rgba(56, 189, 248, 0.13),
+      transparent 40%
     ),
     var(--surface-bg);
 }
@@ -171,3 +172,4 @@ p {
     scroll-behavior: auto !important;
   }
 }
+

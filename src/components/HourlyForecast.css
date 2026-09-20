@@ -77,8 +77,6 @@
   scrollbar-width: none;
 
   -webkit-overflow-scrolling: touch;
-
-  touch-action: pan-x;
 }
 
 .hourly-track::-webkit-scrollbar {
