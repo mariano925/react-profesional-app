@@ -85,7 +85,11 @@ function getTimePeriod(hour) {
 }
 
 function HourlyForecast({ hourly, timezone }) {
-  const [centeredHour, setCenteredHour] = useState(null);
+  // Guarda las horas centradas de cada carrusel.
+  const [centeredHours, setCenteredHours] = useState(
+    new Set()
+  );
+
   const sectionRef = useRef(null);
 
   const cityCurrentHour = hourly
@@ -96,14 +100,16 @@ function HourlyForecast({ hourly, timezone }) {
     ? hourly.findIndex((hour) => hour.time >= cityCurrentHour)
     : -1;
 
-  const startIndex = currentHourIndex >= 0 ? currentHourIndex : 0;
+  const startIndex =
+    currentHourIndex >= 0 ? currentHourIndex : 0;
 
   // Conservamos solamente las próximas 24 horas.
   const visibleHours = hourly
     ? hourly.slice(startIndex, startIndex + 24)
     : [];
 
-  // Detecta la tarjeta más cercana al centro del carrusel.
+  // Detecta la tarjeta más cercana al centro
+  // de cada carrusel por separado.
   useEffect(() => {
     if (!visibleHours.length) return;
 
@@ -111,26 +117,35 @@ function HourlyForecast({ hourly, timezone }) {
 
     if (!section) return;
 
-    const updateCenteredCard = () => {
+    const updateCenteredCards = () => {
+      // En escritorio no existe efecto de centrado.
       if (window.innerWidth >= 768) {
-        setCenteredHour(null);
+        setCenteredHours(new Set());
         return;
       }
 
-      const tracks = section.querySelectorAll(".hourly-track");
+      const tracks = section.querySelectorAll(
+        ".hourly-track"
+      );
 
-      let closestHour = null;
-      let closestDistance = Infinity;
+      const nextCenteredHours = new Set();
 
       tracks.forEach((track) => {
         const trackRect = track.getBoundingClientRect();
+
         const trackCenter =
           trackRect.left + trackRect.width / 2;
 
-        const cards = track.querySelectorAll(".hourly-card");
+        const cards =
+          track.querySelectorAll(".hourly-card");
+
+        let closestHour = null;
+        let closestDistance = Infinity;
 
         cards.forEach((card) => {
-          const cardRect = card.getBoundingClientRect();
+          const cardRect =
+            card.getBoundingClientRect();
+
           const cardCenter =
             cardRect.left + cardRect.width / 2;
 
@@ -143,9 +158,14 @@ function HourlyForecast({ hourly, timezone }) {
             closestHour = card.dataset.hour;
           }
         });
+
+        // Cada carrusel guarda su propia tarjeta centrada.
+        if (closestHour) {
+          nextCenteredHours.add(closestHour);
+        }
       });
 
-      setCenteredHour(closestHour);
+      setCenteredHours(nextCenteredHours);
     };
 
     let animationFrame = null;
@@ -156,11 +176,13 @@ function HourlyForecast({ hourly, timezone }) {
       }
 
       animationFrame = requestAnimationFrame(
-        updateCenteredCard
+        updateCenteredCards
       );
     };
 
-    const tracks = section.querySelectorAll(".hourly-track");
+    const tracks = section.querySelectorAll(
+      ".hourly-track"
+    );
 
     tracks.forEach((track) => {
       track.addEventListener("scroll", handleScroll, {
@@ -168,16 +190,26 @@ function HourlyForecast({ hourly, timezone }) {
       });
     });
 
-    updateCenteredCard();
+    // Detecta la tarjeta inicial.
+    updateCenteredCards();
 
-    window.addEventListener("resize", updateCenteredCard);
+    window.addEventListener(
+      "resize",
+      updateCenteredCards
+    );
 
     return () => {
       tracks.forEach((track) => {
-        track.removeEventListener("scroll", handleScroll);
+        track.removeEventListener(
+          "scroll",
+          handleScroll
+        );
       });
 
-      window.removeEventListener("resize", updateCenteredCard);
+      window.removeEventListener(
+        "resize",
+        updateCenteredCards
+      );
 
       if (animationFrame) {
         cancelAnimationFrame(animationFrame);
@@ -224,23 +256,32 @@ function HourlyForecast({ hourly, timezone }) {
             : null;
 
         const dayChanged =
-          index === 0 || currentDate !== previousDate;
+          index === 0 ||
+          currentDate !== previousDate;
 
         if (!dayChanged) return null;
 
         return (
-          <div key={currentDate} className="hourly-day">
-            <h4>{formatDayLabel(currentDate)}</h4>
+          <div
+            key={currentDate}
+            className="hourly-day"
+          >
+            <h4>
+              {formatDayLabel(currentDate)}
+            </h4>
 
             {Object.entries(periods).map(
               ([periodId, periodHours]) => {
-                const hoursForDay = periodHours.filter(
-                  (periodHour) =>
-                    periodHour.time.slice(0, 10) ===
-                    currentDate
-                );
+                const hoursForDay =
+                  periodHours.filter(
+                    (periodHour) =>
+                      periodHour.time.slice(0, 10) ===
+                      currentDate
+                  );
 
-                if (hoursForDay.length === 0) return null;
+                if (hoursForDay.length === 0) {
+                  return null;
+                }
 
                 const period = getTimePeriod(
                   Number(
@@ -262,7 +303,7 @@ function HourlyForecast({ hourly, timezone }) {
                     <div className="hourly-track">
                       {hoursForDay.map((hour) => {
                         const isCentered =
-                          centeredHour === hour.time;
+                          centeredHours.has(hour.time);
 
                         return (
                           <div
@@ -278,7 +319,10 @@ function HourlyForecast({ hourly, timezone }) {
                               data-hour={hour.time}
                             >
                               <strong>
-                                {hour.time.slice(11, 16)}
+                                {hour.time.slice(
+                                  11,
+                                  16
+                                )}
                               </strong>
 
                               <span className="hourly-temperature">
