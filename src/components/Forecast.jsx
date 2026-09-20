@@ -12,7 +12,14 @@ function getWeatherIcon(code) {
 
   if (code >= 51 && code <= 67) return "🌧️";
 
-  if (code >= 71 && code <= 86) return "🌨️";
+  // Nieve
+  if (code >= 71 && code <= 77) return "🌨️";
+
+  // Chubascos de lluvia
+  if (code >= 80 && code <= 82) return "🌧️";
+
+  // Chubascos de nieve
+  if (code >= 85 && code <= 86) return "🌨️";
 
   if (code >= 95 && code <= 99) return "⛈️";
 
@@ -24,8 +31,17 @@ function Forecast({ forecast }) {
     return null;
   }
 
-  const weekMin = Math.min(...forecast.map((day) => day.min));
-  const weekMax = Math.max(...forecast.map((day) => day.max));
+  // Mostramos los 6 días siguientes al día actual.
+  const visibleForecast = forecast.slice(1, 7);
+
+  // La escala térmica se calcula solamente sobre los días visibles.
+  const weekMin = Math.min(
+    ...visibleForecast.map((day) => day.min)
+  );
+
+  const weekMax = Math.max(
+    ...visibleForecast.map((day) => day.max)
+  );
 
   const range = weekMax - weekMin || 1;
 
@@ -34,7 +50,7 @@ function Forecast({ forecast }) {
       <h3>📅 Próximos días</h3>
 
       <div className="forecast">
-        {forecast.slice(1, 7).map((day) => {
+        {visibleForecast.map((day) => {
           const start = ((day.min - weekMin) / range) * 100;
           const width = ((day.max - day.min) / range) * 100;
 

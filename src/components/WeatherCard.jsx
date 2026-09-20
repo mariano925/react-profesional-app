@@ -18,10 +18,13 @@ function WeatherCard({ weather }) {
     uvIndex,
     max,
     min,
+    sunrise,
+    sunset,
     forecast,
     hourly,
     latitude,
     longitude,
+    timezone,
   } = weather;
 
   return (
@@ -38,9 +41,15 @@ function WeatherCard({ weather }) {
         uvIndex={uvIndex}
         max={max}
         min={min}
+        sunrise={sunrise}
+        sunset={sunset}
+        timezone={timezone}
       />
 
-      <HourlyForecast hourly={hourly} />
+      <HourlyForecast
+        hourly={hourly}
+        timezone={timezone}
+      />
 
       <Forecast forecast={forecast} />
 
@@ -54,4 +63,3 @@ function WeatherCard({ weather }) {
 }
 
 export default WeatherCard;
-

@@ -1,189 +1,181 @@
 .hourly-section {
-
   margin-top: 2rem;
-
 }
 
 /* Encabezado */
 
 .hourly-header {
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   gap: 1rem;
-
   margin-bottom: 1rem;
-
 }
 
 .hourly-header h3 {
-
   margin-bottom: 0;
-
   color: var(--text-main);
-
   font-size: 1.1rem;
-
   font-weight: 600;
-
 }
 
 .hourly-scroll-hint {
-
+  display: none;
   color: var(--text-muted);
-
   font-size: 0.7rem;
-
   white-space: nowrap;
-
 }
 
-/* Carrusel */
+/* Contenedor único de las 24 horas */
 
 .hourly-track {
-
   display: flex;
-
+  align-items: flex-start;
   gap: 0.85rem;
-
   overflow-x: auto;
-
-  padding-bottom: 0.5rem;
-
-  padding-right: 0.5rem;
-
-  scroll-snap-type: x mandatory;
-
-  -webkit-overflow-scrolling: touch;
-
+  padding: 0 0.25rem 0.75rem;
   scrollbar-width: none;
-
-  overscroll-behavior-x: contain;
-
+  -webkit-overflow-scrolling: touch;
 }
 
 .hourly-track::-webkit-scrollbar {
-
   display: none;
+}
 
+/* Separador de día */
+
+.hourly-day-separator {
+  flex: 0 0 auto;
+  width: 105px;
+  min-height: 180px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.35rem 0.25rem 0;
+  color: var(--text-main);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: capitalize;
+  line-height: 1.3;
+}
+
+/* Elemento horario */
+
+.hourly-item {
+  flex: 0 0 105px;
+  width: 105px;
+  display: flex;
 }
 
 /* Tarjeta */
 
 .hourly-card {
-
-  flex: 0 0 105px;
-
+  width: 105px;
+  min-height: 180px;
+  box-sizing: border-box;
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   gap: 0.45rem;
-
   padding: 1rem 0.75rem;
-
   background: rgba(255, 255, 255, 0.04);
-
   border: 1px solid var(--surface-border);
-
   border-radius: 16px;
-
   color: var(--text-main);
-
-  scroll-snap-align: start;
-
-  transition:
-
-    background-color 0.3s ease,
-
-    border-color 0.3s ease,
-
-    transform 0.2s ease;
-
 }
+
+/* Hora */
 
 .hourly-card strong {
-
   color: var(--text-muted);
-
   font-size: 0.8rem;
-
   font-variant-numeric: tabular-nums;
-
 }
+
+/* Temperatura */
 
 .hourly-temperature {
-
   color: var(--text-main);
-
   font-size: 1.4rem;
-
   font-weight: 600;
-
   font-variant-numeric: tabular-nums;
-
 }
+
+/* Icono */
+
+.hourly-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* Descripción */
 
 .hourly-description {
-
   color: var(--text-muted);
-
   font-size: 0.7rem;
-
   text-align: center;
-
   min-height: 2.1em;
-
+  max-height: 2.1em;
+  overflow: hidden;
 }
 
+/* Probabilidad de lluvia */
+
 .hourly-rain {
-
   color: var(--color-rain);
-
   font-size: 0.75rem;
-
   font-weight: 500;
-
   font-variant-numeric: tabular-nums;
-
 }
 
 /* Hover */
 
 @media (hover: hover) {
-
   .hourly-card:hover {
-
     background: var(--surface-card-hover);
-
     border-color: var(--surface-border-highlight);
-
     transform: translateY(-2px);
-
   }
-
 }
 
-/* Desktop */
+/* Escritorio */
 
 @media (min-width: 768px) {
-
-  .hourly-card {
-
-    flex-basis: 115px;
-
+  .hourly-header {
+    display: block;
   }
 
   .hourly-scroll-hint {
-
     display: none;
-
   }
 
+  .hourly-track {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.85rem;
+    overflow-x: visible;
+    padding: 0 0 0.75rem;
+  }
+
+  .hourly-day-separator {
+    grid-column: 1 / -1;
+    width: auto;
+    min-height: auto;
+    justify-content: flex-start;
+    padding: 0.25rem 0 0;
+    margin-top: 0.25rem;
+    margin-bottom: -0.1rem;
+    text-align: left;
+  }
+
+  .hourly-item {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hourly-card {
+    width: 100%;
+  }
 }

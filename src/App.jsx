@@ -3,6 +3,7 @@ import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
+import Horoscope from "./components/Horoscope";
 import Loader from "./components/Loader";
 import { useWeather } from "./hooks/useWeather";
 import { Analytics } from "@vercel/analytics/react";
@@ -13,17 +14,15 @@ function App() {
   const [city, setCity] = useLocalStorage("city", "Gualeguay");
   const [darkMode, setDarkMode] = useLocalStorage("darkMode", false);
 
-  const {
-    weather,
-    loading,
-    error,
-    fetchWeather,
-  } = useWeather();
+  const { weather, loading, error, fetchWeather } = useWeather();
 
-  // Aplica el tema al body
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
+
+  useEffect(() => {
+    fetchWeather(city);
+  }, []);
 
   const handleSearch = async (query) => {
     setCity(query);
@@ -32,7 +31,6 @@ function App() {
 
   return (
     <div className={`App ${darkMode ? "dark" : ""}`}>
-
       <div className="theme-toggle">
         <button onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
@@ -45,23 +43,19 @@ function App() {
       >
         <div className="hero-content">
           <h1>Cielovivo</h1>
-
           <p>
-            El clima de un vistazo. Información meteorológica actualizada de cualquier ciudad.
+            El clima de un vistazo. Información meteorológica actualizada de
+            cualquier ciudad.
           </p>
-
           <SearchBar onSearch={handleSearch} />
         </div>
       </section>
 
       <main className="main-content">
         {loading && <Loader />}
-
         {error && <ErrorMessage message={error} />}
-
-        {weather && (
-          <WeatherCard weather={weather} />
-        )}
+        {weather && <WeatherCard weather={weather} />}
+        <Horoscope />
       </main>
 
       <footer className="app-footer">
@@ -70,7 +64,6 @@ function App() {
       </footer>
 
       <Analytics />
-
     </div>
   );
 }
