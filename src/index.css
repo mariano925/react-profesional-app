@@ -18,10 +18,10 @@
   /* Fondo cielo muy suave */
   --surface-bg: #eaf6fd;
 
-  /* Vidrio más limpio y sutil */
-  --surface-card: rgba(255, 255, 255, 0.62);
-  --surface-card-hover: rgba(255, 255, 255, 0.78);
-  --surface-app-mobile: rgba(255, 255, 255, 0.45);
+  /* Vidrio principal con leve tinte celeste */
+  --surface-card: rgba(235, 248, 255, 0.68);
+  --surface-card-hover: rgba(240, 250, 255, 0.80);
+  --surface-app-mobile: rgba(235, 248, 255, 0.50);
 
   /* Bordes más delicados */
   --surface-border: rgba(15, 23, 42, 0.08);
