@@ -29,7 +29,7 @@
 }
 
 .temperature-chart-range {
-  color: var(--text-muted);
+  color: var(--color-primary);
   font-size: 0.8rem;
   font-weight: 600;
   white-space: nowrap;
