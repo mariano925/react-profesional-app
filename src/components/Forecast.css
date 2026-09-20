@@ -258,3 +258,31 @@
     font-size: 0.7rem;
   }
 }
+
+/* Controles destacados en móvil */
+
+@media (max-width: 600px) {
+  .forecast-controls {
+    gap: 0.6rem;
+  }
+
+  .forecast-control {
+    width: 42px;
+    height: 42px;
+
+    background: var(--surface-card-hover);
+
+    border: 1px solid var(--surface-border-highlight);
+
+    font-size: 1.35rem;
+    font-weight: 700;
+
+    box-shadow: 0 4px 12px var(--surface-shadow);
+
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .forecast-control:active {
+    transform: scale(0.94);
+  }
+}
