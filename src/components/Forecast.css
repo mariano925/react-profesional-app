@@ -156,7 +156,7 @@
 /* Lluvia */
 
 .forecast-rain {
-  color: var(--color-rain);
+  color: var(--color-primary);
 
   font-size: 0.8rem;
   font-weight: 500;
@@ -297,5 +297,3 @@
     transform: scale(0.94);
   }
 }
-
-

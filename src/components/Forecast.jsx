@@ -129,7 +129,9 @@ function Forecast({ forecast }) {
 
                 <div className="forecast-rain">
                   🌧️ Lluvia prevista:{" "}
-                  {Number(day.rain ?? 0).toFixed(1)} mm
+                  {day.rain == null
+                    ? "—"
+                    : `${Number(day.rain).toFixed(1)} mm`}
                 </div>
 
                 <div className="forecast-range">
