@@ -6,6 +6,7 @@
   z-index: 9999;
   padding: 10px 14px;
   background: rgba(255, 255, 255, 0.96);
+  color: #1f2937;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
   animation: bannerSlideDown 0.35s ease-out;
 }
@@ -25,11 +26,13 @@
 
 .install-banner strong {
   display: block;
+  color: #111827;
   font-size: 14px;
 }
 
 .install-banner p {
   margin: 2px 0 0;
+  color: #4b5563;
   font-size: 12px;
 }
 
