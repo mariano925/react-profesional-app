@@ -123,6 +123,12 @@
   .temperature-chart-plot {
     height: 250px;
   }
+
+  .temperature-chart-plot .recharts-rectangle {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scaleX(0.84);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

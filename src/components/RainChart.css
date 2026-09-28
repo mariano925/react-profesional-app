@@ -111,4 +111,10 @@
   .rain-chart-plot {
     height: 250px;
   }
+
+  .rain-chart-plot .recharts-rectangle {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scaleX(0.84);
+  }
 }
