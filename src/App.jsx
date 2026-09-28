@@ -8,6 +8,7 @@ import Loader from "./components/Loader";
 import { useWeather } from "./hooks/useWeather";
 import { Analytics } from "@vercel/analytics/react";
 import heroImage from "./assets/hero-clima.jpg";
+import InstallBanner from "./components/InstallBanner";
 import "./App.css";
 
 function App() {
@@ -39,6 +40,8 @@ function App() {
 
   return (
     <div className={`App ${darkMode ? "dark" : ""}`}>
+      <InstallBanner />
+
       <div className="theme-toggle">
         <button onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
@@ -89,4 +92,3 @@ function App() {
 }
 
 export default App;
-

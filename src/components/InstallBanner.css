@@ -1,0 +1,44 @@
+.install-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+  animation: bannerSlideDown 0.35s ease-out;
+}
+
+.install-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.install-banner-icon {
+  font-size: 24px;
+}
+
+.install-banner strong {
+  display: block;
+  font-size: 14px;
+}
+
+.install-banner p {
+  margin: 2px 0 0;
+  font-size: 12px;
+}
+
+@keyframes bannerSlideDown {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
