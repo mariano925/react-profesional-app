@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import "./Forecast.css";
 
-// Convierte el código meteorológico en un ícono
+// Convierte el código en ícono
 function getWeatherIcon(code) {
   if (code === 0) return "☀️";
 
@@ -17,7 +17,7 @@ function getWeatherIcon(code) {
   // Nieve
   if (code >= 71 && code <= 77) return "🌨️";
 
-  // Chubascos de lluvia
+  // Chubascos
   if (code >= 80 && code <= 82) return "🌧️";
 
   // Chubascos de nieve
@@ -28,7 +28,7 @@ function getWeatherIcon(code) {
   return "🌤️";
 }
 
-// Formatea la fecha sin desplazamientos de zona horaria
+// Formatea la fecha
 function formatForecastDate(dateString) {
   const [year, month, day] = dateString.split("-").map(Number);
 
@@ -43,31 +43,35 @@ function formatForecastDate(dateString) {
 }
 
 function Forecast({ forecast }) {
-  // Embla debe ejecutarse siempre en el mismo orden.
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     containScroll: "trimSnaps",
   });
 
-  // Avanza un día.
+  // Avanza un día
   const scrollNext = useCallback(() => {
     emblaApi?.scrollNext();
   }, [emblaApi]);
 
-  // Retrocede un día.
+  // Retrocede un día
   const scrollPrev = useCallback(() => {
     emblaApi?.scrollPrev();
   }, [emblaApi]);
 
-  // Si todavía no hay pronóstico, no mostramos nada.
+  // Sin pronóstico
   if (!forecast || forecast.length === 0) {
     return null;
   }
 
-  // Mostramos los 6 días siguientes al día actual.
+  // Próximos 6 días
   const visibleForecast = forecast.slice(1, 7);
 
-  // La escala térmica se calcula solamente sobre los días visibles.
+  // Sin días visibles
+  if (visibleForecast.length === 0) {
+    return null;
+  }
+
+  // Escala térmica
   const weekMin = Math.min(
     ...visibleForecast.map((day) => day.min)
   );
@@ -123,6 +127,11 @@ function Forecast({ forecast }) {
                   <span>{Math.round(day.max)}°</span>
                 </div>
 
+                <div className="forecast-rain">
+                  🌧️ Lluvia prevista:{" "}
+                  {Number(day.rain ?? 0).toFixed(1)} mm
+                </div>
+
                 <div className="forecast-range">
                   <div
                     className="forecast-range-bar"
@@ -144,4 +153,3 @@ function Forecast({ forecast }) {
 }
 
 export default Forecast;
-

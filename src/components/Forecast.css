@@ -153,6 +153,17 @@
   color: var(--color-temp-warm);
 }
 
+/* Lluvia */
+
+.forecast-rain {
+  color: var(--color-rain);
+
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  font-variant-numeric: tabular-nums;
+}
+
 /* Barra térmica */
 
 .forecast-range {
@@ -286,3 +297,5 @@
     transform: scale(0.94);
   }
 }
+
+
