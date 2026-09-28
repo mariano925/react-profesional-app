@@ -16,10 +16,10 @@ function InstallBanner() {
   useEffect(() => {
     if (!visible) return
 
-    // Oculta el cartel 3 segundos después de mostrarlo
+    // Oculta el cartel 5 segundos después de mostrarlo
     const hideTimer = setTimeout(() => {
       setVisible(false)
-    }, 3000)
+    }, 5000)
 
     return () => clearTimeout(hideTimer)
   }, [visible])
