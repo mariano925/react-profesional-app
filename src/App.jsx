@@ -1,9 +1,9 @@
+
 import { useEffect } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
-import Horoscope from "./components/Horoscope";
 import Loader from "./components/Loader";
 import { useWeather } from "./hooks/useWeather";
 import { Analytics } from "@vercel/analytics/react";
@@ -70,17 +70,11 @@ function App() {
         {error && <ErrorMessage message={error} />}
 
         {weather && <WeatherCard weather={weather} />}
-
-        <Horoscope />
       </main>
 
       <footer className="app-footer">
         <p>
           Cielovivo • Datos meteorológicos provistos por Open-Meteo
-        </p>
-
-        <p>
-          Horóscopo provisto por Sigastra
         </p>
 
         <span>Diseñado y desarrollado por Mariano Moreyra</span>
