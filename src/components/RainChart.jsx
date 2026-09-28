@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from "react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
+  Rectangle,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -9,6 +11,29 @@ import {
 } from "recharts";
 import { getNext24Hours } from "../utils/weatherUtils";
 import "./RainChart.css";
+
+function MobilePerspectiveBar(props) {
+  const { x, width, scrollLeft, viewportWidth, isMobile } = props;
+
+  if (!Number.isFinite(x) || !Number.isFinite(width)) return null;
+
+  const visibleProgress = viewportWidth > 0
+    ? Math.max(
+        0,
+        Math.min(1, (x + width / 2 - scrollLeft) / viewportWidth)
+      )
+    : 0;
+  const scale = isMobile ? 1 - visibleProgress * 0.25 : 1;
+  const scaledWidth = width * scale;
+
+  return (
+    <Rectangle
+      {...props}
+      x={x + (width - scaledWidth) / 2}
+      width={scaledWidth}
+    />
+  );
+}
 
 function RainChartTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
@@ -34,6 +59,54 @@ function RainChartTooltip({ active, payload }) {
 }
 
 function RainChart({ hourly, timezone }) {
+  const scrollRef = useRef(null);
+  const [scrollViewport, setScrollViewport] = useState({
+    scrollLeft: 0,
+    viewportWidth: 0,
+    isMobile: false,
+  });
+
+  useEffect(() => {
+    const scrollElement = scrollRef.current;
+
+    if (!scrollElement) return;
+
+    const mobileQuery = window.matchMedia("(max-width: 600px)");
+    let animationFrame = null;
+
+    const updateScrollViewport = () => {
+      if (animationFrame !== null) return;
+
+      animationFrame = requestAnimationFrame(() => {
+        animationFrame = null;
+        setScrollViewport({
+          scrollLeft: scrollElement.scrollLeft,
+          viewportWidth: scrollElement.clientWidth,
+          isMobile: mobileQuery.matches,
+        });
+      });
+    };
+
+    scrollElement.addEventListener("scroll", updateScrollViewport, {
+      passive: true,
+    });
+    mobileQuery.addEventListener("change", updateScrollViewport);
+
+    const resizeObserver = new ResizeObserver(updateScrollViewport);
+    resizeObserver.observe(scrollElement);
+    updateScrollViewport();
+
+    return () => {
+      scrollElement.removeEventListener("scroll", updateScrollViewport);
+      mobileQuery.removeEventListener("change", updateScrollViewport);
+      resizeObserver.disconnect();
+
+      if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [hourly]);
+
   if (!hourly || hourly.length === 0) return null;
 
   const visibleHours = getNext24Hours(hourly, timezone);
@@ -62,7 +135,7 @@ function RainChart({ hourly, timezone }) {
         </span>
       </div>
 
-      <div className="rain-chart-wrapper">
+      <div className="rain-chart-wrapper" ref={scrollRef}>
         <div
           className="rain-chart-plot"
           role="img"
@@ -106,6 +179,16 @@ function RainChart({ hourly, timezone }) {
                 radius={[5, 5, 0, 0]}
                 maxBarSize={20}
                 isAnimationActive={false}
+                shape={
+                  scrollViewport.isMobile
+                    ? (props) => (
+                        <MobilePerspectiveBar
+                          {...props}
+                          {...scrollViewport}
+                        />
+                      )
+                    : undefined
+                }
               />
             </BarChart>
           </ResponsiveContainer>
