@@ -1,44 +1,53 @@
-import React from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { getNext24Hours } from "../utils/weatherUtils";
 import "./RainChart.css";
 
-function RainChart({ hourly }) {
+function RainChartTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+
+  const { time, precipitationProbability } = payload[0].payload;
+
+  return (
+    <div className="rain-chart-tooltip">
+      <p className="rain-chart-tooltip-row">
+        <span>Hora</span>
+        <strong>{time.slice(11, 16)}</strong>
+      </p>
+      <p className="rain-chart-tooltip-row">
+        <span>Probabilidad</span>
+        <strong>
+          {precipitationProbability == null
+            ? "Sin datos"
+            : `${precipitationProbability}%`}
+        </strong>
+      </p>
+    </div>
+  );
+}
+
+function RainChart({ hourly, timezone }) {
   if (!hourly || hourly.length === 0) return null;
 
-  // Tomamos las próximas 24 horas disponibles.
-  const visibleHours = hourly.slice(0, 24);
-
-  const chartWidth = 800;
-  const chartHeight = 260;
-  const paddingX = 40;
-  const paddingTop = 30;
-  const paddingBottom = 40;
-
-  const chartAreaHeight =
-    chartHeight - paddingTop - paddingBottom;
-
-  const getX = (index) => {
-    const step =
-      (chartWidth - paddingX * 2) / visibleHours.length;
-
-    return paddingX + index * step + step / 2;
-  };
-
-  const getBarWidth = () => {
-    const step =
-      (chartWidth - paddingX * 2) / visibleHours.length;
-
-    return Math.min(step * 0.55, 22);
-  };
-
-  const getBarHeight = (probability) => {
-    return (probability / 100) * chartAreaHeight;
-  };
+  const visibleHours = getNext24Hours(hourly, timezone);
 
   const maxProbability = Math.max(
     ...visibleHours.map(
       (hour) => hour.precipitationProbability ?? 0
     )
   );
+
+  const chartData = visibleHours.map((hour) => ({
+    time: hour.time,
+    precipitationProbability: hour.precipitationProbability,
+  }));
 
   return (
     <section className="rain-chart">
@@ -53,77 +62,52 @@ function RainChart({ hourly }) {
         </span>
       </div>
 
-      <div className="rain-chart-wrapper">
-        <svg
-          className="rain-chart-svg"
-          viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-          role="img"
-          aria-label={`Probabilidad de lluvia durante las próximas 24 horas. Máxima probabilidad ${maxProbability} por ciento.`}
-        >
-          {/* Línea base */}
-          <line
-            x1={paddingX}
-            y1={chartHeight - paddingBottom}
-            x2={chartWidth - paddingX}
-            y2={chartHeight - paddingBottom}
-            className="rain-chart-axis"
-          />
-
-          {/* Línea de referencia del 50% */}
-          <line
-            x1={paddingX}
-            y1={paddingTop + chartAreaHeight / 2}
-            x2={chartWidth - paddingX}
-            y2={paddingTop + chartAreaHeight / 2}
-            className="rain-chart-grid"
-          />
-
-          {visibleHours.map((hour, index) => {
-            const probability =
-              hour.precipitationProbability ?? 0;
-
-            const x = getX(index);
-            const barHeight = getBarHeight(probability);
-            const y =
-              chartHeight - paddingBottom - barHeight;
-
-            return (
-              <g key={hour.time}>
-                <rect
-                  x={x - getBarWidth() / 2}
-                  y={y}
-                  width={getBarWidth()}
-                  height={barHeight}
-                  rx="5"
-                  className="rain-chart-bar"
-                />
-
-                {(index % 3 === 0 ||
-                  index === visibleHours.length - 1) && (
-                  <>
-                    <text
-                      x={x}
-                      y={y - 8}
-                      textAnchor="middle"
-                      className="rain-chart-value"
-                    >
-                      {probability}%
-                    </text>
-
-                    <text
-                      x={x}
-                      y={chartHeight - 15}
-                      textAnchor="middle"
-                      className="rain-chart-time"
-                    >
-                      {hour.time.slice(11, 16)}
-                    </text>
-                  </>
-                )}
-              </g>
-            );
-          })}
-        </svg>
+      <div
+        className="rain-chart-plot"
+        role="img"
+        aria-label={`Gráfica de barras de la probabilidad de lluvia durante las próximas 24 horas. Máxima probabilidad ${maxProbability} por ciento.`}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={chartData}
+            margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke="var(--surface-border)"
+              strokeDasharray="3 5"
+            />
+            <XAxis
+              dataKey="time"
+              tickFormatter={(time) => time.slice(11, 16)}
+              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+              tickLine={false}
+              axisLine={{ stroke: "var(--surface-border)" }}
+              minTickGap={12}
+              tickMargin={10}
+            />
+            <YAxis
+              domain={[0, 100]}
+              ticks={[0, 25, 50, 75, 100]}
+              tickFormatter={(value) => `${value}%`}
+              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+              tickLine={false}
+              axisLine={false}
+              width={44}
+            />
+            <Tooltip
+              content={<RainChartTooltip />}
+              cursor={{ fill: "var(--surface-border)", opacity: 0.25 }}
+            />
+            <Bar
+              dataKey="precipitationProbability"
+              fill="var(--color-rain)"
+              radius={[5, 5, 0, 0]}
+              maxBarSize={20}
+              isAnimationActive={false}
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </section>
   );

@@ -30,8 +30,11 @@ function App() {
   }, []);
 
   const handleSearch = async (query) => {
-    setCity(query);
-    await fetchWeather(query);
+    const data = await fetchWeather(query);
+
+    if (data) {
+      setCity(query);
+    }
   };
 
   return (
@@ -86,3 +89,4 @@ function App() {
 }
 
 export default App;
+

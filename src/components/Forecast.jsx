@@ -28,6 +28,20 @@ function getWeatherIcon(code) {
   return "🌤️";
 }
 
+// Formatea la fecha sin desplazamientos de zona horaria
+function formatForecastDate(dateString) {
+  const [year, month, day] = dateString.split("-").map(Number);
+
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  return date.toLocaleDateString("es-AR", {
+    timeZone: "UTC",
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+  });
+}
+
 function Forecast({ forecast }) {
   // Embla debe ejecutarse siempre en el mismo orden.
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -98,13 +112,7 @@ function Forecast({ forecast }) {
 
             return (
               <div key={day.date} className="forecast-day">
-                <strong>
-                  {new Date(day.date).toLocaleDateString("es-AR", {
-                    weekday: "short",
-                    day: "numeric",
-                    month: "short",
-                  })}
-                </strong>
+                <strong>{formatForecastDate(day.date)}</strong>
 
                 <span className="forecast-icon">
                   {getWeatherIcon(day.weatherCode)}
@@ -136,3 +144,4 @@ function Forecast({ forecast }) {
 }
 
 export default Forecast;
+

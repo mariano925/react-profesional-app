@@ -1,7 +1,7 @@
 .rain-chart {
   margin-top: 2rem;
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-card);
   border: 1px solid var(--surface-border);
   border-radius: 18px;
   color: var(--text-main);
@@ -38,55 +38,50 @@
 
 .rain-chart-wrapper {
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
 }
 
-.rain-chart-svg {
-  display: block;
+.rain-chart-plot {
   width: 100%;
-  min-width: 600px;
-  height: auto;
-  overflow: visible;
+  height: 280px;
 }
 
-.rain-chart-axis {
-  stroke: var(--surface-border);
-  stroke-width: 1;
-}
-
-.rain-chart-grid {
-  stroke: var(--surface-border);
-  stroke-width: 1;
-  stroke-dasharray: 4 5;
-  opacity: 0.7;
-}
-
-.rain-chart-bar {
-  fill: var(--color-rain);
-  opacity: 0.75;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-  transform-box: fill-box;
-  transform-origin: center bottom;
-}
-
-.rain-chart-bar:hover {
-  opacity: 1;
-  transform: scaleY(1.03);
-}
-
-.rain-chart-value {
-  fill: var(--text-main);
-  font-size: 12px;
-  font-weight: 600;
+.rain-chart-plot .recharts-cartesian-axis-tick-value {
   font-variant-numeric: tabular-nums;
 }
 
-.rain-chart-time {
-  fill: var(--text-muted);
-  font-size: 11px;
+.rain-chart-tooltip {
+  min-width: 150px;
+  padding: 0.75rem 0.9rem;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 10px;
+  color: var(--text-main);
+  box-shadow: 0 8px 24px var(--surface-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.rain-chart-tooltip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.rain-chart-tooltip-row + .rain-chart-tooltip-row {
+  margin-top: 0.25rem;
+}
+
+.rain-chart-tooltip-row span {
+  color: var(--text-muted);
+}
+
+.rain-chart-tooltip-row strong {
+  color: var(--text-main);
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
@@ -101,6 +96,10 @@
     align-items: flex-start;
   }
 
+  .rain-chart-header p {
+    font-size: 0.75rem;
+  }
+
   .rain-chart-header h3 {
     font-size: 0.95rem;
   }
@@ -109,13 +108,7 @@
     font-size: 0.75rem;
   }
 
-  .rain-chart-svg {
-    min-width: 560px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rain-chart-bar {
-    transition: none;
+  .rain-chart-plot {
+    height: 250px;
   }
 }

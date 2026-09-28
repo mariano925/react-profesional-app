@@ -1,5 +1,16 @@
 .weather-card {
   background: var(--surface-card);
+  background-image:
+    radial-gradient(
+      ellipse at 100% 0%,
+      color-mix(in srgb, var(--color-secondary) 10%, transparent),
+      transparent 43%
+    ),
+    radial-gradient(
+      ellipse at 0% 100%,
+      color-mix(in srgb, var(--color-primary) 7%, transparent),
+      transparent 48%
+    );
 
   border-radius: 20px;
   padding: 2rem;

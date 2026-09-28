@@ -1,26 +1,35 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { getWeather } from "../services/weatherService";
 
 export function useWeather() {
+  const latestRequestId = useRef(0);
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchWeather = async (city) => {
+    const requestId = ++latestRequestId.current;
     setLoading(true);
     setError(null);
 
     try {
       const data = await getWeather(city);
 
-      setWeather(data);
+      if (requestId !== latestRequestId.current) {
+        return;
+      }
 
+      setWeather(data);
       return data;
     } catch (err) {
-      setError(err.message || "Error al obtener el clima");
-      setWeather(null);
+      if (requestId === latestRequestId.current) {
+        setError(err.message || "Error al obtener el clima");
+        setWeather(null);
+      }
     } finally {
-      setLoading(false);
+      if (requestId === latestRequestId.current) {
+        setLoading(false);
+      }
     }
   };
 

@@ -4,7 +4,18 @@
 
   max-width: 900px;
 
-  background: var(--surface-card);
+  background:
+    radial-gradient(
+      ellipse at 86% 0%,
+      color-mix(in srgb, var(--color-secondary) 17%, transparent),
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 4% 55%,
+      var(--color-primary-glow),
+      transparent 45%
+    ),
+    var(--surface-card);
 
   color: var(--text-main);
 
@@ -66,7 +77,18 @@ footer {
 
     border-radius: 16px;
 
-    background: var(--surface-app-mobile);
+    background:
+      radial-gradient(
+        ellipse at 86% 0%,
+        color-mix(in srgb, var(--color-secondary) 17%, transparent),
+        transparent 40%
+      ),
+      radial-gradient(
+        ellipse at 4% 55%,
+        var(--color-primary-glow),
+        transparent 45%
+      ),
+      var(--surface-app-mobile);
 
   }
 
@@ -92,21 +114,29 @@ footer {
 
   border-radius: 20px;
 
-  border: 1px solid var(--surface-border);
+  border: 1px solid color-mix(
+    in srgb,
+    var(--color-primary) 42%,
+    var(--surface-border)
+  );
 
   cursor: pointer;
 
-  background: var(--surface-card-hover);
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 12%,
+    var(--surface-card-hover)
+  );
 
-  color: var(--text-main);
+  color: var(--color-primary);
 
-  font-weight: 500;
+  font-weight: 600;
 
   font-family: inherit;
 
   box-shadow:
 
-    0 4px 12px var(--surface-shadow);
+    0 4px 14px var(--color-primary-glow);
 
   transition:
 
@@ -122,15 +152,23 @@ footer {
 
 .theme-toggle button:hover {
 
-  background: var(--surface-card-hover);
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 18%,
+    var(--surface-card-hover)
+  );
 
-  border-color: var(--surface-border-highlight);
+  border-color: color-mix(
+    in srgb,
+    var(--color-primary) 58%,
+    var(--surface-border-highlight)
+  );
 
   transform: translateY(-2px);
 
   box-shadow:
 
-    0 6px 16px var(--surface-shadow);
+    0 6px 18px var(--color-primary-glow);
 
 }
 
@@ -182,7 +220,12 @@ footer {
 
   inset: 0;
 
-  background: rgba(0, 0, 0, 0.25);
+  background: linear-gradient(
+    110deg,
+    rgba(7, 22, 38, 0.78) 0%,
+    rgba(11, 26, 48, 0.58) 52%,
+    rgba(54, 47, 103, 0.28) 100%
+  );
 
 }
 
@@ -204,6 +247,12 @@ footer {
 
   color: #ffffff;
 
+  transform: translateY(35px);
+
+}
+
+.hero-content .search-container {
+  margin-top: 2rem;
 }
 
 .hero-content h1 {

@@ -1,10 +1,42 @@
-import React from "react";
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { getNext24Hours } from "../utils/weatherUtils";
 import "./WindChart.css";
 
-function WindChart({ hourly }) {
+function WindChartTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+
+  const { time, direction, windDirection } = payload[0].payload;
+
+  return (
+    <div className="wind-chart-tooltip">
+      <p className="wind-chart-tooltip-row">
+        <span>Hora</span>
+        <strong>{time.slice(11, 16)}</strong>
+      </p>
+      <p className="wind-chart-tooltip-row">
+        <span>Dirección</span>
+        <strong>{direction}</strong>
+      </p>
+      <p className="wind-chart-tooltip-row">
+        <span>Grados</span>
+        <strong>{windDirection}°</strong>
+      </p>
+    </div>
+  );
+}
+
+function WindChart({ hourly, timezone }) {
   if (!hourly || hourly.length === 0) return null;
 
-  const visibleHours = hourly.slice(0, 24);
+  const visibleHours = getNext24Hours(hourly, timezone);
 
   const getWindDirection = (degrees) => {
     const directions = [
@@ -31,6 +63,14 @@ function WindChart({ hourly }) {
       index === visibleHours.length - 1
   );
 
+  const chartData = displayedHours
+    .filter((hour) => hour.windDirection != null)
+    .map((hour) => ({
+      time: hour.time,
+      windDirection: hour.windDirection,
+      direction: getWindDirection(hour.windDirection),
+    }));
+
   return (
     <section className="wind-chart">
       <div className="wind-chart-header">
@@ -40,64 +80,65 @@ function WindChart({ hourly }) {
         </div>
       </div>
 
-      <div className="wind-chart-grid">
-        {displayedHours.map((hour) => {
-          if (hour.windDirection == null) {
-            return null;
-          }
-
-          const direction = getWindDirection(
-            hour.windDirection
-          );
-                // Open-Meteo indica de dónde viene el viento.
-              // Ajustamos 90° porque la flecha CSS parte apuntando hacia el Este.
-            const arrowRotation =
-              (hour.windDirection + 90) % 360;
-          return (
-            <div
-              className="wind-compass"
-              key={hour.time}
-            >
-              <div className="wind-compass-time">
-                {hour.time.slice(11, 16)}
-              </div>
-
-              <div
-                className="wind-compass-dial"
-                aria-label={`A las ${hour.time.slice(
-                  11,
-                  16
-                )}, el viento viene del ${direction}, ${Math.round(
-                  hour.windDirection
-                )} grados.`}
-              >
-                <div
-                  className="wind-compass-arrow"
-                  style={{
-                    transform: `translate(-50%, -50%) rotate(${arrowRotation}deg)`,
-                  }}
-                  aria-hidden="true"
-                >
-                  <span className="wind-compass-arrow-line" />
-                  <span className="wind-compass-arrow-head" />
-                </div>
-
-                <div
-                  className="wind-compass-center"
-                  aria-hidden="true"
-                />
-              </div>
-
-              <div className="wind-compass-direction">
-                {direction}
-              </div>
-
-              <div className="wind-compass-degrees">
-                {Math.round(hour.windDirection)}°
-              </div>
-            </div>
-          );
-        })}
+      <div
+        className="wind-chart-plot"
+        role="img"
+        aria-label="Gráfica de líneas de la dirección del viento cada tres horas durante las próximas 24 horas. El eje vertical muestra grados; el tooltip indica hora, dirección cardinal y grados."
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={chartData}
+            margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke="var(--surface-border)"
+              strokeDasharray="3 5"
+            />
+            <XAxis
+              dataKey="time"
+              tickFormatter={(time) => time.slice(11, 16)}
+              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+              tickLine={false}
+              axisLine={{ stroke: "var(--surface-border)" }}
+              minTickGap={12}
+              tickMargin={10}
+            />
+            <YAxis
+              type="number"
+              domain={[0, 360]}
+              ticks={[0, 90, 180, 270, 360]}
+              tickFormatter={(degrees) => `${degrees}°`}
+              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+              tickLine={false}
+              axisLine={false}
+              width={44}
+            />
+            <Tooltip
+              content={<WindChartTooltip />}
+              cursor={{ stroke: "var(--surface-border)" }}
+            />
+            <Line
+              type="linear"
+              dataKey="windDirection"
+              stroke="var(--color-primary)"
+              strokeWidth={2.5}
+              dot={{
+                r: 4,
+                fill: "var(--surface-card)",
+                stroke: "var(--color-primary)",
+                strokeWidth: 2.5,
+              }}
+              activeDot={{
+                r: 6,
+                fill: "var(--color-primary)",
+                stroke: "var(--surface-card)",
+                strokeWidth: 2,
+              }}
+              isAnimationActive={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </section>
   );

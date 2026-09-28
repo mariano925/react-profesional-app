@@ -7,35 +7,35 @@
 /* MODO CLARO */
 
 :root {
-  --color-primary: #0ea5e9;
-  --color-primary-glow: rgba(14, 165, 233, 0.25);
-  --color-secondary: #38bdf8;
-  --color-sun: #f59e0b;
-  --color-rain: #38bdf8;
-  --color-temp-warm: #f97316;
-  --color-temp-cold: #0284c7;
+  --color-primary: #087f9b;
+  --color-primary-glow: rgba(37, 184, 221, 0.22);
+  --color-secondary: #555b9c;
+  --color-sun: #e99a4b;
+  --color-rain: #29a9cf;
+  --color-temp-warm: #e97843;
+  --color-temp-cold: #438fb7;
 
   /* Fondo cielo muy suave */
-  --surface-bg: #eaf6fd;
+  --surface-bg: #dfe8f3;
 
   /* Vidrio principal con leve tinte celeste */
-  --surface-card: rgba(235, 248, 255, 0.68);
-  --surface-card-hover: rgba(240, 250, 255, 0.80);
-  --surface-app-mobile: rgba(235, 248, 255, 0.50);
+  --surface-card: rgba(246, 248, 255, 0.88);
+  --surface-card-hover: rgba(252, 252, 255, 0.96);
+  --surface-app-mobile: rgba(231, 238, 249, 0.92);
 
   /* Bordes más delicados */
-  --surface-border: rgba(15, 23, 42, 0.08);
-  --surface-border-highlight: rgba(15, 23, 42, 0.16);
+  --surface-border: rgba(48, 66, 107, 0.16);
+  --surface-border-highlight: rgba(79, 83, 152, 0.30);
 
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-subtle: #64748b;
+  --text-main: #17253c;
+  --text-muted: #4b5c75;
+  --text-subtle: #62738d;
 
   /* Sombra ambiental más suave */
-  --surface-shadow: rgba(15, 23, 42, 0.10);
+  --surface-shadow: rgba(30, 48, 79, 0.14);
 
   /* Reflejo superior más discreto */
-  --surface-highlight: rgba(255, 255, 255, 0.65);
+  --surface-highlight: rgba(255, 255, 255, 0.78);
 
   --font-main: 'Inter', sans-serif;
 }
@@ -43,26 +43,34 @@
 /* MODO OSCURO */
 
 body.dark {
-  --surface-bg: #0b1326;
+  --color-primary: #5dd8f2;
+  --color-primary-glow: rgba(63, 199, 231, 0.24);
+  --color-secondary: #a0a7e8;
+  --color-sun: #f3b36b;
+  --color-rain: #53c8e8;
+  --color-temp-warm: #ff9a62;
+  --color-temp-cold: #70c7e5;
+
+  --surface-bg: #0b1727;
 
   /* Vidrio oscuro más transparente */
-  --surface-card: rgba(19, 27, 46, 0.58);
-  --surface-card-hover: rgba(30, 41, 67, 0.76);
-  --surface-app-mobile: rgba(19, 27, 46, 0.42);
+  --surface-card: rgba(22, 34, 59, 0.86);
+  --surface-card-hover: rgba(33, 45, 73, 0.92);
+  --surface-app-mobile: rgba(15, 29, 49, 0.90);
 
   /* Bordes sutiles */
-  --surface-border: rgba(255, 255, 255, 0.10);
-  --surface-border-highlight: rgba(255, 255, 255, 0.18);
+  --surface-border: rgba(169, 190, 222, 0.17);
+  --surface-border-highlight: rgba(133, 150, 226, 0.34);
 
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
+  --text-main: #edf5fc;
+  --text-muted: #b0c3d7;
+  --text-subtle: #91a8c0;
 
   /* Sombra más profunda pero contenida */
-  --surface-shadow: rgba(0, 0, 0, 0.22);
+  --surface-shadow: rgba(1, 10, 21, 0.34);
 
   /* Reflejo de luz */
-  --surface-highlight: rgba(255, 255, 255, 0.07);
+  --surface-highlight: rgba(194, 223, 247, 0.08);
 }
 
 /* =========================================
@@ -103,14 +111,49 @@ body {
 body {
   background:
     radial-gradient(
-      circle at 20% 15%,
-      rgba(14, 165, 233, 0.20),
-      transparent 38%
+      circle at 13% 12%,
+      rgba(93, 183, 218, 0.30),
+      transparent 42%
     ),
     radial-gradient(
-      circle at 85% 80%,
-      rgba(56, 189, 248, 0.13),
+      circle at 86% 16%,
+      rgba(85, 91, 164, 0.22),
       transparent 40%
+    ),
+    radial-gradient(
+      circle at 72% 86%,
+      rgba(139, 92, 164, 0.16),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 14% 82%,
+      rgba(89, 158, 193, 0.13),
+      transparent 37%
+    ),
+    var(--surface-bg);
+}
+
+body.dark {
+  background:
+    radial-gradient(
+      circle at 14% 12%,
+      rgba(19, 105, 137, 0.37),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 84% 16%,
+      rgba(75, 76, 158, 0.29),
+      transparent 41%
+    ),
+    radial-gradient(
+      circle at 74% 84%,
+      rgba(124, 68, 147, 0.20),
+      transparent 43%
+    ),
+    radial-gradient(
+      circle at 21% 82%,
+      rgba(41, 157, 190, 0.12),
+      transparent 38%
     ),
     var(--surface-bg);
 }

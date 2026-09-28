@@ -111,7 +111,7 @@
 
   padding: 1rem 0.75rem;
 
-  background: rgba(255, 255, 255, 0.04);
+  background: color-mix(in srgb, var(--surface-card) 72%, transparent);
 
   border: 1px solid var(--surface-border);
   border-radius: 16px;
@@ -156,7 +156,7 @@
 /* Temperatura */
 
 .hourly-temperature {
-  color: var(--text-main);
+  color: var(--color-temp-warm);
 
   font-size: 1.4rem;
   font-weight: 600;
@@ -250,7 +250,7 @@
   .hourly-card.is-centered {
     transform: none;
 
-    background: rgba(255, 255, 255, 0.04);
+    background: color-mix(in srgb, var(--surface-card) 72%, transparent);
 
     border-color: var(--surface-border);
 

@@ -1,139 +1,113 @@
-import React from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { getNext24Hours } from "../utils/weatherUtils";
 import "./TemperatureChart.css";
+
+function TemperatureChartTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+
+  const { time, temperature } = payload[0].payload;
+
+  return (
+    <div className="temperature-chart-tooltip">
+      <p className="temperature-chart-tooltip-row">
+        <span>Hora</span>
+        <strong>{time.slice(11, 16)}</strong>
+      </p>
+      <p className="temperature-chart-tooltip-row">
+        <span>Temperatura</span>
+        <strong>{Math.round(temperature)}°</strong>
+      </p>
+    </div>
+  );
+}
 
 function TemperatureChart({ hourly, timezone }) {
   if (!hourly || hourly.length === 0) return null;
 
-  // Tomamos las próximas 24 horas disponibles.
-  const visibleHours = hourly.slice(0, 24);
+  const visibleHours = getNext24Hours(hourly, timezone);
 
   const temperatures = visibleHours.map((hour) => hour.temperature);
 
   const minTemperature = Math.min(...temperatures);
   const maxTemperature = Math.max(...temperatures);
-
-  // Evita una división por cero cuando todas las temperaturas son iguales.
-  const temperatureRange = maxTemperature - minTemperature || 1;
-
-  const chartWidth = 800;
-  const chartHeight = 260;
-  const paddingX = 40;
-  const paddingY = 35;
-
-  const getX = (index) => {
-    if (visibleHours.length === 1) return chartWidth / 2;
-
-    return (
-      paddingX +
-      (index / (visibleHours.length - 1)) *
-        (chartWidth - paddingX * 2)
-    );
-  };
-
-  const getY = (temperature) => {
-    return (
-      chartHeight -
-      paddingY -
-      ((temperature - minTemperature) / temperatureRange) *
-        (chartHeight - paddingY * 2)
-    );
-  };
-
-  const points = visibleHours
-    .map((hour, index) => {
-      return `${getX(index)},${getY(hour.temperature)}`;
-    })
-    .join(" ");
+  const chartData = visibleHours.map((hour) => ({
+    time: hour.time,
+    temperature: hour.temperature,
+  }));
 
   return (
     <section className="temperature-chart">
       <div className="temperature-chart-header">
-        <div>
-          <h3>📈 Evolución de la temperatura</h3>
+        <div className="temperature-chart-heading">
+          <h3>🌡️ Evolución de la temperatura</h3>
           <p>Próximas 24 horas</p>
         </div>
 
-        {timezone && (
-          <span className="temperature-chart-range">
-            {Math.round(minTemperature)}° — {Math.round(maxTemperature)}°
+        <div className="temperature-chart-extremes">
+          <span className="temperature-chart-maximum">
+            Máx. {Math.round(maxTemperature)}°
           </span>
-        )}
+          <span className="temperature-chart-minimum">
+            Mín. {Math.round(minTemperature)}°
+          </span>
+        </div>
       </div>
 
-      <div className="temperature-chart-wrapper">
-        <svg
-          className="temperature-chart-svg"
-          viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-          role="img"
-          aria-label={`Evolución de la temperatura durante las próximas 24 horas. Mínima ${Math.round(
-            minTemperature
-          )} grados y máxima ${Math.round(maxTemperature)} grados.`}
-        >
-          {/* Línea horizontal de referencia */}
-          <line
-            x1={paddingX}
-            y1={chartHeight - paddingY}
-            x2={chartWidth - paddingX}
-            y2={chartHeight - paddingY}
-            className="temperature-chart-axis"
-          />
-
-          {/* Línea de temperatura */}
-          <polyline
-            points={points}
-            fill="none"
-            className="temperature-chart-line"
-          />
-
-          {/* Puntos de temperatura */}
-          {visibleHours.map((hour, index) => {
-            const x = getX(index);
-            const y = getY(hour.temperature);
-
-            return (
-              <circle
-                key={hour.time}
-                cx={x}
-                cy={y}
-                r="4"
-                className="temperature-chart-point"
-              />
-            );
-          })}
-
-          {/* Etiquetas de temperatura */}
-          {visibleHours.map((hour, index) => {
-            // Mostramos una etiqueta cada 3 horas para evitar saturación.
-            if (index % 3 !== 0 && index !== visibleHours.length - 1) {
-              return null;
-            }
-
-            const x = getX(index);
-            const y = getY(hour.temperature);
-
-            return (
-              <g key={`label-${hour.time}`}>
-                <text
-                  x={x}
-                  y={y - 12}
-                  textAnchor="middle"
-                  className="temperature-chart-value"
-                >
-                  {Math.round(hour.temperature)}°
-                </text>
-
-                <text
-                  x={x}
-                  y={chartHeight - 12}
-                  textAnchor="middle"
-                  className="temperature-chart-time"
-                >
-                  {hour.time.slice(11, 16)}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
+      <div
+        className="temperature-chart-plot"
+        role="img"
+        aria-label={`Evolución de la temperatura durante las próximas 24 horas. Mínima ${Math.round(
+          minTemperature
+        )} grados y máxima ${Math.round(maxTemperature)} grados.`}
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={chartData}
+            margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke="var(--surface-border)"
+              strokeDasharray="3 5"
+            />
+            <XAxis
+              dataKey="time"
+              tickFormatter={(time) => time.slice(11, 16)}
+              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+              tickLine={false}
+              axisLine={{ stroke: "var(--surface-border)" }}
+              minTickGap={8}
+              tickMargin={10}
+            />
+            <YAxis
+              domain={["dataMin - 2", "dataMax + 2"]}
+              tickFormatter={(temperature) => `${Math.round(temperature)}°`}
+              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+              tickLine={false}
+              axisLine={false}
+              width={44}
+            />
+            <Tooltip
+              content={<TemperatureChartTooltip />}
+              cursor={{ fill: "var(--surface-border)", opacity: 0.25 }}
+            />
+            <Bar
+              dataKey="temperature"
+              fill="var(--color-temp-warm)"
+              radius={[5, 5, 0, 0]}
+              maxBarSize={28}
+              isAnimationActive={false}
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </section>
   );

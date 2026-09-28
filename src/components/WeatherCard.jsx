@@ -62,14 +62,17 @@ function WeatherCard({ weather }) {
 
       <RainChart
         hourly={hourly}
+        timezone={timezone}
       />
 
       <WindChart
         hourly={hourly}
+        timezone={timezone}
       />
 
       <HumidityChart
         hourly={hourly}
+        timezone={timezone}
       />
 
       <Forecast forecast={forecast} />

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { getNext24Hours } from "../utils/weatherUtils";
 import "./HourlyForecast.css";
 
 // Convierte el código meteorológico y el momento del día
@@ -15,28 +16,6 @@ function getWeatherIcon(code, isDay) {
   if (code >= 95 && code <= 99) return "⛈️";
 
   return isDay ? "🌤️" : "🌙";
-}
-
-function getCityCurrentHour(timezone) {
-  const formatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone: timezone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    hourCycle: "h23",
-  });
-
-  const parts = formatter.formatToParts(new Date());
-  const values = {};
-
-  parts.forEach((part) => {
-    if (part.type !== "literal") {
-      values[part.type] = part.value;
-    }
-  });
-
-  return `${values.year}-${values.month}-${values.day}T${values.hour}:00`;
 }
 
 function formatDayLabel(dateString) {
@@ -92,21 +71,7 @@ function HourlyForecast({ hourly, timezone }) {
 
   const sectionRef = useRef(null);
 
-  const cityCurrentHour = hourly
-    ? getCityCurrentHour(timezone)
-    : null;
-
-  const currentHourIndex = hourly
-    ? hourly.findIndex((hour) => hour.time >= cityCurrentHour)
-    : -1;
-
-  const startIndex =
-    currentHourIndex >= 0 ? currentHourIndex : 0;
-
-  // Conservamos solamente las próximas 24 horas.
-  const visibleHours = hourly
-    ? hourly.slice(startIndex, startIndex + 24)
-    : [];
+  const visibleHours = getNext24Hours(hourly, timezone);
 
   // Detecta la tarjeta más cercana al centro
   // de cada carrusel por separado.
@@ -143,8 +108,7 @@ function HourlyForecast({ hourly, timezone }) {
         let closestDistance = Infinity;
 
         cards.forEach((card) => {
-          const cardRect =
-            card.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
 
           const cardCenter =
             cardRect.left + cardRect.width / 2;
@@ -219,21 +183,6 @@ function HourlyForecast({ hourly, timezone }) {
 
   if (!hourly || hourly.length === 0) return null;
 
-  // Agrupamos las horas según el momento del día.
-  const periods = {
-    madrugada: [],
-    manana: [],
-    tarde: [],
-    noche: [],
-  };
-
-  visibleHours.forEach((hour) => {
-    const hourNumber = Number(hour.time.slice(11, 13));
-    const period = getTimePeriod(hourNumber);
-
-    periods[period.id].push(hour);
-  });
-
   return (
     <section
       ref={sectionRef}
@@ -261,6 +210,28 @@ function HourlyForecast({ hourly, timezone }) {
 
         if (!dayChanged) return null;
 
+        const hoursForDay = visibleHours.filter(
+          (dayHour) => dayHour.time.slice(0, 10) === currentDate
+        );
+
+        const periodGroups = [];
+
+        hoursForDay.forEach((dayHour) => {
+          const period = getTimePeriod(
+            Number(dayHour.time.slice(11, 13))
+          );
+          const lastGroup = periodGroups[periodGroups.length - 1];
+
+          if (lastGroup?.id === period.id) {
+            lastGroup.hours.push(dayHour);
+          } else {
+            periodGroups.push({
+              ...period,
+              hours: [dayHour],
+            });
+          }
+        });
+
         return (
           <div
             key={currentDate}
@@ -270,38 +241,19 @@ function HourlyForecast({ hourly, timezone }) {
               {formatDayLabel(currentDate)}
             </h4>
 
-            {Object.entries(periods).map(
-              ([periodId, periodHours]) => {
-                const hoursForDay =
-                  periodHours.filter(
-                    (periodHour) =>
-                      periodHour.time.slice(0, 10) ===
-                      currentDate
-                  );
-
-                if (hoursForDay.length === 0) {
-                  return null;
-                }
-
-                const period = getTimePeriod(
-                  Number(
-                    hoursForDay[0].time.slice(11, 13)
-                  )
-                );
-
-                return (
+            {periodGroups.map((group, groupIndex) => (
                   <div
-                    key={`${currentDate}-${periodId}`}
+                    key={`${currentDate}-${group.id}-${groupIndex}`}
                     className="hourly-period"
                   >
                     <div className="hourly-period-header">
                       <h5>
-                        {period.icon} {period.label}
+                        {group.icon} {group.label}
                       </h5>
                     </div>
 
                     <div className="hourly-track">
-                      {hoursForDay.map((hour) => {
+                      {group.hours.map((hour) => {
                         const isCentered =
                           centeredHours.has(hour.time);
 
@@ -356,9 +308,7 @@ function HourlyForecast({ hourly, timezone }) {
                       })}
                     </div>
                   </div>
-                );
-              }
-            )}
+                ))}
           </div>
         );
       })}

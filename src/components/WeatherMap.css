@@ -95,6 +95,12 @@
 
   height: 350px;
 
+  background: var(--surface-card);
+
+  border: 1px solid var(--surface-border);
+
+  box-shadow: 0 8px 24px var(--surface-shadow);
+
   border-radius: 16px;
 
   overflow: hidden;
