@@ -109,12 +109,14 @@
   }
 
   .rain-chart-plot {
+    width: 920px;
     height: 250px;
   }
 
-  .rain-chart-plot .recharts-rectangle {
-    transform-box: fill-box;
-    transform-origin: center;
-    transform: scaleX(0.84);
+  .rain-chart-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }

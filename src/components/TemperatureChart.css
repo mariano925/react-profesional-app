@@ -57,6 +57,10 @@
   height: 280px;
 }
 
+.temperature-chart-scroll {
+  width: 100%;
+}
+
 .temperature-chart-plot .recharts-cartesian-axis-tick-value {
   font-variant-numeric: tabular-nums;
 }
@@ -121,13 +125,15 @@
   }
 
   .temperature-chart-plot {
+    width: 920px;
     height: 250px;
   }
 
-  .temperature-chart-plot .recharts-rectangle {
-    transform-box: fill-box;
-    transform-origin: center;
-    transform: scaleX(0.84);
+  .temperature-chart-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

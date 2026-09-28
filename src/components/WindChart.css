@@ -29,6 +29,10 @@
   height: 280px;
 }
 
+.wind-chart-wrapper {
+  width: 100%;
+}
+
 .wind-chart-tooltip {
   min-width: 150px;
   padding: 0.75rem 0.9rem;
@@ -85,6 +89,14 @@
   }
 
   .wind-chart-plot {
+    width: 920px;
     height: 250px;
+  }
+
+  .wind-chart-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }

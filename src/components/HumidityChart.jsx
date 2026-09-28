@@ -64,58 +64,60 @@ function HumidityChart({ hourly, timezone }) {
         </div>
       </div>
 
-      <div
-        className="humidity-chart-plot"
-        role="img"
-        aria-label="Gráfica de barras de la humedad relativa durante las próximas 24 horas. El eje vertical representa porcentajes de humedad."
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={chartData}
-            margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
-          >
-            <CartesianGrid
-              vertical={false}
-              stroke="var(--surface-border)"
-              strokeDasharray="3 5"
-            />
-            <XAxis
-              dataKey="time"
-              tickFormatter={(time) => time.slice(11, 16)}
-              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
-              tickLine={false}
-              axisLine={{ stroke: "var(--surface-border)" }}
-              minTickGap={12}
-              tickMargin={10}
-            />
-            <YAxis
-              domain={[0, 100]}
-              ticks={[0, 25, 50, 75, 100]}
-              tickFormatter={(value) => `${value}%`}
-              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
-              tickLine={false}
-              axisLine={false}
-              width={44}
-            />
-            <Tooltip
-              content={<HumidityChartTooltip />}
-              cursor={{ fill: "var(--surface-border)", opacity: 0.25 }}
-            />
-            <Bar
-              dataKey="humidity"
-              radius={[5, 5, 0, 0]}
-              maxBarSize={28}
-              isAnimationActive={false}
+      <div className="humidity-chart-wrapper">
+        <div
+          className="humidity-chart-plot"
+          role="img"
+          aria-label="Gráfica de barras de la humedad relativa durante las próximas 24 horas. El eje vertical representa porcentajes de humedad."
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
             >
-              {chartData.map((entry) => (
-                <Cell
-                  key={entry.time}
-                  fill={getHumidityColor(entry.humidity)}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+              <CartesianGrid
+                vertical={false}
+                stroke="var(--surface-border)"
+                strokeDasharray="3 5"
+              />
+              <XAxis
+                dataKey="time"
+                tickFormatter={(time) => time.slice(11, 16)}
+                tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+                tickLine={false}
+                axisLine={{ stroke: "var(--surface-border)" }}
+                minTickGap={12}
+                tickMargin={10}
+              />
+              <YAxis
+                domain={[0, 100]}
+                ticks={[0, 25, 50, 75, 100]}
+                tickFormatter={(value) => `${value}%`}
+                tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+                tickLine={false}
+                axisLine={false}
+                width={44}
+              />
+              <Tooltip
+                content={<HumidityChartTooltip />}
+                cursor={{ fill: "var(--surface-border)", opacity: 0.25 }}
+              />
+              <Bar
+                dataKey="humidity"
+                radius={[5, 5, 0, 0]}
+                maxBarSize={28}
+                isAnimationActive={false}
+              >
+                {chartData.map((entry) => (
+                  <Cell
+                    key={entry.time}
+                    fill={getHumidityColor(entry.humidity)}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </section>
   );

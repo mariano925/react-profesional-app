@@ -33,6 +33,10 @@
   height: 280px;
 }
 
+.humidity-chart-wrapper {
+  width: 100%;
+}
+
 .humidity-chart-plot .recharts-cartesian-axis-tick-value {
   font-variant-numeric: tabular-nums;
 }
@@ -95,7 +99,15 @@
   }
 
   .humidity-chart-plot {
+    width: 920px;
     height: 250px;
+  }
+
+  .humidity-chart-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

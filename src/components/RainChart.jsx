@@ -62,52 +62,54 @@ function RainChart({ hourly, timezone }) {
         </span>
       </div>
 
-      <div
-        className="rain-chart-plot"
-        role="img"
-        aria-label={`Gráfica de barras de la probabilidad de lluvia durante las próximas 24 horas. Máxima probabilidad ${maxProbability} por ciento.`}
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={chartData}
-            margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
-          >
-            <CartesianGrid
-              vertical={false}
-              stroke="var(--surface-border)"
-              strokeDasharray="3 5"
-            />
-            <XAxis
-              dataKey="time"
-              tickFormatter={(time) => time.slice(11, 16)}
-              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
-              tickLine={false}
-              axisLine={{ stroke: "var(--surface-border)" }}
-              minTickGap={12}
-              tickMargin={10}
-            />
-            <YAxis
-              domain={[0, 100]}
-              ticks={[0, 25, 50, 75, 100]}
-              tickFormatter={(value) => `${value}%`}
-              tick={{ fill: "var(--text-muted)", fontSize: 11 }}
-              tickLine={false}
-              axisLine={false}
-              width={44}
-            />
-            <Tooltip
-              content={<RainChartTooltip />}
-              cursor={{ fill: "var(--surface-border)", opacity: 0.25 }}
-            />
-            <Bar
-              dataKey="precipitationProbability"
-              fill="var(--color-rain)"
-              radius={[5, 5, 0, 0]}
-              maxBarSize={20}
-              isAnimationActive={false}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="rain-chart-wrapper">
+        <div
+          className="rain-chart-plot"
+          role="img"
+          aria-label={`Gráfica de barras de la probabilidad de lluvia durante las próximas 24 horas. Máxima probabilidad ${maxProbability} por ciento.`}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
+            >
+              <CartesianGrid
+                vertical={false}
+                stroke="var(--surface-border)"
+                strokeDasharray="3 5"
+              />
+              <XAxis
+                dataKey="time"
+                tickFormatter={(time) => time.slice(11, 16)}
+                tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+                tickLine={false}
+                axisLine={{ stroke: "var(--surface-border)" }}
+                minTickGap={12}
+                tickMargin={10}
+              />
+              <YAxis
+                domain={[0, 100]}
+                ticks={[0, 25, 50, 75, 100]}
+                tickFormatter={(value) => `${value}%`}
+                tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+                tickLine={false}
+                axisLine={false}
+                width={44}
+              />
+              <Tooltip
+                content={<RainChartTooltip />}
+                cursor={{ fill: "var(--surface-border)", opacity: 0.25 }}
+              />
+              <Bar
+                dataKey="precipitationProbability"
+                fill="var(--color-rain)"
+                radius={[5, 5, 0, 0]}
+                maxBarSize={20}
+                isAnimationActive={false}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </section>
   );
