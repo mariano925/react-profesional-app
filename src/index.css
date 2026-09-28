@@ -14,6 +14,7 @@
   --color-rain: #29a9cf;
   --color-temp-warm: #e97843;
   --color-temp-cold: #438fb7;
+  --color-temp-hot: #e05252;
 
   /* Fondo cielo muy suave */
   --surface-bg: #dfe8f3;
@@ -50,6 +51,7 @@ body.dark {
   --color-rain: #53c8e8;
   --color-temp-warm: #ff9a62;
   --color-temp-cold: #70c7e5;
+  --color-temp-hot: #ff6b6b;
 
   --surface-bg: #0b1727;
 
@@ -215,4 +217,3 @@ p {
     scroll-behavior: auto !important;
   }
 }
-

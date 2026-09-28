@@ -12,17 +12,31 @@ import {
 import { getNext24Hours } from "../utils/weatherUtils";
 import "./TemperatureChart.css";
 
+function getTemperatureColor(temperature) {
+  if (temperature <= 17) {
+    return "var(--color-temp-cold)";
+  }
+
+  if (temperature <= 26) {
+    return "var(--color-temp-warm)";
+  }
+
+  return "var(--color-temp-hot)";
+}
+
 function MobilePerspectiveBar(props) {
   const { x, width, scrollLeft, viewportWidth, isMobile } = props;
 
   if (!Number.isFinite(x) || !Number.isFinite(width)) return null;
 
-  const visibleProgress = viewportWidth > 0
-    ? Math.max(
-        0,
-        Math.min(1, (x + width / 2 - scrollLeft) / viewportWidth)
-      )
-    : 0;
+  const visibleProgress =
+    viewportWidth > 0
+      ? Math.max(
+          0,
+          Math.min(1, (x + width / 2 - scrollLeft) / viewportWidth)
+        )
+      : 0;
+
   const scale = isMobile ? 1 - visibleProgress * 0.25 : 1;
   const scaledWidth = width * scale;
 
@@ -33,6 +47,13 @@ function MobilePerspectiveBar(props) {
       width={scaledWidth}
     />
   );
+}
+
+function TemperatureBar(props) {
+  const temperature = props.payload?.temperature;
+  const fill = getTemperatureColor(temperature);
+
+  return <MobilePerspectiveBar {...props} fill={fill} />;
 }
 
 function TemperatureChartTooltip({ active, payload }) {
@@ -46,6 +67,7 @@ function TemperatureChartTooltip({ active, payload }) {
         <span>Hora</span>
         <strong>{time.slice(11, 16)}</strong>
       </p>
+
       <p className="temperature-chart-tooltip-row">
         <span>Temperatura</span>
         <strong>{Math.round(temperature)}°</strong>
@@ -56,6 +78,7 @@ function TemperatureChartTooltip({ active, payload }) {
 
 function TemperatureChart({ hourly, timezone }) {
   const scrollRef = useRef(null);
+
   const [scrollViewport, setScrollViewport] = useState({
     scrollLeft: 0,
     viewportWidth: 0,
@@ -75,6 +98,7 @@ function TemperatureChart({ hourly, timezone }) {
 
       animationFrame = requestAnimationFrame(() => {
         animationFrame = null;
+
         setScrollViewport({
           scrollLeft: scrollElement.scrollLeft,
           viewportWidth: scrollElement.clientWidth,
@@ -86,10 +110,12 @@ function TemperatureChart({ hourly, timezone }) {
     scrollElement.addEventListener("scroll", updateScrollViewport, {
       passive: true,
     });
+
     mobileQuery.addEventListener("change", updateScrollViewport);
 
     const resizeObserver = new ResizeObserver(updateScrollViewport);
     resizeObserver.observe(scrollElement);
+
     updateScrollViewport();
 
     return () => {
@@ -111,6 +137,7 @@ function TemperatureChart({ hourly, timezone }) {
 
   const minTemperature = Math.min(...temperatures);
   const maxTemperature = Math.max(...temperatures);
+
   const chartData = visibleHours.map((hour) => ({
     time: hour.time,
     temperature: hour.temperature,
@@ -128,6 +155,7 @@ function TemperatureChart({ hourly, timezone }) {
           <span className="temperature-chart-maximum">
             Máx. {Math.round(maxTemperature)}°
           </span>
+
           <span className="temperature-chart-minimum">
             Mín. {Math.round(minTemperature)}°
           </span>
@@ -137,61 +165,63 @@ function TemperatureChart({ hourly, timezone }) {
       <div className="temperature-chart-scroll" ref={scrollRef}>
         <div
           className="temperature-chart-plot"
-            role="img"
-            aria-label={`Evolución de la temperatura durante las próximas 24 horas. Mínima ${Math.round(
-              minTemperature
-            )} grados y máxima ${Math.round(maxTemperature)} grados.`}
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={chartData}
-                margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
-              >
-                <CartesianGrid
-                  vertical={false}
-                  stroke="var(--surface-border)"
-                  strokeDasharray="3 5"
-                />
-                <XAxis
-                  dataKey="time"
-                  tickFormatter={(time) => time.slice(11, 16)}
-                  tick={{ fill: "var(--text-muted)", fontSize: 11 }}
-                  tickLine={false}
-                  axisLine={{ stroke: "var(--surface-border)" }}
-                  minTickGap={8}
-                  tickMargin={10}
-                />
-                <YAxis
-                  domain={["dataMin - 2", "dataMax + 2"]}
-                  tickFormatter={(temperature) => `${Math.round(temperature)}°`}
-                  tick={{ fill: "var(--text-muted)", fontSize: 11 }}
-                  tickLine={false}
-                  axisLine={false}
-                  width={44}
-                />
-                <Tooltip
-                  content={<TemperatureChartTooltip />}
-                  cursor={{ fill: "var(--surface-border)", opacity: 0.25 }}
-                />
-                <Bar
-                  dataKey="temperature"
-                  fill="var(--color-temp-warm)"
-                  radius={[5, 5, 0, 0]}
-                  maxBarSize={28}
-                  isAnimationActive={false}
-                  shape={
-                    scrollViewport.isMobile
-                      ? (props) => (
-                          <MobilePerspectiveBar
-                            {...props}
-                            {...scrollViewport}
-                          />
-                        )
-                      : undefined
-                  }
-                />
-              </BarChart>
-            </ResponsiveContainer>
+          role="img"
+          aria-label={`Evolución de la temperatura durante las próximas 24 horas. Mínima ${Math.round(
+            minTemperature
+          )} grados y máxima ${Math.round(maxTemperature)} grados.`}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{ top: 16, right: 12, bottom: 4, left: 4 }}
+            >
+              <CartesianGrid
+                vertical={false}
+                stroke="var(--surface-border)"
+                strokeDasharray="3 5"
+              />
+
+              <XAxis
+                dataKey="time"
+                tickFormatter={(time) => time.slice(11, 16)}
+                tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+                tickLine={false}
+                axisLine={{ stroke: "var(--surface-border)" }}
+                minTickGap={8}
+                tickMargin={10}
+              />
+
+              <YAxis
+                domain={["dataMin - 2", "dataMax + 2"]}
+                tickFormatter={(temperature) => `${Math.round(temperature)}°`}
+                tick={{ fill: "var(--text-muted)", fontSize: 11 }}
+                tickLine={false}
+                axisLine={false}
+                width={44}
+              />
+
+              <Tooltip
+                content={<TemperatureChartTooltip />}
+                cursor={{
+                  fill: "var(--surface-border)",
+                  opacity: 0.25,
+                }}
+              />
+
+              <Bar
+                dataKey="temperature"
+                radius={[5, 5, 0, 0]}
+                maxBarSize={28}
+                isAnimationActive={false}
+                shape={(props) => (
+                  <TemperatureBar
+                    {...props}
+                    {...scrollViewport}
+                  />
+                )}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </section>
