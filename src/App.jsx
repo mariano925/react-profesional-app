@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
@@ -9,6 +8,7 @@ import { useWeather } from "./hooks/useWeather";
 import { Analytics } from "@vercel/analytics/react";
 import heroImage from "./assets/hero-clima.jpg";
 import InstallBanner from "./components/InstallBanner";
+import RiverLevels from "./components/RiverLevels";
 import "./App.css";
 
 function App() {
@@ -70,6 +70,8 @@ function App() {
         {error && <ErrorMessage message={error} />}
 
         {weather && <WeatherCard weather={weather} />}
+
+        <RiverLevels />
       </main>
 
       <footer className="app-footer">

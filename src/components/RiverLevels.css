@@ -1,0 +1,144 @@
+/* Tarjeta principal del nivel del río */
+
+.river-level {
+  width: min(100%, 900px);
+  min-width: 0;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  background: var(--surface-card);
+  color: var(--text-main);
+  box-shadow:
+    0 8px 24px var(--surface-shadow),
+    inset 0 1px 0 var(--surface-highlight);
+  text-align: center;
+
+  --river-tooltip-bg: #ffffff;
+  --river-tooltip-border: #d1d5db;
+  --river-tooltip-text: #1f2937;
+}
+
+/* Encabezado y ubicación */
+
+.river-level-header {
+  margin-bottom: 1.25rem;
+}
+
+.river-level h2 {
+  margin-bottom: 0.4rem;
+  color: var(--text-main);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.river-level-location {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Nivel actual y fecha */
+
+.river-current {
+  min-width: 0;
+}
+
+.river-level-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.35rem;
+  margin: 1rem 0 0.35rem;
+  color: var(--text-main);
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.river-level-unit {
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.river-updated {
+  margin: 0;
+  color: var(--text-subtle);
+  font-size: 0.85rem;
+}
+
+/* Gráfica histórica */
+
+.river-chart-section {
+  min-width: 0;
+  margin-top: 1.75rem;
+  text-align: left;
+}
+
+.river-chart-title {
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.river-reference-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 0.6rem 1rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.river-reference-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.river-reference-swatch {
+  flex: 0 0 1.25rem;
+  border-top: 2px dashed var(--reference-color);
+}
+
+.river-chart {
+  width: 100%;
+  min-width: 0;
+  height: 290px;
+}
+
+/* Modo oscuro */
+
+.dark .river-level {
+  --river-tooltip-bg: #20384a;
+  --river-tooltip-border: #4b6475;
+  --river-tooltip-text: #f8fafc;
+}
+
+/* Ajuste para pantallas pequeñas */
+
+@media (max-width: 600px) {
+  .river-level {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .river-level-value {
+    font-size: 2rem;
+  }
+
+  .river-chart {
+    height: 240px;
+  }
+}
