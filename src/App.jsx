@@ -76,7 +76,8 @@ function App() {
 
       <footer className="app-footer">
         <p>
-          Cielovivo • Datos meteorológicos provistos por Open-Meteo
+          Cielovivo • Datos meteorológicos de Open-Meteo • Niveles de ríos del
+          Instituto Nacional del Agua (INA)
         </p>
 
         <span>Diseñado y desarrollado por Mariano Moreyra</span>
