@@ -33,6 +33,10 @@
   font-variant-numeric: tabular-nums;
 }
 
+body.dark .current-weather-temperature {
+  text-shadow: 0 0 9px rgba(255, 154, 98, 0.16);
+}
+
 .current-weather-description {
   margin-top: 0.75rem;
   color: var(--text-main);

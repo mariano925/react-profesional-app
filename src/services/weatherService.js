@@ -39,7 +39,7 @@ export async function getWeatherByCoordinates(
 
   // Obtener datos meteorológicos
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,surface_pressure&hourly=temperature_2m,precipitation_probability,relative_humidity_2m,wind_direction_10m,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset,weather_code,rain_sum&timezone=auto&forecast_days=7`
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,surface_pressure,uv_index&hourly=temperature_2m,precipitation_probability,relative_humidity_2m,wind_direction_10m,weather_code,is_day,uv_index,cloud_cover&daily=temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset,weather_code,rain_sum&timezone=auto&forecast_days=7`
   );
 
   if (!response.ok) {
@@ -73,7 +73,7 @@ export async function getWeatherByCoordinates(
     pressure: data.current.surface_pressure,
 
     // Datos solares
-    uvIndex: data.daily.uv_index_max[0],
+    uvIndex: data.current.uv_index,
     sunrise: data.daily.sunrise[0],
     sunset: data.daily.sunset[0],
 
@@ -102,6 +102,8 @@ export async function getWeatherByCoordinates(
       windDirection: data.hourly.wind_direction_10m[i],
       weatherCode: data.hourly.weather_code[i],
       isDay: data.hourly.is_day[i],
+      uvIndex: data.hourly.uv_index[i],
+      cloudCover: data.hourly.cloud_cover[i],
       description: mapWeatherCode(data.hourly.weather_code[i]),
     })),
   };

@@ -32,8 +32,8 @@ function InstallBanner() {
         <span className="install-banner-icon">🌦️</span>
 
         <div>
-          <strong>Che, probá Cielovivo 😎</strong>
-          <p>Después no digas que no te avisé.</p>
+          <strong>El tiempo de Gualeguay, al detalle.</strong>
+          <p>Clima, río y datos de nuestra zona.</p>
         </div>
       </div>
     </div>
