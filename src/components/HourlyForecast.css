@@ -43,24 +43,64 @@
 /* Franja del día */
 
 .hourly-period {
-  margin-bottom: 1.25rem;
-}
-
-.hourly-period:last-child {
   margin-bottom: 0;
 }
 
-/* Encabezado de la franja */
-
-.hourly-period-header {
-  margin-bottom: 0.65rem;
+.hourly-period-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
 }
 
-.hourly-period-header h5 {
-  margin: 0;
-  color: var(--text-main);
+.hourly-period-tab {
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.6rem 0.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: color-mix(in srgb, var(--surface-card) 72%, transparent);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+
+  color: var(--text-muted);
+  font: inherit;
   font-size: 0.8rem;
   font-weight: 600;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.hourly-period-tab:hover {
+  background: var(--surface-card-hover);
+  border-color: var(--surface-border-highlight);
+  color: var(--text-main);
+}
+
+.hourly-period-tab.is-active {
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 14%,
+    var(--surface-card)
+  );
+  border-color: var(--color-primary);
+  color: var(--text-main);
+  box-shadow: 0 4px 12px var(--color-primary-glow);
+}
+
+.hourly-period-tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* Carrusel */
@@ -220,6 +260,17 @@
     display: block;
   }
 
+  .hourly-period-tabs {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .hourly-period-tab {
+    flex: 0 1 auto;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
   .hourly-track {
     overflow-x: visible;
 
@@ -302,9 +353,6 @@
     margin-bottom: 1.75rem;
   }
 
-  .hourly-period {
-    margin-bottom: 1.1rem;
-  }
 }
 
 /* Móviles pequeños */
@@ -318,7 +366,7 @@
     font-size: 1rem;
   }
 
-  .hourly-period-header h5 {
+  .hourly-period-tab {
     font-size: 0.75rem;
   }
 
@@ -351,6 +399,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hourly-card {
+    transition: none;
+  }
+
+  .hourly-period-tab {
     transition: none;
   }
 

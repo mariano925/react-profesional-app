@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getNext24Hours } from "../utils/weatherUtils";
 import "./HourlyForecast.css";
 
@@ -68,6 +68,7 @@ function HourlyForecast({ hourly, timezone }) {
   const [centeredHours, setCenteredHours] = useState(
     new Set()
   );
+  const [activePeriods, setActivePeriods] = useState({});
 
   const sectionRef = useRef(null);
 
@@ -179,7 +180,7 @@ function HourlyForecast({ hourly, timezone }) {
         cancelAnimationFrame(animationFrame);
       }
     };
-  }, [visibleHours.length]);
+  }, [visibleHours.length, activePeriods]);
 
   if (!hourly || hourly.length === 0) return null;
 
@@ -232,6 +233,15 @@ function HourlyForecast({ hourly, timezone }) {
           }
         });
 
+        const activePeriodId = periodGroups.some(
+          (group) => group.id === activePeriods[currentDate]
+        )
+          ? activePeriods[currentDate]
+          : periodGroups[0]?.id;
+        const activeGroup = periodGroups.find(
+          (group) => group.id === activePeriodId
+        );
+
         return (
           <div
             key={currentDate}
@@ -241,74 +251,76 @@ function HourlyForecast({ hourly, timezone }) {
               {formatDayLabel(currentDate)}
             </h4>
 
-            {periodGroups.map((group, groupIndex) => (
-                  <div
-                    key={`${currentDate}-${group.id}-${groupIndex}`}
-                    className="hourly-period"
+            <div
+              className="hourly-period-tabs"
+              role="group"
+              aria-label={`Períodos de ${formatDayLabel(currentDate)}`}
+            >
+              {periodGroups.map((group) => {
+                const isActive = group.id === activePeriodId;
+
+                return (
+                  <button
+                    key={`${currentDate}-${group.id}`}
+                    type="button"
+                    className={`hourly-period-tab ${
+                      isActive ? "is-active" : ""
+                    }`}
+                    aria-pressed={isActive}
+                    onClick={() =>
+                      setActivePeriods((currentPeriods) => ({
+                        ...currentPeriods,
+                        [currentDate]: group.id,
+                      }))
+                    }
                   >
-                    <div className="hourly-period-header">
-                      <h5>
-                        {group.icon} {group.label}
-                      </h5>
-                    </div>
+                    {group.icon} {group.label}
+                  </button>
+                );
+              })}
+            </div>
 
-                    <div className="hourly-track">
-                      {group.hours.map((hour) => {
-                        const isCentered =
-                          centeredHours.has(hour.time);
+            {activeGroup && (
+              <div className="hourly-period">
+                <div className="hourly-track">
+                  {activeGroup.hours.map((hour) => {
+                    const isCentered = centeredHours.has(hour.time);
 
-                        return (
-                          <div
-                            key={hour.time}
-                            className="hourly-item"
-                          >
-                            <div
-                              className={`hourly-card ${
-                                isCentered
-                                  ? "is-centered"
-                                  : ""
-                              }`}
-                              data-hour={hour.time}
-                            >
-                              <strong>
-                                {hour.time.slice(
-                                  11,
-                                  16
-                                )}
-                              </strong>
+                    return (
+                      <div key={hour.time} className="hourly-item">
+                        <div
+                          className={`hourly-card ${
+                            isCentered ? "is-centered" : ""
+                          }`}
+                          data-hour={hour.time}
+                        >
+                          <strong>{hour.time.slice(11, 16)}</strong>
 
-                              <span className="hourly-temperature">
-                                {Math.round(
-                                  hour.temperature
-                                )}
-                                °
-                              </span>
+                          <span className="hourly-temperature">
+                            {Math.round(hour.temperature)}°
+                          </span>
 
-                              <span className="hourly-icon">
-                                {getWeatherIcon(
-                                  hour.weatherCode,
-                                  hour.isDay
-                                )}
-                              </span>
+                          <span className="hourly-icon">
+                            {getWeatherIcon(
+                              hour.weatherCode,
+                              hour.isDay
+                            )}
+                          </span>
 
-                              <span className="hourly-description">
-                                {hour.description}
-                              </span>
+                          <span className="hourly-description">
+                            {hour.description}
+                          </span>
 
-                              <span className="hourly-rain">
-                                💧
-                                {
-                                  hour.precipitationProbability
-                                }
-                                %
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
+                          <span className="hourly-rain">
+                            💧{hour.precipitationProbability}%
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         );
       })}
