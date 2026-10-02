@@ -85,6 +85,10 @@ body.dark {
   box-sizing: border-box;
 }
 
+#root {
+  isolation: isolate;
+}
+
 /* =========================================
    3. BASE
    ========================================= */
@@ -102,7 +106,7 @@ body {
   overflow-x: hidden;
 
   transition:
-    background-color 0.3s ease,
+    background-color 0.8s ease,
     color 0.3s ease;
 }
 
@@ -160,6 +164,101 @@ body.dark {
     var(--surface-bg);
 }
 
+/* Fondos según el estado meteorológico actual */
+
+body.weather-clear {
+  background-color: #f0eddc;
+}
+
+body.weather-cloudy {
+  background-color: #d2dce7;
+}
+
+body.weather-rain {
+  background-color: #c8dbea;
+}
+
+body.weather-storm {
+  background-color: #c1ccdd;
+}
+
+body.weather-night {
+  background-color: #ccd4e9;
+}
+
+body.dark.weather-clear {
+  background-color: #19251f;
+}
+
+body.dark.weather-cloudy {
+  background-color: #111c2b;
+}
+
+body.dark.weather-rain {
+  background-color: #0e1c2b;
+}
+
+body.dark.weather-storm {
+  background-color: #0b1421;
+}
+
+body.dark.weather-night {
+  background-color: #0b1324;
+}
+
+body.weather-rain::before {
+  content: "";
+  position: fixed;
+  inset: -180px 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      168deg,
+      transparent 47%,
+      rgba(55, 94, 120, 0.17) 48%,
+      rgba(55, 94, 120, 0.17) 48.5%,
+      transparent 49%
+    ),
+    linear-gradient(
+      168deg,
+      transparent 65%,
+      rgba(55, 94, 120, 0.12) 66%,
+      rgba(55, 94, 120, 0.12) 66.4%,
+      transparent 67%
+    );
+  background-size: 112px 180px, 157px 180px;
+  background-repeat: repeat;
+  opacity: 0.48;
+  transform: translate3d(0, -180px, 0);
+  animation: ambient-rain-fall 2.8s linear infinite;
+}
+
+body.dark.weather-rain::before {
+  background-image:
+    linear-gradient(
+      168deg,
+      transparent 47%,
+      rgba(183, 204, 222, 0.14) 48%,
+      rgba(183, 204, 222, 0.14) 48.5%,
+      transparent 49%
+    ),
+    linear-gradient(
+      168deg,
+      transparent 65%,
+      rgba(183, 204, 222, 0.1) 66%,
+      rgba(183, 204, 222, 0.1) 66.4%,
+      transparent 67%
+    );
+  opacity: 0.36;
+}
+
+@keyframes ambient-rain-fall {
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 /* =========================================
    5. SELECCIÓN DE TEXTO
    ========================================= */
@@ -215,5 +314,9 @@ p {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  body.weather-rain::before {
+    animation: none !important;
   }
 }

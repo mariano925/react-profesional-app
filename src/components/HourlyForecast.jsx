@@ -233,14 +233,19 @@ function HourlyForecast({ hourly, timezone }) {
           }
         });
 
-        const activePeriodId = periodGroups.some(
-          (group) => group.id === activePeriods[currentDate]
+        const getPeriodKey = (group, index) =>
+          `${currentDate}-${group.id}-${group.hours?.[0]?.time || index}`;
+        const activePeriodKey = periodGroups.some(
+          (group, index) =>
+            getPeriodKey(group, index) === activePeriods[currentDate]
         )
           ? activePeriods[currentDate]
-          : periodGroups[0]?.id;
-        const activeGroup = periodGroups.find(
-          (group) => group.id === activePeriodId
+          : getPeriodKey(periodGroups[0], 0);
+        const activeGroupIndex = periodGroups.findIndex(
+          (group, index) =>
+            getPeriodKey(group, index) === activePeriodKey
         );
+        const activeGroup = periodGroups[activeGroupIndex];
 
         return (
           <div
@@ -256,12 +261,13 @@ function HourlyForecast({ hourly, timezone }) {
               role="group"
               aria-label={`Períodos de ${formatDayLabel(currentDate)}`}
             >
-              {periodGroups.map((group) => {
-                const isActive = group.id === activePeriodId;
+              {periodGroups.map((group, index) => {
+                const periodKey = getPeriodKey(group, index);
+                const isActive = periodKey === activePeriodKey;
 
                 return (
                   <button
-                    key={`${currentDate}-${group.id}`}
+                    key={periodKey}
                     type="button"
                     className={`hourly-period-tab ${
                       isActive ? "is-active" : ""
@@ -270,7 +276,7 @@ function HourlyForecast({ hourly, timezone }) {
                     onClick={() =>
                       setActivePeriods((currentPeriods) => ({
                         ...currentPeriods,
-                        [currentDate]: group.id,
+                        [currentDate]: periodKey,
                       }))
                     }
                   >

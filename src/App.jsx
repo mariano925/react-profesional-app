@@ -3,6 +3,7 @@ import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
+import AirQuality from "./components/AirQuality";
 import Loader from "./components/Loader";
 import { useWeather } from "./hooks/useWeather";
 import { Analytics } from "@vercel/analytics/react";
@@ -10,6 +11,74 @@ import heroImage from "./assets/hero-clima.jpg";
 import InstallBanner from "./components/InstallBanner";
 import RiverLevels from "./components/RiverLevels";
 import "./App.css";
+
+const WEATHER_CLASSES = [
+  "weather-clear",
+  "weather-cloudy",
+  "weather-rain",
+  "weather-storm",
+  "weather-night",
+];
+
+function getCurrentDayPeriod(timezone, sunrise, sunset) {
+  if (!timezone || !sunrise || !sunset) {
+    return null;
+  }
+
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: timezone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  });
+
+  const timeParts = formatter.formatToParts(new Date());
+  const hour = timeParts.find((part) => part.type === "hour")?.value;
+  const minute = timeParts.find((part) => part.type === "minute")?.value;
+
+  if (!hour || !minute) {
+    return null;
+  }
+
+  const currentTime = `${hour}:${minute}`;
+  const sunriseTime = sunrise.slice(11, 16);
+  const sunsetTime = sunset.slice(11, 16);
+
+  return currentTime >= sunriseTime && currentTime < sunsetTime
+    ? "day"
+    : "night";
+}
+
+function getWeatherClass(weather) {
+  const { weatherCode, timezone, sunrise, sunset } = weather;
+  const dayPeriod = getCurrentDayPeriod(timezone, sunrise, sunset);
+
+  if (weatherCode >= 95 && weatherCode <= 99) {
+    return "weather-storm";
+  }
+
+  if (
+    (weatherCode >= 51 && weatherCode <= 67) ||
+    (weatherCode >= 80 && weatherCode <= 82)
+  ) {
+    return "weather-rain";
+  }
+
+  if (dayPeriod === "night") {
+    return "weather-night";
+  }
+
+  if (
+    (weatherCode >= 2 && weatherCode <= 3) ||
+    (weatherCode >= 45 && weatherCode <= 48) ||
+    (weatherCode >= 71 && weatherCode <= 77) ||
+    (weatherCode >= 85 && weatherCode <= 86)
+  ) {
+    return "weather-cloudy";
+  }
+
+  return "weather-clear";
+}
 
 function App() {
   const [city, setCity] = useLocalStorage("city", "Gualeguay");
@@ -27,8 +96,24 @@ function App() {
   }, [darkMode]);
 
   useEffect(() => {
+    const body = document.body;
+    body.classList.remove(...WEATHER_CLASSES);
+
+    if (!weather) {
+      return;
+    }
+
+    const weatherClass = getWeatherClass(weather);
+    body.classList.add(weatherClass);
+
+    return () => {
+      body.classList.remove(weatherClass);
+    };
+  }, [weather]);
+
+  useEffect(() => {
     fetchWeather(city);
-  }, []);
+  }, [fetchWeather]);
 
   const handleSearch = async (query) => {
     const data = await fetchWeather(query);
@@ -71,6 +156,10 @@ function App() {
 
         {weather && <WeatherCard weather={weather} />}
 
+        {weather?.aqi !== undefined && (
+          <AirQuality aqi={weather.aqi} />
+        )}
+
         <RiverLevels />
       </main>
 
@@ -89,3 +178,4 @@ function App() {
 }
 
 export default App;
+

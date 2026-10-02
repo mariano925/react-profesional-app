@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { getWeather } from "../services/weatherService";
 
 export function useWeather() {
@@ -7,7 +7,7 @@ export function useWeather() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchWeather = async (city) => {
+  const fetchWeather = useCallback(async (city) => {
     const requestId = ++latestRequestId.current;
     setLoading(true);
     setError(null);
@@ -31,7 +31,7 @@ export function useWeather() {
         setLoading(false);
       }
     }
-  };
+  }, []);
 
   return {
     weather,
@@ -40,3 +40,4 @@ export function useWeather() {
     fetchWeather,
   };
 }
+

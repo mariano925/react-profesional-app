@@ -28,7 +28,7 @@ export async function getWeather(city) {
   );
 }
 
-// Obtiene el clima directamente mediante latitud y longitud
+// Obtiene datos meteorológicos y calidad del aire mediante latitud y longitud
 export async function getWeatherByCoordinates(
   latitude,
   longitude,
@@ -37,16 +37,26 @@ export async function getWeatherByCoordinates(
   // Nombre de la ubicación
   const city = locationName;
 
-  // Obtener datos meteorológicos
-  const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,surface_pressure,uv_index&hourly=temperature_2m,precipitation_probability,relative_humidity_2m,wind_direction_10m,weather_code,is_day,uv_index,cloud_cover&daily=temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset,weather_code,rain_sum&timezone=auto&forecast_days=7`
-  );
+  // Obtener clima y calidad del aire en paralelo
+  const [response, airQualityResponse] = await Promise.all([
+    fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,wind_direction_10m,weather_code,surface_pressure,uv_index&hourly=temperature_2m,precipitation_probability,relative_humidity_2m,wind_direction_10m,weather_code,is_day,uv_index,cloud_cover&daily=temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset,weather_code,rain_sum&timezone=auto&forecast_days=7`
+    ),
+    fetch(
+      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=european_aqi&timezone=auto`
+    ),
+  ]);
 
   if (!response.ok) {
     throw new Error("No se pudo obtener el clima");
   }
 
+  if (!airQualityResponse.ok) {
+    throw new Error("No se pudo obtener la calidad del aire");
+  }
+
   const data = await response.json();
+  const airQualityData = await airQualityResponse.json();
 
   // Transformar los datos para nuestra aplicación
   return {
@@ -76,6 +86,9 @@ export async function getWeatherByCoordinates(
     uvIndex: data.current.uv_index,
     sunrise: data.daily.sunrise[0],
     sunset: data.daily.sunset[0],
+
+    // Calidad del aire
+    aqi: airQualityData.current.european_aqi,
 
     // Pronóstico de 7 días
     max: data.daily.temperature_2m_max[0],
