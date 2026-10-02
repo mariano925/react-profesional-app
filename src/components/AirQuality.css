@@ -1,0 +1,83 @@
+.air-quality {
+  width: 100%;
+}
+
+.air-quality h2 {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.air-quality-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.air-quality-category {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.air-quality-index {
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.air-quality-scale {
+  position: relative;
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.air-quality-bar {
+  display: flex;
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.air-quality-segment {
+  display: block;
+  flex: 0 0 20%;
+  min-width: 0;
+  height: 8px;
+}
+
+.air-quality-segment-good {
+  background: #4caf50;
+}
+
+.air-quality-segment-acceptable {
+  background: #e4c441;
+}
+
+.air-quality-segment-moderate {
+  background: #f28c28;
+}
+
+.air-quality-segment-bad {
+  background: #d9534f;
+}
+
+.air-quality-segment-very-bad {
+  background: #80353b;
+}
+
+.air-quality-indicator {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.air-quality-source {
+  margin: 0.85rem 0 0;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
