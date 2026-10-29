@@ -117,24 +117,9 @@ body {
 body {
   background:
     radial-gradient(
-      circle at 13% 12%,
-      rgba(93, 183, 218, 0.30),
-      transparent 42%
-    ),
-    radial-gradient(
-      circle at 86% 16%,
-      rgba(85, 91, 164, 0.22),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 72% 86%,
-      rgba(139, 92, 164, 0.16),
-      transparent 42%
-    ),
-    radial-gradient(
-      circle at 14% 82%,
-      rgba(89, 158, 193, 0.13),
-      transparent 37%
+      ellipse at 50% 0%,
+      color-mix(in srgb, var(--color-primary-glow) 38%, transparent),
+      transparent 58%
     ),
     var(--surface-bg);
 }
@@ -142,24 +127,9 @@ body {
 body.dark {
   background:
     radial-gradient(
-      circle at 14% 12%,
-      rgba(19, 105, 137, 0.37),
-      transparent 42%
-    ),
-    radial-gradient(
-      circle at 84% 16%,
-      rgba(75, 76, 158, 0.29),
-      transparent 41%
-    ),
-    radial-gradient(
-      circle at 74% 84%,
-      rgba(124, 68, 147, 0.20),
-      transparent 43%
-    ),
-    radial-gradient(
-      circle at 21% 82%,
-      rgba(41, 157, 190, 0.12),
-      transparent 38%
+      ellipse at 50% 0%,
+      color-mix(in srgb, var(--color-primary-glow) 42%, transparent),
+      transparent 58%
     ),
     var(--surface-bg);
 }

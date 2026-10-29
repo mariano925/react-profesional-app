@@ -1,5 +1,11 @@
 .hourly-section {
-  margin-top: 2rem;
+  min-width: 0;
+  padding: 1.1rem;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  box-shadow: 0 6px 20px var(--surface-shadow);
+  overflow: hidden;
 }
 
 /* Encabezado principal */
@@ -9,7 +15,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
 }
 
 .hourly-header h3 {
@@ -110,7 +116,10 @@
   align-items: stretch;
   gap: 0.85rem;
 
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
 
   padding: 0.1rem 0.25rem 0.75rem;
 
@@ -151,7 +160,7 @@
 
   padding: 1rem 0.75rem;
 
-  background: color-mix(in srgb, var(--surface-card) 72%, transparent);
+  background: color-mix(in srgb, var(--surface-card-hover) 78%, transparent);
 
   border: 1px solid var(--surface-border);
   border-radius: 16px;
@@ -185,7 +194,7 @@
 /* Hora */
 
 .hourly-card strong {
-  color: var(--text-muted);
+  color: var(--text-main);
 
   font-size: 0.8rem;
   font-weight: 600;
@@ -198,7 +207,7 @@
 .hourly-temperature {
   color: var(--color-temp-warm);
 
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 600;
 
   font-variant-numeric: tabular-nums;
@@ -233,7 +242,7 @@
 .hourly-rain {
   color: var(--color-rain);
 
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 500;
 
   font-variant-numeric: tabular-nums;
@@ -335,6 +344,11 @@
     scroll-padding-inline: 50%;
   }
 
+  .hourly-track:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
   .hourly-item {
     flex-basis: 100px;
     width: 100px;
@@ -358,6 +372,10 @@
 /* Móviles pequeños */
 
 @media (max-width: 480px) {
+  .hourly-section {
+    padding: 0.9rem;
+  }
+
   .hourly-header {
     align-items: flex-start;
   }

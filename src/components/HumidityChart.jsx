@@ -137,7 +137,13 @@ function HumidityChart({ hourly, timezone }) {
         </div>
       </div>
 
-      <div className="humidity-chart-wrapper" ref={scrollRef}>
+      <div
+        className="humidity-chart-wrapper"
+        ref={scrollRef}
+        role="region"
+        aria-label="Desplazamiento horizontal del gráfico de humedad"
+        tabIndex={0}
+      >
         <div
           className="humidity-chart-plot"
             role="img"

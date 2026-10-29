@@ -135,7 +135,13 @@ function RainChart({ hourly, timezone }) {
         </span>
       </div>
 
-      <div className="rain-chart-wrapper" ref={scrollRef}>
+      <div
+        className="rain-chart-wrapper"
+        ref={scrollRef}
+        role="region"
+        aria-label="Desplazamiento horizontal del gráfico de lluvia"
+        tabIndex={0}
+      >
         <div
           className="rain-chart-plot"
           role="img"

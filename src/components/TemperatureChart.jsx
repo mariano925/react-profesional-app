@@ -162,7 +162,13 @@ function TemperatureChart({ hourly, timezone }) {
         </div>
       </div>
 
-      <div className="temperature-chart-scroll" ref={scrollRef}>
+      <div
+        className="temperature-chart-scroll"
+        ref={scrollRef}
+        role="region"
+        aria-label="Desplazamiento horizontal del gráfico de temperatura"
+        tabIndex={0}
+      >
         <div
           className="temperature-chart-plot"
           role="img"

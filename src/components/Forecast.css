@@ -1,5 +1,10 @@
 .forecast-section {
-  margin-top: 1rem;
+  min-width: 0;
+  padding: 1.1rem;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  box-shadow: 0 6px 20px var(--surface-shadow);
 }
 
 /* Encabezado */
@@ -27,8 +32,8 @@
 }
 
 .forecast-control {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
 
   display: flex;
   align-items: center;
@@ -96,7 +101,7 @@
 
   padding: 1rem;
 
-  background: color-mix(in srgb, var(--surface-card) 58%, transparent);
+  background: color-mix(in srgb, var(--surface-card-hover) 72%, transparent);
 
   border: 1px solid var(--surface-border);
   border-radius: 16px;
@@ -243,6 +248,10 @@
 /* Móviles pequeños */
 
 @media (max-width: 600px) {
+  .forecast-section {
+    padding: 0.9rem;
+  }
+
   .forecast {
     gap: 0.7rem;
   }

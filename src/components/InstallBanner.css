@@ -1,13 +1,11 @@
 .install-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
+  position: relative;
   padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.96);
-  color: #1f2937;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+  background: var(--surface-card-hover);
+  color: var(--text-main);
+  border-bottom: 1px solid var(--surface-border);
+  border-radius: 12px;
+  box-shadow: 0 3px 12px var(--surface-shadow);
   animation: bannerSlideDown 0.35s ease-out;
 }
 
@@ -20,19 +18,24 @@
   margin: 0 auto;
 }
 
+.install-banner-content > div {
+  min-width: 0;
+}
+
 .install-banner-icon {
   font-size: 24px;
 }
 
 .install-banner strong {
   display: block;
-  color: #111827;
+  color: var(--text-main);
   font-size: 14px;
+  overflow-wrap: anywhere;
 }
 
 .install-banner p {
   margin: 2px 0 0;
-  color: #4b5563;
+  color: var(--text-muted);
   font-size: 12px;
 }
 

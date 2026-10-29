@@ -1,4 +1,3 @@
-import React from "react";
 import "./WeatherCard.css";
 import Forecast from "./Forecast";
 import HourlyForecast from "./HourlyForecast";
@@ -55,25 +54,27 @@ function WeatherCard({ weather }) {
         timezone={timezone}
       />
 
-      <TemperatureChart
-        hourly={hourly}
-        timezone={timezone}
-      />
+      <div className="weather-charts">
+        <TemperatureChart
+          hourly={hourly}
+          timezone={timezone}
+        />
 
-      <RainChart
-        hourly={hourly}
-        timezone={timezone}
-      />
+        <RainChart
+          hourly={hourly}
+          timezone={timezone}
+        />
 
-      <WindChart
-        hourly={hourly}
-        timezone={timezone}
-      />
+        <WindChart
+          hourly={hourly}
+          timezone={timezone}
+        />
 
-      <HumidityChart
-        hourly={hourly}
-        timezone={timezone}
-      />
+        <HumidityChart
+          hourly={hourly}
+          timezone={timezone}
+        />
+      </div>
 
       <Forecast forecast={forecast} />
 

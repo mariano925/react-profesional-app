@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
@@ -7,7 +7,6 @@ import AirQuality from "./components/AirQuality";
 import Loader from "./components/Loader";
 import { useWeather } from "./hooks/useWeather";
 import { Analytics } from "@vercel/analytics/react";
-import heroImage from "./assets/hero-clima.jpg";
 import InstallBanner from "./components/InstallBanner";
 import RiverLevels from "./components/RiverLevels";
 import "./App.css";
@@ -84,12 +83,10 @@ function App() {
   const [city, setCity] = useLocalStorage("city", "Gualeguay");
   const [darkMode, setDarkMode] = useLocalStorage("darkMode", false);
 
-  const {
-    weather,
-    loading,
-    error,
-    fetchWeather,
-  } = useWeather();
+  const { weather, loading, error, fetchWeather } = useWeather();
+
+  // Conserva la ciudad inicial para cargarla una sola vez.
+  const initialCity = useRef(city);
 
   useEffect(() => {
     document.body.classList.toggle("dark", darkMode);
@@ -112,7 +109,7 @@ function App() {
   }, [weather]);
 
   useEffect(() => {
-    fetchWeather(city);
+    fetchWeather(initialCity.current);
   }, [fetchWeather]);
 
   const handleSearch = async (query) => {
@@ -127,40 +124,54 @@ function App() {
     <div className={`App ${darkMode ? "dark" : ""}`}>
       <InstallBanner />
 
-      <div className="theme-toggle">
-        <button onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
-        </button>
-      </div>
+      <header className="app-header">
+        <div className="app-header-top">
+          <div className="app-brand">
+            <h1>Cielovivo</h1>
+            <p>El clima de un vistazo, para cualquier ciudad.</p>
+          </div>
 
-      <section
-        className="hero"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <div className="hero-content">
-          <h1>Cielovivo</h1>
+          <div className="theme-toggle">
+            <button
+              type="button"
+              aria-pressed={darkMode}
+              aria-label={
+                darkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"
+              }
+              onClick={() => setDarkMode(!darkMode)}
+            >
+              {darkMode ? "🌙 Modo Oscuro" : "☀️ Modo Claro"}
+            </button>
+          </div>
+        </div>
 
-          <p>
-            El clima de un vistazo. Información meteorológica actualizada de
-            cualquier ciudad.
-          </p>
-
+        <div className="app-header-search">
           <SearchBar onSearch={handleSearch} />
         </div>
-      </section>
+      </header>
 
       <main className="main-content">
-        {loading && <Loader />}
+        <section
+          className="weather-primary"
+          aria-label="Información meteorológica principal"
+        >
+          {loading && <Loader />}
 
-        {error && <ErrorMessage message={error} />}
+          {error && <ErrorMessage message={error} />}
 
-        {weather && <WeatherCard weather={weather} />}
+          {weather && <WeatherCard weather={weather} />}
+        </section>
 
-        {weather?.aqi !== undefined && (
-          <AirQuality aqi={weather.aqi} />
-        )}
+        <section
+          className="weather-complementary"
+          aria-label="Información complementaria"
+        >
+          {weather?.aqi !== undefined && (
+            <AirQuality aqi={weather.aqi} />
+          )}
 
-        <RiverLevels />
+          <RiverLevels />
+        </section>
       </main>
 
       <footer className="app-footer">
@@ -178,4 +189,3 @@ function App() {
 }
 
 export default App;
-

@@ -80,7 +80,12 @@ function WindChart({ hourly, timezone }) {
         </div>
       </div>
 
-      <div className="wind-chart-wrapper">
+      <div
+        className="wind-chart-wrapper"
+        role="region"
+        aria-label="Desplazamiento horizontal del gráfico de viento"
+        tabIndex={0}
+      >
         <div
           className="wind-chart-plot"
           role="img"

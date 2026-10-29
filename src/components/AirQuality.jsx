@@ -33,7 +33,11 @@ function AirQuality({ aqi }) {
         <span className="air-quality-index">AQI {aqi}</span>
       </div>
 
-      <div className="air-quality-scale">
+      <div
+        className="air-quality-scale"
+        role="img"
+        aria-label="Escala de calidad del aire: buena, aceptable, moderada, mala y muy mala"
+      >
         <div className="air-quality-bar">
           <span className="air-quality-segment air-quality-segment-good" />
           <span className="air-quality-segment air-quality-segment-acceptable" />
@@ -49,6 +53,14 @@ function AirQuality({ aqi }) {
         >
           ▲
         </span>
+      </div>
+
+      <div className="air-quality-legend" aria-hidden="true">
+        <span><i className="air-quality-legend-good" />Buena</span>
+        <span><i className="air-quality-legend-acceptable" />Aceptable</span>
+        <span><i className="air-quality-legend-moderate" />Moderada</span>
+        <span><i className="air-quality-legend-bad" />Mala</span>
+        <span><i className="air-quality-legend-very-bad" />Muy mala</span>
       </div>
 
       <p className="air-quality-source">

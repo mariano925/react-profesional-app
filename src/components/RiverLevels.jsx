@@ -49,11 +49,23 @@ function RiverLevels() {
   }, []);
 
   if (error) {
-    return <p>{error}</p>;
+    return (
+      <section className="river-level river-level-state" role="alert">
+        {error}
+      </section>
+    );
   }
 
   if (!riverData) {
-    return <p>Cargando nivel del río...</p>;
+    return (
+      <section
+        className="river-level river-level-state"
+        role="status"
+        aria-live="polite"
+      >
+        Cargando nivel del río...
+      </section>
+    );
   }
 
   const formattedDate = new Date(riverData.date).toLocaleDateString(

@@ -1,27 +1,32 @@
 /* Tarjeta principal del nivel del río */
-
 .river-level {
-  width: min(100%, 900px);
+  width: min(100%, 1100px);
   min-width: 0;
-  margin: 2rem auto;
-  padding: 1.5rem;
+  margin: 0 auto;
+  padding: 1.25rem;
   border: 1px solid var(--surface-border);
-  border-radius: 20px;
+  border-radius: 16px;
   background: var(--surface-card);
   color: var(--text-main);
   box-shadow:
-    0 8px 24px var(--surface-shadow),
+    0 6px 20px var(--surface-shadow),
     inset 0 1px 0 var(--surface-highlight);
-  text-align: center;
+  text-align: left;
 
   --river-tooltip-bg: #ffffff;
   --river-tooltip-border: #d1d5db;
   --river-tooltip-text: #1f2937;
 }
 
-/* Encabezado y ubicación */
+.river-level-state {
+  color: var(--text-muted);
+}
 
 .river-level-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 1.25rem;
 }
 
@@ -34,24 +39,24 @@
 
 .river-level-location {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 0.4rem;
   margin: 0;
   color: var(--text-muted);
   font-size: 0.9rem;
+  text-align: right;
 }
-
-/* Nivel actual y fecha */
 
 .river-current {
   min-width: 0;
+  text-align: right;
 }
 
 .river-level-value {
   display: flex;
   align-items: baseline;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 0.35rem;
   margin: 1rem 0 0.35rem;
   color: var(--text-main);
@@ -73,12 +78,9 @@
   font-size: 0.85rem;
 }
 
-/* Gráfica histórica */
-
 .river-chart-section {
   min-width: 0;
-  margin-top: 1.75rem;
-  text-align: left;
+  margin-top: 1.5rem;
 }
 
 .river-chart-title {
@@ -115,10 +117,9 @@
 .river-chart {
   width: 100%;
   min-width: 0;
-  height: 290px;
+  max-width: 100%;
+  height: clamp(220px, 28vw, 290px);
 }
-
-/* Modo oscuro */
 
 .dark .river-level {
   --river-tooltip-bg: #20384a;
@@ -126,19 +127,31 @@
   --river-tooltip-text: #f8fafc;
 }
 
-/* Ajuste para pantallas pequeñas */
-
 @media (max-width: 600px) {
   .river-level {
-    padding: 1rem;
-    border-radius: 16px;
+    padding: 0.9rem;
+  }
+
+  .river-level-header {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .river-level-location {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .river-current {
+    text-align: left;
   }
 
   .river-level-value {
+    justify-content: flex-start;
     font-size: 2rem;
   }
 
   .river-chart {
-    height: 240px;
+    height: 230px;
   }
 }

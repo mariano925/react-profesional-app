@@ -1,10 +1,12 @@
 .wind-chart {
-  margin-top: 2rem;
-  padding: 1.25rem;
+  min-width: 0;
+  margin: 0;
+  padding: 1.1rem;
   background: var(--surface-card);
   border: 1px solid var(--surface-border);
-  border-radius: 18px;
+  border-radius: 16px;
   color: var(--text-main);
+  box-shadow: 0 6px 20px var(--surface-shadow);
 }
 
 .wind-chart-header {
@@ -26,11 +28,19 @@
 
 .wind-chart-plot {
   width: 100%;
+  min-width: 0;
   height: 280px;
 }
 
 .wind-chart-wrapper {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.wind-chart-wrapper:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .wind-chart-tooltip {
@@ -71,9 +81,7 @@
 
 @media (max-width: 600px) {
   .wind-chart {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    border-radius: 16px;
+    padding: 0.9rem;
   }
 
   .wind-chart-header {
@@ -94,6 +102,7 @@
   }
 
   .wind-chart-wrapper {
+    border-radius: 10px;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
