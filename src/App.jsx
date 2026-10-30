@@ -1,14 +1,18 @@
-import { useEffect, useRef } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useWeather } from "./hooks/useWeather";
+import { registerVisit, subscribeToVisitCount } from "./services/visitCounter";
+
 import ErrorMessage from "./components/ErrorMessage";
 import SearchBar from "./components/SearchBar";
 import WeatherCard from "./components/WeatherCard";
 import AirQuality from "./components/AirQuality";
 import Loader from "./components/Loader";
-import { useWeather } from "./hooks/useWeather";
-import { Analytics } from "@vercel/analytics/react";
 import InstallBanner from "./components/InstallBanner";
 import RiverLevels from "./components/RiverLevels";
+
+import { Analytics } from "@vercel/analytics/react";
 import "./App.css";
 
 const WEATHER_CLASSES = [
@@ -83,6 +87,9 @@ function App() {
   const [city, setCity] = useLocalStorage("city", "Gualeguay");
   const [darkMode, setDarkMode] = useLocalStorage("darkMode", false);
 
+  const [totalVisits, setTotalVisits] = useState(null);
+  const [visitCounterError, setVisitCounterError] = useState(false);
+
   const { weather, loading, error, fetchWeather } = useWeather();
 
   // Conserva la ciudad inicial para cargarla una sola vez.
@@ -111,6 +118,32 @@ function App() {
   useEffect(() => {
     fetchWeather(initialCity.current);
   }, [fetchWeather]);
+
+  // Registra la visita y escucha el contador de Firebase.
+  useEffect(() => {
+    const unsubscribe = subscribeToVisitCount(
+      (total) => {
+        setTotalVisits(total);
+        setVisitCounterError(false);
+      },
+      (firebaseError) => {
+        console.error(
+          "No se pudo consultar el contador de visitas:",
+          firebaseError
+        );
+        setVisitCounterError(true);
+      }
+    );
+
+    registerVisit().catch((firebaseError) => {
+      console.error(
+        "No se pudo registrar la visita:",
+        firebaseError
+      );
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleSearch = async (query) => {
     const data = await fetchWeather(query);
@@ -178,6 +211,14 @@ function App() {
         <p>
           Cielovivo • Datos meteorológicos de Open-Meteo • Niveles de ríos del
           Instituto Nacional del Agua (INA)
+        </p>
+
+        <p className="visit-counter" aria-live="polite">
+          {totalVisits !== null
+            ? `Visitas registradas: ${totalVisits.toLocaleString("es-AR")}`
+            : visitCounterError
+              ? "Contador de visitas no disponible"
+              : "Cargando visitas..."}
         </p>
 
         <span>Diseñado y desarrollado por Mariano Moreyra</span>

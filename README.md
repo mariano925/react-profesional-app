@@ -1,407 +1,139 @@
-# 🌦️ Cielovivo — React Profesional App
+# 🌦️ Cielovivo
 
-Aplicación desarrollada con **React + Vite** como proyecto de práctica profesional.
+Aplicación meteorológica desarrollada con **React y Vite** para consultar el clima y los pronósticos de distintas ciudades. Combina visualización de datos, mapas interactivos y una interfaz responsive con modo claro y oscuro.
 
-Permite consultar el clima de distintas ciudades mediante la API de **Open-Meteo**, mostrando información meteorológica actual, pronóstico por hora, pronóstico extendido, visualización de datos y ubicación mediante un mapa interactivo.
+## ✨ Funcionalidades actuales
 
-El proyecto está organizado mediante componentes reutilizables, hooks personalizados y separación de responsabilidades.
+- 🔎 Búsqueda del clima por ciudad.
+- 🌡️ Condiciones actuales: temperatura, sensación térmica, viento, humedad, presión e índice UV.
+- 🕐 Pronóstico por hora y para los próximos días.
+- 📈 Gráficas de temperatura y probabilidad de lluvia.
+- 🗺️ Mapa interactivo con Leaflet.
+- 🌙 Modo claro y oscuro, con preferencias guardadas en `localStorage`.
+- 📱 Diseño adaptable a dispositivos móviles y escritorio.
+- ⏳ Estados de carga y manejo de errores.
+- 📊 Vercel Analytics.
 
----
+Los datos meteorológicos se obtienen de la API de **Open-Meteo**.
 
-## 🚀 Características actuales
+## 💬 Próxima etapa: Comunidad Cielovivo
 
-* 🔎 Búsqueda del clima por ciudad.
-* 🌡️ Temperatura actual y sensación térmica.
-* 💨 Velocidad y dirección del viento.
-* 💧 Humedad con interpretación.
-* ☀️ Índice UV con interpretación.
-* ◉ Presión atmosférica.
-* 📈 Temperaturas máximas y mínimas.
-* 🌅 Hora de salida y puesta del sol.
-* ☀️🌙 Indicador de día y noche según la ubicación consultada.
-* 🕐 Pronóstico de las próximas 24 horas.
-* 🌙 Pronóstico horario organizado por madrugada, mañana, tarde y noche.
-* 📅 Pronóstico de los próximos días.
-* 📈 Gráfica de evolución de temperatura durante las próximas 24 horas.
-* 🌧️ Gráfica de probabilidad de lluvia durante las próximas 24 horas.
-* 🗺️ Mapa interactivo con Leaflet.
-* 🌙 Modo claro y modo oscuro.
-* 💾 Persistencia de preferencias mediante `localStorage`.
-* ⏳ Indicador de carga.
-* ⚠️ Manejo de errores.
-* 📊 Vercel Analytics.
-* 📱 Diseño responsive.
-* ↔️ Desplazamiento horizontal del pronóstico horario en dispositivos móviles.
-* 🎠 Carrusel responsive para el pronóstico de los próximos días.
-* ♿ Consideraciones progresivas de accesibilidad y experiencia de usuario.
+La próxima evolución del proyecto es incorporar un pequeño espacio comunitario pensado para amigos, conocidos y visitantes de Gualeguay, Entre Ríos.
 
----
+### Funcionalidades previstas
 
-## 🛠️ Tecnologías utilizadas
+- **Contador público de visitas:** mostrar el total de visitas registradas en Cielovivo.
+- **Libro de visitas:** permitir que los visitantes dejen su nombre y un mensaje, y consulten los mensajes publicados.
+- **Actualización en tiempo real:** mostrar los nuevos mensajes sin recargar la página.
+- **Personas conectadas:** mostrar una cantidad aproximada de conexiones activas.
+- **Seguridad básica:** validar los mensajes y limitar las operaciones permitidas.
 
-* **React**
-* **Vite**
-* **JavaScript**
-* **CSS**
-* **Open-Meteo API**
-* **Leaflet**
-* **React Leaflet**
-* **Embla Carousel React**
-* **Vercel**
-* **Vercel Analytics**
+### Contador de visitas
 
----
+La primera funcionalidad prevista será un contador visible para todos los visitantes.
 
-## 📂 Estructura principal
+El criterio acordado es registrar **una visita por cada nueva sesión de navegación**:
 
-### `App.jsx`
+- Recargar la misma pestaña no debe sumar otra visita.
+- Volver a entrar en una nueva sesión puede registrar una nueva visita.
+- Abrir otra pestaña puede contabilizarse como una sesión independiente.
 
-Punto principal de la aplicación.
+La implementación prevista utilizará `sessionStorage` para recordar si la visita ya fue registrada durante la sesión de esa pestaña y **Firebase Realtime Database** para conservar el total compartido.
 
-Se encarga de:
+Este contador representará visitas registradas, no personas únicas. Si se utilizan distintas pestañas o dispositivos, o se reinicia la sesión del navegador, una misma persona puede generar más de una visita.
 
-* Gestionar la ciudad seleccionada.
-* Gestionar el modo claro/oscuro.
-* Ejecutar la búsqueda del clima.
-* Mostrar estados de carga y error.
-* Renderizar `WeatherCard`.
+### Arquitectura propuesta
 
-### `WeatherCard.jsx`
+- **React + Vite:** mantener la aplicación actual publicada en Vercel.
+- **Firebase Realtime Database:** almacenar el contador y evaluar su uso para los mensajes y la presencia.
+- **Firebase Authentication anónima:** considerar una identificación técnica sin exigir registro visible a los visitantes.
+- **Firebase Security Rules:** controlar las operaciones permitidas sobre los datos.
+- **Firebase App Check:** evaluar una capa adicional de protección contra solicitudes no legítimas.
 
-Actúa como componente principal de presentación de los datos meteorológicos.
+La prioridad es aprovechar el plan gratuito **Firebase Spark**, evitar un backend propio y mantener la arquitectura lo más sencilla posible.
 
-Conecta:
+El contador deberá utilizar operaciones seguras para evitar que las actualizaciones simultáneas sobrescriban el total. También se deberán considerar las limitaciones de un contador gestionado desde el cliente y los posibles incrementos abusivos.
 
-* `CurrentWeather`
-* `HourlyForecast`
-* `TemperatureChart`
-* `RainChart`
-* `Forecast`
-* `WeatherMap`
+## 🧰 Tecnologías actuales
 
-### `CurrentWeather.jsx`
+- React
+- JavaScript
+- Vite
+- CSS
+- Open-Meteo API
+- Leaflet y React Leaflet
+- Embla Carousel React
+- Vercel
+- Vercel Analytics
 
-Muestra la información meteorológica actual:
+## 🏗️ Organización del proyecto
 
-* Ciudad.
-* Temperatura.
-* Sensación térmica.
-* Descripción.
-* Máxima y mínima.
-* Viento y dirección.
-* Humedad e interpretación.
-* Índice UV e interpretación.
-* Presión atmosférica.
-* Hora de salida del sol.
-* Hora de puesta del sol.
-* Indicador de día o noche.
+La aplicación utiliza componentes reutilizables y hooks personalizados para separar la interfaz de la lógica de consulta del clima.
 
-### `HourlyForecast.jsx`
+- `App.jsx`: estado general y búsqueda de ciudades.
+- `WeatherCard.jsx`: composición de las secciones meteorológicas.
+- Componentes meteorológicos: condiciones actuales, pronósticos, gráficas y mapa.
+- `weatherService.js`: comunicación con Open-Meteo.
+- `useWeather.js`: gestión de datos, carga y errores del clima.
+- `useLocalStorage.js`: persistencia de preferencias locales.
 
-Muestra el pronóstico meteorológico de las próximas 24 horas.
+## 🚀 Desarrollo local
 
-La información está organizada visualmente por:
+Instalar las dependencias:
 
-* 🌙 Madrugada.
-* ☀️ Mañana.
-* 🌤️ Tarde.
-* 🌙 Noche.
+```bash
+npm install
+```
 
-Cada período dispone de desplazamiento horizontal para consultar las diferentes horas.
+Iniciar el servidor de desarrollo:
 
-### `TemperatureChart.jsx`
+```bash
+npm run dev
+```
 
-Muestra la evolución de la temperatura durante las próximas 24 horas mediante una gráfica de líneas.
+Comprobar el proyecto antes de publicar:
 
-Incluye:
+```bash
+npm run lint
+npm run build
+```
 
-* Temperatura prevista por hora.
-* Valores destacados.
-* Horarios correspondientes.
-* Temperatura mínima y máxima del período.
+## 🎨 Diseño y experiencia de usuario
 
-### `RainChart.jsx`
+La interfaz utiliza un estilo **Glassmorphism**, con jerarquía visual clara, superficies translúcidas y adaptación a los modos claro y oscuro.
 
-Muestra la probabilidad de lluvia durante las próximas 24 horas mediante una gráfica de barras.
+También contempla diseño responsive, estados de foco visibles, contraste adecuado y respeto por la preferencia de movimiento reducido del sistema.
 
-Incluye:
+## 🗺️ Arquitectura actual
 
-* Probabilidad de precipitación por hora.
-* Horarios correspondientes.
-* Porcentaje máximo previsto.
-* Visualización responsive.
-
-### `Forecast.jsx`
-
-Muestra el pronóstico extendido de los próximos días.
-
-Incluye:
-
-* Fecha.
-* Ícono meteorológico.
-* Temperatura mínima.
-* Temperatura máxima.
-* Rango térmico visual.
-* Índice UV.
-
-La información se presenta mediante un carrusel responsive.
-
-### `WeatherMap.jsx`
-
-Muestra la ubicación de la ciudad mediante un mapa interactivo utilizando **Leaflet**.
-
-### `SearchBar.jsx`
-
-Permite introducir una ciudad y ejecutar una nueva búsqueda.
-
-### `Loader.jsx`
-
-Indica visualmente que la aplicación está obteniendo información.
-
-### `ErrorMessage.jsx`
-
-Muestra mensajes cuando no es posible obtener los datos meteorológicos.
-
----
-
-## 🔑 Servicios
-
-### `weatherService.js`
-
-Centraliza la comunicación con la API de **Open-Meteo**.
-
-Se encarga de obtener y transformar los datos meteorológicos antes de entregarlos a la aplicación.
-
-Flujo principal:
+El flujo principal de consulta meteorológica es:
 
 ```text
-Open-Meteo
-     ↓
+Componentes React
+       ↓
+   Hooks
+       ↓
 weatherService.js
-     ↓
-useWeather.js
-     ↓
-App.jsx
-     ↓
-WeatherCard.jsx
-     ↓
-Componentes meteorológicos
+       ↓
+  Open-Meteo API
+       ↓
+Datos meteorológicos
+       ↓
+Componentes de presentación
 ```
 
----
-
-## 🪝 Hooks
-
-### `useWeather.js`
-
-Encapsula la lógica relacionada con la obtención del clima.
-
-Gestiona:
-
-* `weather`
-* `loading`
-* `error`
-
-### `useLocalStorage.js`
-
-Permite guardar información en `localStorage` y recuperarla cuando se vuelve a cargar la aplicación.
-
-Actualmente se utiliza para conservar:
-
-* Última ciudad seleccionada.
-* Preferencia de modo claro/oscuro.
-
-### `useForm.js`
-
-Hook utilizado para trabajar con formularios controlados y gestionar sus cambios y reseteo.
-
----
-
-## 🎨 Diseño
-
-La interfaz utiliza un estilo **Glassmorphism**, con:
-
-* Superficies translúcidas.
-* Desenfoque de fondo.
-* Bordes sutiles.
-* Sombras ambientales.
-* Diseño responsive.
-* Adaptación para modo claro y oscuro.
-
-El objetivo es mantener una interfaz moderna sin depender de una biblioteca de componentes visuales.
-
----
-
-## 📱 Responsive
-
-La aplicación está adaptada para diferentes tamaños de pantalla.
-
-En dispositivos móviles se realizan ajustes específicos para:
-
-* Espaciado.
-* Tarjetas.
-* Pronóstico por hora.
-* Desplazamiento horizontal de las franjas horarias.
-* Pronóstico de los próximos días.
-* Carrusel del pronóstico.
-* Gráficas meteorológicas.
-* Visualización del mapa.
-
----
-
-## ♿ UX y accesibilidad
-
-El proyecto incorpora progresivamente principios de **User Experience (UX)** y accesibilidad.
-
-Se busca que la información meteorológica sea:
-
-* Fácil de encontrar.
-* Fácil de comprender.
-* Clara en diferentes tamaños de pantalla.
-* Utilizable mediante diferentes formas de interacción.
-* Visualmente consistente.
-* Accesible para diferentes tipos de usuarios.
-
-También se tienen en cuenta aspectos como:
-
-* Contraste de colores.
-* Estados de foco visibles.
-* Diseño responsive.
-* Reducción de movimiento cuando el usuario lo solicita mediante `prefers-reduced-motion`.
-* Reducción de carga cognitiva.
-* Jerarquía visual de la información.
-* Presentación progresiva de información secundaria.
-
-La prioridad de la interfaz es presentar primero la información meteorológica más relevante y dejar la información secundaria en niveles posteriores.
-
----
-
-## 📊 Arquitectura
-
-El proyecto busca practicar una arquitectura modular basada en la separación de responsabilidades:
-
-```text
-Componentes
-     ↓
-Hooks
-     ↓
-Servicio de datos
-     ↓
-API externa
-```
-
-Esta estructura facilita el mantenimiento y permite continuar ampliando la aplicación.
-
----
-
-## 🎯 Objetivos de aprendizaje
-
-Este proyecto fue desarrollado para practicar:
-
-* Arquitectura modular en React.
-* Componentes reutilizables.
-* Props y estado.
-* Hooks personalizados.
-* `useEffect`.
-* Persistencia con `localStorage`.
-* Consumo de APIs externas.
-* Manejo de estados de carga y error.
-* Integración de mapas.
-* Visualización de datos mediante SVG.
-* Diseño responsive.
-* Organización de estilos CSS.
-* Integración de carruseles.
-* Control de versiones con Git y GitHub.
-* Deploy mediante Vercel.
-* Principios de UX y accesibilidad.
-
----
-
-## 📌 Funcionalidades pendientes
-
-Las siguientes funcionalidades forman parte de las próximas etapas de desarrollo:
-
-1. 📝 **Resumen automático del clima**
-
-   * Generar una descripción sencilla de las condiciones actuales y próximas.
-   * Utilizar los datos meteorológicos existentes para facilitar su interpretación.
-
-2. 🔄 **Actualizar clima manualmente**
-
-   * Permitir volver a consultar los datos sin cambiar de ciudad.
-
-3. 📍 **Usar mi ubicación**
-
-   * Permitir consultar automáticamente el clima de la ubicación del usuario mediante geolocalización del navegador.
-
-4. ⭐ **Ciudades favoritas**
-
-   * Guardar ciudades frecuentes para acceder rápidamente a ellas.
-
-5. 📤 **Compartir el pronóstico**
-
-   * Permitir compartir información meteorológica mediante las opciones disponibles en el dispositivo o navegador.
-
-6. 🌧️ **Resumen de lluvia**
-
-   * Identificar durante qué período del día existe mayor probabilidad de lluvia.
-   * Complementar la información de la gráfica de precipitación.
-
-7. 💨 **Resumen del viento**
-
-   * Mostrar una interpretación sencilla de la velocidad y dirección del viento.
-
-8. 🌅 **Información solar ampliada**
-
-   * Presentar de forma más visual la información de amanecer, atardecer y duración del día.
-
-9. ⚠️ **Indicadores meteorológicos destacados**
-
-   * Destacar visualmente determinadas condiciones meteorológicas relevantes a partir de los datos disponibles.
-
-10. 🕘 **Última actualización**
-
-    * Mostrar cuándo se consultaron los datos meteorológicos.
-
-11. 🔎 **Historial de búsquedas**
-
-    * Conservar las últimas ciudades consultadas para acceder rápidamente a ellas.
-
-12. 📊 **Comparación de ciudades**
-
-    * Comparar información meteorológica de dos o más ciudades.
-
----
-
-## 🌐 API
-
-Los datos meteorológicos son proporcionados por **Open-Meteo**.
-
-La aplicación utiliza sus servicios para obtener información de:
-
-* Clima actual.
-* Pronóstico horario.
-* Pronóstico diario.
-* Temperatura.
-* Sensación térmica.
-* Humedad.
-* Viento.
-* Presión atmosférica.
-* Índice UV.
-* Salida y puesta del sol.
-* Probabilidad de precipitación.
-* Códigos meteorológicos.
-
----
-
-## ✍️ Autor
-
-Creado por **Mariano Moreyra** como proyecto de aprendizaje y práctica profesional.
-
----
+La comunidad se incorporará como una funcionalidad independiente de la consulta meteorológica, procurando que los posibles errores de Firebase no impidan utilizar el clima.
 
 ## 📌 Estado del proyecto
 
-Proyecto de aprendizaje en evolución.
+**Proyecto en evolución.**
 
-Actualmente se encuentra en una etapa de mejora progresiva de la **experiencia de usuario, accesibilidad, visualización de datos y funcionalidades meteorológicas**, incorporando nuevas características sin backend y manteniendo una arquitectura frontend modular.
+La aplicación meteorológica se encuentra implementada y publicada. La Comunidad Cielovivo está en etapa de planificación.
+
+El contador público de visitas será el primer objetivo de esta nueva etapa. El libro de visitas, la actualización en tiempo real y el indicador de conexiones activas quedan como funcionalidades futuras.
+
+La integración con Firebase todavía no está implementada.
+
+## 👨‍💻 Autor
+
+Proyecto desarrollado por **Mariano Moreyra** como práctica profesional y aprendizaje continuo.
